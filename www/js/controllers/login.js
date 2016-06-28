@@ -5,12 +5,17 @@ angular.module('Login.controllers', [])
     try{
       $scope.home_ctrl = {};
       $scope.home_ctrl.username = "";
-      $scope.login = function(username){
+      $scope.login = function(username, number){
         if(username==""){
+          alert("Please Enter the User Name");
+          return false;
+        }
+        if(number==""){
           alert("Please Enter the number");
           return false;
         }
         localStorageService.set('username', username);
+        localStorageService.set('usernumber', number);
         $state.go('rooms');
       };
      }catch(err){

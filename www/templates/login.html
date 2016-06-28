@@ -7,11 +7,15 @@
 	
 	<div class="list">
 		<label class="item item-input">
-			<input type="number" ng-model="home_ctrl.username" placeholder="Enter The Number">
+			<input type="text" ng-model="home_ctrl.username" placeholder="Enter The User Name">
+		</label>
+
+		<label class="item item-input">
+			<input type="number" ng-model="home_ctrl.number" placeholder="Enter The Number">
 		</label>
 
 		<div class="padding">
-			<button class="button button-positive button-block" ng-click="login(home_ctrl.username)">Enter</button>
+			<button class="button button-positive button-block" ng-click="login(home_ctrl.username, home_ctrl.number)">Enter</button>
 		</div>
 	</div>
 
