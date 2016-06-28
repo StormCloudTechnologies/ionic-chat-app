@@ -1,14 +1,15 @@
-<ion-view title="{{ room_ctrl.current_room }}" ng-controller="RoomController as room_ctrl">
- 	<header class="bar bar-header bar-balanced">
- 		<h1 class="title">{{ room_ctrl.current_room }}</h1>
- 		<button class="button button-positive" ng-click="leaveRoom()">Leave</button>
+<ion-view align-title="left" title="{{current_room }}">
+ 	<header class="bar bar-header bar-positive">
+ 		<button class="button button-clear button-icon ion-chevron-left" ng-click="leaveRoom()"></button>
+ 		<h1 class="title">{{current_user}}</h1>
+ 		
  	</header>
  	
-  <ion-content class="has-header padding">
+  <ion-content class="has-header padding" style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;bottom:-30px;">
 	
-	<div class="list" id="messages" ng-if="room_ctrl.messages.length > 0">
-	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in room_ctrl.messages">
-	    	<div class="msg">	    		
+	<div class="list" id="messages" ng-if="messages.length > 0">
+	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messages" style="background:transparent;padding:0px;">
+	    	<!-- <div class="msg">	    		
 		    	<div class="details padding">	    		
 					<p>
 						<div class="user">{{ msg.user }}</div>
@@ -16,11 +17,50 @@
 					</p>
 					<small>{{ humanize(msg.time) }}</small>	
 		    	</div>
-	    	</div>
+	    	</div> -->
+	    	<!-- <div ng-if="user._id !== message.userId"> -->
+                      
+                    <!-- <img ng-click="viewProfile(message)" class="profile-pic left" 
+                          ng-src="{{toUser.pic}}" onerror="onProfilePicError(this)" /> -->
+      
+                      <div class="chat-bubble left">
+      
+                          <div class="message" ng-bind-html="msg.text" autolinker>
+                          </div>
+      
+                          <div class="message-detail">
+                              <span ng-click="viewProfile(message)" 
+                                  class="bold">{{msg.message}}</span>
+                              <div class="user">{{ msg.user }}, <span>{{ humanize(msg.time) }}</span></div>
+                          </div>	
+      
+                      </div>
+                 <!--  </div>
+      
+                  <div ng-if="user._id === message.userId">
+                    
+                       <img ng-click="viewProfile(message)" class="profile-pic right" 
+                          ng-src="{{user.pic}}" onerror="onProfilePicError(this)" />
+                    
+                      <div class="chat-bubble right">
+      
+                          <div class="message" ng-bind-html="message.text | nl2br" autolinker>
+                          </div>
+      
+                          <div class="message-detail">
+                              <span ng-click="viewProfile(message)" 
+                                  class="bold">{{user.username}}</span>, 
+                              <span am-time-ago="message.date"></span>
+                          </div>
+      
+                      </div>
+                    
+                  </div> -->
+
 	    </li>
 	</div>	
 
-	<div class="card" ng-if="!room_ctrl.messages.length">
+	<div class="card" ng-if="!messages.length">
 	  <div class="item item-text-wrap">
 	    No messages yet.
 	  </div>
@@ -28,12 +68,13 @@
 
   </ion-content>
 
-
-<footer class="bar bar-footer bar-dark item-input-inset has-content">
-    <label class="item-input-wrapper">
-      <input type="text" id="message" name="message" ng-model="room_ctrl.message" placeholder="Type message">
-    </label>
-   	<a class="button button-icon icon ion-android-send" ng-click="sendTextMessage()"></a>
-</footer>
+<ion-footer-bar keyboard-attach class="bar-stable item-input-inset  has-content">
+  <label class="item-input-wrapper">
+    <input type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" on-focus="inputUp()" on-blur="inputDown()" style="margin:5px;" />
+  </label>
+  <button class="button button-clear" ng-click="sendTextMessage()">
+    Send
+  </button>
+</ion-footer-bar>
 
 </ion-view>

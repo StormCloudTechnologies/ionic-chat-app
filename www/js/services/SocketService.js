@@ -1,6 +1,6 @@
 (function(){
 
-	angular.module('starter')
+	angular.module('ChatApp')
 	.service('SocketService', ['socketFactory', SocketService]);
 
 	function SocketService(socketFactory){

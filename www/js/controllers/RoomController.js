@@ -1,24 +1,23 @@
-(function(){
-	angular.module('starter')
-	.controller('RoomController', ['$scope', '$state', 'localStorageService', 'SocketService', 'moment', '$ionicScrollDelegate', RoomController]);
-	
-	function RoomController($scope, $state, localStorageService, SocketService, moment, $ionicScrollDelegate){
+angular.module('Room.controllers', [])
 
-		var me = this;
+.controller('RoomController', function($scope, $state, localStorageService, $ionicPlatform, SocketService, moment, $ionicScrollDelegate) {
 
-		me.messages = [];
+	$ionicPlatform.ready(function(){
+		try{
+		
+		$scope.messages = [];
 
 		$scope.humanize = function(timestamp){
 			return moment(timestamp).fromNow();
 		};
 
-		me.current_room = localStorageService.get('room');
+		$scope.current_room = localStorageService.get('room');
 		
-		var current_user = localStorageService.get('username');
+		$scope.current_user = localStorageService.get('username');
 
 		$scope.isNotCurrentUser = function(user){
 			
-			if(current_user != user){
+			if($scope.current_user != user){
 				return 'not-current-user';
 			}
 			return 'current-user';
@@ -27,32 +26,33 @@
 
 		$scope.sendTextMessage = function(){
 
-			var msg = {
-				'room': me.current_room,
-				'user': current_user,
-				'text': me.message,
+			$scope.msg = {
+				'room': $scope.current_room,
+				'user': $scope.current_user,
+				'text': $scope.message,
 				'time': moment()
 			};
 
 			
-			me.messages.push(msg);
+			$scope.messages.push($scope.msg);
+			console.log($scope.messages);
 			$ionicScrollDelegate.scrollBottom();
 
-			me.message = '';
+			$scope.message = '';
 			
-			SocketService.emit('send:message', msg);
+			SocketService.emit('send:message', $scope.msg);
 		};
 
 
 		$scope.leaveRoom = function(){
 	
-			var msg = {
-				'user': current_user,
-				'room': me.current_room,
+			$scope.msg = {
+				'user': $scope.current_user,
+				'room': $scope.current_room,
 				'time': moment()
 			};
 
-			SocketService.emit('leave:room', msg);
+			SocketService.emit('leave:room', $scope.msg);
 			$state.go('rooms');
 
 		};
@@ -63,7 +63,9 @@
 			$ionicScrollDelegate.scrollBottom();
 		});
 
+	}catch(err){
+	      console.log(err.message);
+	    }
+	});
 
-	}
-
-})();
+})

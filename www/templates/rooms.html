@@ -1,14 +1,40 @@
-<ion-view title="Rooms" ng-controller="HomeController as home_ctrl">
- 	<header class="bar bar-header bar-positive">
- 		<h1 class="title">Rooms</h1>
+<ion-view view-title="Sliding Tabs 2">
+	<header class="bar bar-header bar-positive">
+ 		<h1 class="title">Whats Up</h1>
  	</header>
- 	
-  <ion-content class="has-header padding">
-	<div class="card" ng-repeat="room in home_ctrl.rooms">
-	  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
-	    <strong>{{room}}</strong>
-	  </div>
-	</div>
-  </ion-content>
-
+    <ion-content header-shrink scroll-event-interval="5" scroll="false" style="top: 44px;">
+        <ion-slide-box slide-tabs-scrollable="true"  show-pager="false" ion-slide-tabs>
+            <ion-slide ion-slide-tab-label="Call">
+            	<!-- <ion-view title="Rooms" ng-controller="HomeController as home_ctrl">
+					 <ion-content class="has-header padding" scroll="true">
+						<div class="card" ng-repeat="room in home_ctrl.rooms">
+						  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
+						    <strong>{{room}}</strong>
+						  </div>
+						</div>
+					  </ion-content>
+				</ion-view> -->
+            </ion-slide>
+            <ion-slide ion-slide-tab-label="Chat" selected>
+        		 <ion-content  class="has-header" style="top: 0;" scroll="true">
+					<div class="list">
+					  <a class="item item-avatar" ng-repeat="room in rooms" ng-click="enterRoom(room)">
+					      <img src="img/ionic.png">
+					      <h2>Venkman</h2>
+					      <p>{{room}}</p>
+					  </a>
+					</div>
+				  </ion-content>
+            </ion-slide>
+            <ion-slide ion-slide-tab-label="Contact">
+        		 <ion-content class="has-header" scroll="true">
+					<div class="card" ng-repeat="contact in contacts track by $index " ng-if="contact.phoneNumbers[0].value">
+					  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
+					    <strong>{{contact.displayName}}</strong>
+					  </div>
+					</div>
+				  </ion-content>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
 </ion-view>

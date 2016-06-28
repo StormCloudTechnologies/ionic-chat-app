@@ -1,35 +1,62 @@
-(function(){
-	angular.module('starter')
-	.controller('HomeController', ['$scope', '$state', 'localStorageService', 'SocketService', HomeController]);
-	
-	function HomeController($scope, $state, localStorageService, SocketService){
+angular.module('Home.controllers', [])
 
-		var me = this;
+.controller('HomeController', function($scope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts) {
+	$ionicPlatform.ready(function(){
+   		try{
+			// $timeout(function() {
+			// 	$ionicSlideBoxDelegate.slide(1);
+			// }, 4000);
+			// if ($ionicTabsDelegate.selectedIndex() == 0){
+		 //     // Perform some action 
+		 //    }
 
-		me.current_room = localStorageService.get('room');
-		me.rooms = ['Storm', 'Cloud', 'Technologies'];
-		
-
-		$scope.login = function(username){
-			localStorageService.set('username', username);
-			$state.go('rooms');
-		};
+			$scope.current_room = localStorageService.get('room');
+			$scope.rooms = ['Storm', 'Cloud', 'Technologies'];
 
 
-		$scope.enterRoom = function(room_name){
 
-			me.current_room = room_name;
-			localStorageService.set('room', room_name);
-			
-			var room = {
-				'room_name': room_name
+			$scope.getAllContacts = function(searchQuery) {
+				 try{
+					var opts = {                                           //search options
+					  filter : searchQuery,                                          // 'Bob'
+					  multiple: true,                                      // Yes, return any contact that matches criteria
+					  fields:  [ 'displayName', 'name' ]
+					};
+					if(ionic.Platform.isAndroid()){
+						opts.hasPhoneNumber = true;         //hasPhoneNumber only works for android.
+					};
+					
+					// $ionicLoading.show();
+
+					$cordovaContacts.find(opts).then(function (contactsFound) {
+					  $scope.contacts = contactsFound;
+					  // $ionicLoading.hide();
+					});
+
+
+				 }catch(err){
+					 alert(err.message);
+				 }
 			};
 
-			SocketService.emit('join:room', room);
+			$scope.getAllContacts("Ak"); 
+			
+			$scope.enterRoom = function(room_name){
 
-			$state.go('room');
-		};
+				$scope.current_room = room_name;
+				localStorageService.set('room', room_name);
+				
+				var room = {
+					'room_name': room_name
+				};
 
-	}
+				SocketService.emit('join:room', room);
 
-})();
+				$state.go('room');
+			};
+		}catch(err){
+	      console.log(err.message);
+	    }
+	});
+
+});
