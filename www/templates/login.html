@@ -1,22 +1,20 @@
-<ion-view title="Login">
+<ion-view title="Login" ng-controller="LoginCtrl">
  	<header class="bar bar-header bar-positive">
  		<h1 class="title">Login</h1>
  	</header>
  	
-  <ion-content class="has-header padding">
+  <ion-content class="has-header">
 	
 	<div class="list">
 		<label class="item item-input">
-			<input type="text" ng-model="home_ctrl.username" placeholder="Enter The User Name">
+			<input type="text" ng-model="loginform.username" placeholder="Enter The User Name">
 		</label>
 
 		<label class="item item-input">
-			<input type="number" ng-model="home_ctrl.usernumber" placeholder="Enter The Number">
+			<input type="number" ng-model="loginform.usernumber" placeholder="Enter The Number">
 		</label>
 
-		<div class="padding">
-			<button class="button button-positive button-block" ng-click="login()">Enter</button>
-		</div>
+		<button class="button button-positive button-block" ng-click="gotologin();">Enter</button>
 	</div>
 
   </ion-content>

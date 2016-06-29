@@ -70,31 +70,20 @@ angular.module('Home.controllers', [])
 
 
 
-			// $scope.getAllContacts = function(searchQuery) {
+			// $scope.getAllContacts = function() {
 			// 	 try{
-			// 		var opts = {                                           //search options
-			// 		  filter : searchQuery,                                          // 'Bob'
-			// 		  multiple: true,                                      // Yes, return any contact that matches criteria
-			// 		  fields:  [ 'displayName', 'name' ]
-			// 		};
-			// 		if(ionic.Platform.isAndroid()){
-			// 			opts.hasPhoneNumber = true;         //hasPhoneNumber only works for android.
-			// 		};
-					
-			// 		// $ionicLoading.show();
-
-			// 		$cordovaContacts.find(opts).then(function (contactsFound) {
-			// 		  $scope.contacts = contactsFound;
+			// 		$cordovaContacts.find().then(function (allContacts) {
+			// 		  $scope.contacts = allContacts;
+			// 		  console.log(allContacts);
 			// 		  // $ionicLoading.hide();
 			// 		});
-
-
 			// 	 }catch(err){
 			// 		 alert(err.message);
 			// 	 }
 			// };
 
-			// $scope.getAllContacts("Ak"); 
+			// $scope.getAllContacts(); 
+
             $scope.usernumber = localStorageService.get('usernumber');
 			APIService.setData({
                 req_url: url_prefix + 'getUser',

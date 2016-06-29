@@ -1,14 +1,19 @@
 angular.module('Login.controllers', [])
 
-.controller('loginCtrl', function($scope, $ionicSlideBoxDelegate, $ionicPlatform, $state, localStorageService, APIService) {
+.controller('LoginCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
   $ionicPlatform.ready(function(){
     try{
-      $scope.home_ctrl = {};
-      $scope.home_ctrl.username = "";
-      $scope.home_ctrl.number = "";
-      $scope.login = function(){
-        var username =  $scope.home_ctrl.username;
-        var usernumber =  $scope.home_ctrl.usernumber;
+      var isslogin = localStorageService.get('isslogin');
+      if(isslogin=="1" || isslogin==1){
+        $state.go('rooms');
+      }
+      $scope.loginform = {};
+      $scope.loginform.username = "";
+      $scope.loginform.number = "";
+
+      $scope.gotologin = function(){
+        var username =  $scope.loginform.username;
+        var usernumber =  $scope.loginform.usernumber;
         if(username==""){
           alert("Please Enter the User Name");
           return false;
@@ -17,6 +22,9 @@ angular.module('Login.controllers', [])
           alert("Please Enter the number");
           return false;
         }
+        $ionicLoading.show({
+          template: '<ion-spinner icon="ripple" class="spinner-assertive"></ion-spinner>'
+        });
         APIService.setData({
             req_url: url_prefix + 'createUser',
             data: {
@@ -24,7 +32,9 @@ angular.module('Login.controllers', [])
               username: username
             }
         }).then(function(resp) {
+             $ionicLoading.hide();
             if(resp.data) {
+                localStorageService.set('isslogin', "1");
                 localStorageService.set('username', username);
                 localStorageService.set('usernumber', usernumber);
                 $state.go('rooms');
