@@ -17,9 +17,15 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    if (event.originalEvent !== undefined && _.touchObject.swipeLength > 4) {
+    event.preventDefault();
+    }
     
   });
 })
+// .config(function( $mdGestureProvider ) {
+//       $mdGestureProvider.skipClickHijack();
+//   })
 .directive('fakeStatusbar', function() {
   return {
     restrict: 'E',
@@ -161,8 +167,8 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 //   };
 // }])
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-  $ionicConfigProvider.platform.android.navBar.alignTitle('left');
+.config(function($stateProvider, $urlRouterProvider) {
+  // $ionicConfigProvider.platform.android.navBar.alignTitle('left');
   $stateProvider
 
   .state('login', {

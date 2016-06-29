@@ -46,8 +46,8 @@ angular.module('Home.controllers', [])
 			}).then(function(chatPop) {
 			    $scope.chatPop = chatPop;
 			});
-			$scope.openPopoverchatPop = function($event) {
-			    $scope.chatPop.show($event);
+			$scope.openPopoverchatPop = function($event1) {
+			    $scope.chatPop.show($event1);
 			};
 			$scope.closePopoverchatPop = function() {
 			    $scope.callPop.hide();
@@ -58,8 +58,8 @@ angular.module('Home.controllers', [])
 			}).then(function(contactPop) {
 			    $scope.contactPop = contactPop;
 			});
-			$scope.openPopovercontactPop = function($event) {
-			    $scope.contactPop.show($event);
+			$scope.openPopovercontactPop = function($event2) {
+			    $scope.contactPop.show($event2);
 			};
 			$scope.closePopovercontactPop = function() {
 			    $scope.contactPop.hide();

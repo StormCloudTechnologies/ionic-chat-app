@@ -5,25 +5,28 @@ angular.module('Login.controllers', [])
     try{
       $scope.home_ctrl = {};
       $scope.home_ctrl.username = "";
-      $scope.login = function(username, number){
+      $scope.home_ctrl.number = "";
+      $scope.login = function(){
+        var username =  $scope.home_ctrl.username;
+        var usernumber =  $scope.home_ctrl.usernumber;
         if(username==""){
           alert("Please Enter the User Name");
           return false;
         }
-        if(number==""){
+        if(usernumber==""){
           alert("Please Enter the number");
           return false;
         }
-        localStorageService.set('username', username);
-        localStorageService.set('usernumber', number);
         APIService.setData({
             req_url: url_prefix + 'createUser',
             data: {
-              phone: number,
+              phone: usernumber,
               username: username
             }
         }).then(function(resp) {
             if(resp.data) {
+                localStorageService.set('username', username);
+                localStorageService.set('usernumber', usernumber);
                 $state.go('rooms');
             }
            },function(resp) {
