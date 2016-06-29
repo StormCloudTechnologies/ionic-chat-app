@@ -1,4 +1,7 @@
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Login.controllers', 'Home.controllers', 'Room.controllers', 'ngCordova'])
+var url_prefix = 'http://52.36.75.89:9992/api/';
+//var url_prefix = 'http://localhost:9992/api/';
+
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Login.controllers', 'Home.controllers', 'Room.controllers', 'ngCordova', 'APIModule'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

@@ -1,6 +1,6 @@
 angular.module('Home.controllers', [])
 
-.controller('HomeController', function($scope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover) {
+.controller('HomeController', function($scope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, APIService) {
 	$ionicPlatform.ready(function(){
    		try{
 
@@ -95,7 +95,17 @@ angular.module('Home.controllers', [])
 			// };
 
 			// $scope.getAllContacts("Ak"); 
-			
+            $scope.usernumber = localStorageService.get('usernumber');
+			APIService.setData({
+                req_url: url_prefix + 'getUser',
+                data: {}
+            }).then(function(resp) {
+                if(resp.data) {
+                    $scope.userList = resp.data;
+                }
+               },function(resp) {
+                  // This block execute in case of error.
+            });
 			$scope.enterRoom = function(room_name){
 
 				$scope.current_room = room_name;

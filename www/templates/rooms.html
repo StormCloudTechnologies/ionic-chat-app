@@ -40,10 +40,16 @@
             </ion-slide>
             <ion-slide ion-slide-tab-label="Contact">
         		 <ion-content class="has-header" scroll="true">
-					<div class="card" ng-repeat="contact in contacts track by $index " ng-if="contact.phoneNumbers[0].value">
+					<!--<div class="card" ng-repeat="contact in contacts track by $index " ng-if="contact.phoneNumbers[0].value">
 					  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
 					    <strong>{{contact.displayName}}</strong>
 					  </div>
+					</div>-->
+                    <div class="list">
+					  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterRoom(room)" ng-if="user.phone!=usernumber">
+					      <img src="img/ionic.png">
+					      <h2>{{ user.username }}</h2>
+					  </a>
 					</div>
 				  </ion-content>
             </ion-slide>
