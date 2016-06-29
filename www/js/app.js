@@ -5,7 +5,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Login.controllers', 'Home.controllers', 'Room.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService) {
   $ionicPlatform.ready(function() {
@@ -69,28 +69,28 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   $stateProvider
 
 
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'templates/signup.html',
+    controller: 'SignupCtrl'
   })
 
-  .state('rooms', {
-    url: '/rooms',
+  .state('home', {
+    url: '/home',
     cache: false,
-    templateUrl: 'templates/rooms.html',
-    controller: 'HomeController'
+    templateUrl: 'templates/home.html',
+    controller: 'HomeCtrl'
   })
 
   .state('room', {
     url: '/room',
     cache: false,
     templateUrl: 'templates/room.html',
-     controller: 'RoomController'
+     controller: 'RoomCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/signup');
 
    // var islogin = localStorageService.getItem("userLogin")
    //  if(islogin=="1"){

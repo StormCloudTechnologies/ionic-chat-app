@@ -174,7 +174,7 @@ img.profile-pic.right {
 }
 
 input, textarea, .item-input, .item-input-wrapper {
-  background-color: #f4f4f4 !important;
+  background-color: #FFF !important;
 }
 
 .bold {
@@ -349,4 +349,13 @@ ion-content{
     width: 220px;
     background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.no-background{
+  background:none !important;
+  box-shadow:none !important;
+  border:none !important;
+}
+.padding-top-40{
+  padding-top: 40%;
 }
