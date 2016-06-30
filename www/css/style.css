@@ -41,12 +41,16 @@ body {
   cursor: url('http://ionicframework.com/img/finger.png'), auto;
 }
 .bar.bar-positive {
-    border-color:#075e54;
-    background-color: #075e54;
+    border-color: #2de7c7;
+    background-color: #2de7c7;
     background-image: linear-gradient(0deg, #0c60ee, #0c60ee 50%, transparent 50%);
     color: #fff;
 }
 
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+    background: #2de7c7;
+    border-color: #2de7c7;
+}
 /* allows the bar-footer to be elastic /*
 /* optionally set a max-height */
 /* maxlength on the textarea will prevent /*
@@ -270,6 +274,12 @@ a.autolinker {
   top:5px !important; 
   z-index:99 !important;
 }
+.pullflash{
+  position:absolute !important;
+  left: 30px !important; 
+  top:5px !important; 
+  z-index:99 !important;
+}
 
 .pullRight{
   position:absolute !important;
@@ -391,8 +401,8 @@ ion-content{
     min-height: 35px;
     border-bottom: 1px solid #444343 !important;
     background-color: #ffffff !important;
-    color: #42c568 !important;
-    font-weight: 500;
+    color: #2de7c7 !important;
+    font-weight: normal;
 }
 .text-dark{
   color: #636363 !important;
@@ -407,5 +417,15 @@ ion-content{
   padding-top: 5px !important;
 }
 .icon-color{
-  color: #42c568 !important;
+  color: #2de7c7 !important;
+}
+.item-toggle .toggle {
+    position: absolute;
+    top: 55px;
+    right: 16px;
+    z-index: 3;
+}
+.toggle.toggle-balanced input:checked + .track {
+    border-color: #2de7c7 !important;
+    background-color: #2de7c7 !important;
 }

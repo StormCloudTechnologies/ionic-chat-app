@@ -5,7 +5,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService) {
   $ionicPlatform.ready(function() {
@@ -116,6 +116,31 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     url: '/addgrouplist',
     templateUrl: 'templates/addgrouplist.html',
      controller: 'AddGroupListCtrl'
+  })
+  .state('account', {
+    url: '/account',
+    templateUrl: 'templates/account.html',
+     controller: 'AccountCtrl'
+  })
+  .state('privacy', {
+    url: '/privacy',
+    templateUrl: 'templates/privacy.html',
+     controller: 'PrivacyCtrl'
+  })
+  .state('security', {
+    url: '/security',
+    templateUrl: 'templates/security.html',
+     controller: 'SecurityCtrl'
+  })
+  .state('changenumber', {
+    url: '/changenumber',
+    templateUrl: 'templates/changenumber.html',
+     controller: 'ChangeNumberCtrl'
+  })
+  .state('delete', {
+    url: '/delete',
+    templateUrl: 'templates/delete.html',
+     controller: 'DeleteCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
