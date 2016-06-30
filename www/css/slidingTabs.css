@@ -21,7 +21,7 @@ ion-slide:nth-child(2n) {
 }
 
 .slidingTabs ul {
-    background-color: #28a54c;
+    background-color: #075e54;
     height: 48px;
 }
 
@@ -50,7 +50,7 @@ ion-slide:nth-child(2n) {
 .slidingTabs ul li .ink {
     display: block;
     position: absolute;
-    background: #28a54c;
+    background: #075e54;
     border-radius: 100%;
     transform: scale(0);
 }
