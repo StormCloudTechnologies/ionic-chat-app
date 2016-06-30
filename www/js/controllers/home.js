@@ -65,6 +65,11 @@ angular.module('Home.controllers', [])
 			    $scope.contactPop.hide();
 			};
 
+			$scope.status = function(){
+				$scope.callPop.hide();
+				$state.go('status');
+			}
+
 			$scope.current_room = localStorageService.get('room');
 			$scope.rooms = ['Storm', 'Cloud', 'Technologies'];
 

@@ -1,0 +1,70 @@
+<ion-view>
+    <ion-header-bar class="bar bar-header bar-positive">
+        <button  onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
+         <h1 class="title">Status</h1>
+        <button class="button button-clear button-icon ion-android-more-vertical"></button>
+    </ion-header-bar>
+    <ion-content scroll="true" style="background:#efefef;">
+    <ion-list>
+        <div class="card no-background1">
+          <div class="item item-divider">
+            Your current status
+          </div>
+          <div class="bar bar-header item-input-inset" ui-sref="addstatus">
+            <label class="item-input-wrapper">
+             <input type="text" placeholder="Status">
+            </label>
+            <button class="button button-clear button-icon ion-android-create text-dark">
+           </button>
+          </div>
+        </div>
+        <div class="card no-background1">
+          <div class="item item-divider">
+            Select your new status
+          </div>
+          <ion-scroll direction="y" style="width: 100%; height: 400px">
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+            <a class="item">
+              options
+            </a>
+          </ion-scroll>
+        </div>
+    </ion-list>
+    </ion-content>
+   <!--  <ion-pull-up-footer class="bar-calm" initial-state="minimized" default-behavior="hide">
+        <div class="title" ion-pull-up-trigger>More details</div>
+        <ion-pull-up-handle width="100" height="25" toggle="ion-chevron-down ion-chevron-up" style="border-radius: 25px 25px 0 0">
+            <i class="icon ion-chevron-up"></i>
+        </ion-pull-up-handle>
+
+        <ion-pull-up-content scroll="false">
+           
+        </ion-pull-up-content>
+    </ion-pull-up-footer> -->
+</ion-view >

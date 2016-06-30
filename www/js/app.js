@@ -5,7 +5,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService) {
   $ionicPlatform.ready(function() {
@@ -77,16 +77,35 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
   .state('home', {
     url: '/home',
-    cache: false,
+    // cache: false,
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
   })
 
   .state('room', {
     url: '/room',
-    cache: false,
     templateUrl: 'templates/room.html',
      controller: 'RoomCtrl'
+  })
+  .state('group', {
+    url: '/group',
+    templateUrl: 'templates/group.html',
+     controller: 'GroupCtrl'
+  })
+  .state('status', {
+    url: '/status',
+    templateUrl: 'templates/status.html',
+     controller: 'StatusCtrl'
+  })
+  .state('addstatus', {
+    url: '/addstatus',
+    templateUrl: 'templates/addstatus.html',
+     controller: 'AddStatusCtrl'
+  })
+  .state('setting', {
+    url: '/setting',
+    templateUrl: 'templates/setting.html',
+     controller: 'SettingCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
