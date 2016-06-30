@@ -5,7 +5,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService) {
   $ionicPlatform.ready(function() {
@@ -106,6 +106,16 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     url: '/setting',
     templateUrl: 'templates/setting.html',
      controller: 'SettingCtrl'
+  })
+  .state('addgroup', {
+    url: '/addgroup',
+    templateUrl: 'templates/addgroup.html',
+     controller: 'AddGroupCtrl'
+  })
+  .state('addgrouplist', {
+    url: '/addgrouplist',
+    templateUrl: 'templates/addgrouplist.html',
+     controller: 'AddGroupListCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback

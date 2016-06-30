@@ -1,6 +1,6 @@
 <ion-popover-view style="height:270px !important;">
-	<ion-content>
-	 	<ul class="list" ng-click="closePopovercallPop()">
+	<ion-content ng-click="chatPop.hide()">
+	 	<ul class="list">
 		    <li class="item" ui-sref="group">
 		      New Group
 		    </li>
@@ -10,7 +10,7 @@
 		    <li class="item">
 		      Starred messages
 		    </li>
-		    <li class="item" ng-click="status()">
+		    <li class="item" ui-sref="status">
 		      Status
 		    </li>
 		    <li class="item" ui-sref="setting">

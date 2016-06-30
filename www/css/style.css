@@ -5,9 +5,19 @@ ion-content {
 .no-border {
 	border: none;
 }
+p {
+    margin: 0 0 10px;
+    color: #716f6f !important;
+}
 
 .user {
     font-weight: bold;
+}
+.checkbox {
+    position: relative;
+    display: inline-block;
+    padding: 20px 70px !important;
+    cursor: pointer;
 }
 
 .current-user {
@@ -29,6 +39,12 @@ ion-content {
 }
 body {
   cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+.bar.bar-positive {
+    border-color:#28a54c;
+    background-color: #28a54c;
+    background-image: linear-gradient(0deg, #0c60ee, #0c60ee 50%, transparent 50%);
+    color: #fff;
 }
 
 /* allows the bar-footer to be elastic /*
@@ -257,14 +273,14 @@ a.autolinker {
 
 .pullRight{
   position:absolute !important;
-  right: 1% !important; 
+  right: 2.5% !important; 
   top:5px !important; 
   z-index:99 !important;
 }
 
 .pullSame{
   position:absolute !important;
-  right: 9% !important; 
+  right: 11% !important; 
   top:5px !important; 
   z-index:99 !important;
 }
