@@ -2,7 +2,7 @@
     <ion-header-bar class="bar bar-header bar-positive">
         <button  onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
          <h1 class="title">Status</h1>
-        <button class="button button-clear button-icon ion-android-more-vertical"></button>
+        <button ng-click="openPopoverdeletestatus($event)" class="button button-clear button-icon ion-android-more-vertical"></button>
     </ion-header-bar>
     <ion-content scroll="true" style="background:#efefef;">
     <ion-list>
@@ -14,7 +14,7 @@
             <label class="item-input-wrapper">
              <input type="text" placeholder="Status">
             </label>
-            <button class="button button-clear button-icon ion-android-create text-dark">
+            <button class="button button-clear button-icon ion-android-create icon-color">
            </button>
           </div>
         </div>

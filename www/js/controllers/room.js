@@ -29,8 +29,8 @@ angular.module('Room.controllers', [])
 
 
 		$scope.sendTextMessage = function(){
-
-			$scope.msg = {
+			if($scope.message!=''){
+				$scope.msg = {
 				'room_id': $scope.current_room_id,
 				'sender_id': $scope.usernumber,
                 'sender_name': $scope.current_user,
@@ -39,12 +39,14 @@ angular.module('Room.controllers', [])
 				'message': $scope.message,
 				'time': moment()
 			};
-
 			
 			$scope.messageList.push($scope.msg);
+			$scope.message = "";
 			$ionicScrollDelegate.scrollBottom();
 			
 			SocketService.emit('new message', $scope.msg);
+			}
+			
 		};
         SocketService.on('message created', function(msg){
 			$scope.messageList.push(msg);
@@ -69,6 +71,7 @@ angular.module('Room.controllers', [])
 		});
         SocketService.on('current room id', function(data){
 			$scope.current_room_id = data.current_room_id;
+			console.log("===$scope.current_room_id====",$scope.current_room_id);
 			$ionicScrollDelegate.scrollBottom();
 		});
 

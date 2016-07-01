@@ -1,9 +1,9 @@
 angular.module('Signup.controllers', [])
 
-.controller('SignupCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
+.controller('SignupCtrl', function($scope, $localstorage, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
   $ionicPlatform.ready(function(){
     try{
-      var isslogin = localStorageService.get('isslogin');
+      var isslogin = $localstorage.get('isslogin');
       if(isslogin=="1" || isslogin==1){
         $state.go('home');
       }
@@ -34,10 +34,10 @@ angular.module('Signup.controllers', [])
         }).then(function(resp) {
              $ionicLoading.hide();
             if(resp.data) {
-                localStorageService.set('isslogin', "1");
+                $localstorage.set('isslogin', "1");
                 localStorageService.set('username', username);
                 localStorageService.set('usernumber', usernumber);
-                $state.go('home');
+                $state.go('editprofile');
             }
            },function(resp) {
               // This block execute in case of error.

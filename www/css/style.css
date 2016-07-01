@@ -11,7 +11,7 @@ p {
 }
 
 .user {
-    font-weight: bold;
+    font-weight: 500;
 }
 .checkbox {
     position: relative;
@@ -25,10 +25,10 @@ p {
     clear: both;
 }
 
-.not-current-user {
+/*.not-current-user {
 	float: right;
 	clear: both;
-}
+}*/
 
 .current-user .details {
 	background-color: #FFF;
@@ -43,7 +43,7 @@ body {
 .bar.bar-positive {
     border-color: #2de7c7;
     background-color: #2de7c7;
-    background-image: linear-gradient(0deg, #0c60ee, #0c60ee 50%, transparent 50%);
+    background-image: linear-gradient(0deg, #2de7c7, #2de7c7 50%, transparent 50%);
     color: #fff;
 }
 
@@ -111,7 +111,7 @@ img.profile-pic.right {
 }
 
 .message-detail {
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   font-size: 14px;
 }
 
@@ -133,9 +133,9 @@ img.profile-pic.right {
   padding: 10px 18px;
   position: relative;
   margin: 10px;
-  max-width: 100%;
+  max-width: 70%;
   min-width: 60%;
-  width: 90%;
+  width: 70%;
 }
 
 .chat-bubble:before {
@@ -198,7 +198,7 @@ input, textarea, .item-input, .item-input-wrapper {
 }
 
 .bold {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .cf {
@@ -428,4 +428,114 @@ ion-content{
 .toggle.toggle-balanced input:checked + .track {
     border-color: #2de7c7 !important;
     background-color: #2de7c7 !important;
+}
+.slidingTabs .tab-indicator-wrapper {
+    width: 100%;
+    height: 4px !important;
+    margin: -2px !important;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-transform: translateY(-2px);
+    position: absolute;
+}
+.icon-circle, .icon-circle-large, .icon-circle-small{
+    position: absolute;
+    display: inline-block;
+    margin: 106px -41px;
+    padding: 7px 8px !important;
+    width: 45px;
+    height: 45px;
+    font-size: 25px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: 1px solid #ebebeb;
+    background: rgb(45, 231, 199);
+    color: #fff;
+    text-align: center;
+    /* vertical-align: middle; */
+}
+
+.icon-circle-large {
+  width: 100px;
+  height: 100px;
+  font-size: 64px; /* 64, originally 60 */
+  padding: 16px;
+  
+  
+}
+.icon-circle-small {
+  width: 24px;
+  height: 24px;
+  font-size: 20px;
+}
+
+
+/*.icon-circle i, .icon-circle-small i, .icon-circle-large i { vertical-align: middle; }*/
+
+.icon-circle-outline {
+   border: 1px solid rgb(0, 161, 225);
+   background: transparent;
+  color: rgb(0, 161, 225);
+   /*color: #8a6de9;*/
+}
+
+.icon-circle-outline i {  }
+/*icon-circle-bg and icon-circle and circle-bg*/
+
+
+
+
+/*http://davidwalsh.name/css-circles*/
+
+
+
+.item-icon-circle {
+   -moz-border-radius:50%;
+  -webkit-border-radius:50%;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px; 
+  /* width and height can be anything, as long as they're equal */
+  
+  text-align:center;
+  color:white;
+  /* font size here wont work */
+
+}
+
+.item-icon-circle i {
+  /*text-align:center;
+  color:white;*/
+   /*margin: 0px auto;
+  padding: 0px;
+  display:block;*/
+  font-size:30px;
+}
+
+
+.bg-circle-alt {
+  -moz-border-radius:50%;
+  -webkit-border-radius:50%;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px; 
+}
+.fs-20{
+  font-size: 20px !important;
+}
+.modal {
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    overflow: hidden;
+    min-height: 100%;
+    width: 100%;
+    background-color: #040404 !important;
+}
+.background-black{
+  background-color: #040404 !important;
+}
+.text-white{
+  color: #FFF !important;
 }
