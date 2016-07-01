@@ -47,6 +47,7 @@ angular.module('Room.controllers', [])
 			SocketService.emit('new message', $scope.msg);
 		};
         SocketService.on('message created', function(msg){
+            if(msg.sender_id != $scope.usernumber)
 			$scope.messageList.push(msg);
 			$ionicScrollDelegate.scrollBottom();
 		});
