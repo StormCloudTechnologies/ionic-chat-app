@@ -47,7 +47,7 @@
 					  </div>
 					</div>-->
                     <div class="list">
-					  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterRoom(room)" ng-if="user.phone!=usernumber">
+					  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterChatRoom(user)" ng-if="user.phone!=usernumber">
 					      <img src="img/ionic.png">
 					      <h2>{{ user.username }}</h2>
 					  </a>

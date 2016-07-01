@@ -100,6 +100,17 @@ angular.module('Home.controllers', [])
                },function(resp) {
                   // This block execute in case of error.
             });
+            $scope.enterChatRoom = function(user){
+                localStorageService.set('current_chat_friend', user.username);
+                localStorageService.set('current_friend_number', user.phone);
+				SocketService.emit('join chat:room',{
+                    receiver_id: user.phone,
+                    sender_id: $scope.usernumber
+                   });
+
+				$state.go('room');
+			};
+
 			$scope.enterRoom = function(room_name){
 
 				$scope.current_room = room_name;

@@ -6,14 +6,18 @@ angular.module('Room.controllers', [])
 		try{
 		
 		$scope.messages = [];
+        $scope.messageList = [];
 
 		$scope.humanize = function(timestamp){
 			return moment(timestamp).fromNow();
 		};
 
-		$scope.current_room = localStorageService.get('room');
+		$scope.current_room = localStorageService.get('current_room');
 		
 		$scope.current_user = localStorageService.get('username');
+        $scope.usernumber = localStorageService.get('usernumber');
+        $scope.current_chat_friend = localStorageService.get('current_chat_friend');
+        $scope.current_friend_number = localStorageService.get('current_friend_number');
 
 		$scope.isNotCurrentUser = function(user){
 			
@@ -27,22 +31,25 @@ angular.module('Room.controllers', [])
 		$scope.sendTextMessage = function(){
 
 			$scope.msg = {
-				'room': $scope.current_room,
-				'user': $scope.current_user,
-				'text': $scope.message,
+				'room_id': $scope.current_room_id,
+				'sender_id': $scope.usernumber,
+                'sender_name': $scope.current_user,
+				'receiver_id': $scope.current_friend_number,
+                'receiver_name': $scope.current_chat_friend,
+				'message': $scope.message,
 				'time': moment()
 			};
 
 			
-			$scope.messages.push($scope.msg);
-			console.log($scope.messages);
+			$scope.messageList.push($scope.msg);
 			$ionicScrollDelegate.scrollBottom();
-
-			$scope.message = '';
 			
-			SocketService.emit('send:message', $scope.msg);
+			SocketService.emit('new message', $scope.msg);
 		};
-
+        SocketService.on('message created', function(msg){
+			$scope.messageList.push(msg);
+			$ionicScrollDelegate.scrollBottom();
+		});
 
 		$scope.leaveRoom = function(){
 	
@@ -56,12 +63,17 @@ angular.module('Room.controllers', [])
 			$state.go('home');
 
 		};
-
-
-		SocketService.on('message', function(msg){
-			me.messages.push(msg);
+        SocketService.on('user data', function(msg){
+			$scope.messageList = msg;
 			$ionicScrollDelegate.scrollBottom();
 		});
+        SocketService.on('current room id', function(data){
+			$scope.current_room_id = data.current_room_id;
+			$ionicScrollDelegate.scrollBottom();
+		});
+
+
+		
 
 	}catch(err){
 	      console.log(err.message);
