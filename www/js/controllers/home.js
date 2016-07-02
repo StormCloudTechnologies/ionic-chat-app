@@ -1,12 +1,13 @@
 angular.module('Home.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, APIService) {
+.controller('HomeCtrl', function($scope, DB, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, APIService) {
 	$ionicPlatform.ready(function(){
    		try{
 
    			$scope.hideCall = false;
    			$scope.hideChat = true;
    			$scope.hideContact = true;
+   			$scope.Contacts = [];
 
 			$scope.slideHasChanged=function(Value){
 				if(Value==0){
@@ -73,33 +74,66 @@ angular.module('Home.controllers', [])
 			$scope.current_room = localStorageService.get('room');
 			$scope.rooms = ['Storm', 'Cloud', 'Technologies'];
 
+			$scope.selectContact = function(){
+				var conatctsel = "SELECT * from Contact";
+				var results = DB.query(conatctsel, []).then(function (result) {
+				    if(result.rows.length!=0){
+				    	// console.log(result.rows);
+				    	var len = result.rows.length;
+                        $scope.ContactList = [];
+                        for(var j=0;j<len;j++){
+                            $scope.ContactList.push({"name":result.rows.item(j).displayName, "photos":result.rows.item(j).photos, "number":result.rows.item(j).contactnumber});    
+                        } 
+						// console.log($scope.ContactList);
+					}
+				});
+			}
 
+			$scope.getConatct = function(){
+				return $scope.ContactList;
+			}
 
-			// $scope.getAllContacts = function() {
-			// 	 try{
-			// 		$cordovaContacts.find().then(function (allContacts) {
-			// 		  $scope.contacts = allContacts;
-			// 		  console.log(allContacts);
-			// 		  // $ionicLoading.hide();
-			// 		});
-			// 	 }catch(err){
-			// 		 alert(err.message);
-			// 	 }
-			// };
+			$scope.getAllContacts = function() {
+				 try{
+				 	var options = {};
+       			    options.multiple = true;
+					$cordovaContacts.find(options).then(function (allContacts) {
+					  for(var i=0; i<=allContacts.length; i++){
+						var Name = allContacts[i].displayName;
+					  	var Address = allContacts[i].addresses;
+					  	var Email = allContacts[i].emails;
+					  	var ID = allContacts[i].id;
+					  	var NickName = allContacts[i].nickname;
+					  	var Note = allContacts[i].note;
+					  	var Organizations = allContacts[i].organizations;
+					  	var Photos = allContacts[i].photos;
+					  	var NumberValue = allContacts[i].phoneNumbers[0].value;
+					   	var ContactQry = "Insert into Contact(id, displayName, contactnumber, photos, addresses, nickname, note, organizations, emails) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					  	DB.query(ContactQry, [ID, Name, NumberValue, Photos, Address, NickName, Note, Organizations, Email]).then(function (result) {
+							$scope.selectContact();
+						});
 
-			// $scope.getAllContacts(); 
+					}
+					
+					});
+				 }catch(err){
+					 alert(err.message);
+				 }
+			};
+
+			$scope.getAllContacts(); 
 
             $scope.usernumber = localStorageService.get('usernumber');
-			APIService.setData({
-                req_url: url_prefix + 'getUser',
-                data: {}
-            }).then(function(resp) {
-                if(resp.data) {
-                    $scope.userList = resp.data;
-                }
-               },function(resp) {
-                  // This block execute in case of error.
-            });
+			// APIService.setData({
+   //              req_url: url_prefix + 'getUser',
+   //              data: {}
+   //          }).then(function(resp) {
+   //              if(resp.data) {
+   //                  $scope.userList = resp.data;
+   //              }
+   //             },function(resp) {
+   //                // This block execute in case of error.
+   //          });
             $scope.enterChatRoom = function(user){
                 localStorageService.set('current_chat_friend', user.username);
                 localStorageService.set('current_friend_number', user.phone);

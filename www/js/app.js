@@ -37,9 +37,22 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       receiver_name: 'TEXT',
       message: 'TEXT',
       time: 'TEXT'      
+    },
+    Contact: 
+   {
+      id : 'INTEGER',
+      displayName: 'TEXT',
+      contactnumber: 'VARCHAR',
+      photos: 'TEXT',
+      addresses: 'TEXT',
+      nickname: 'TEXT',
+      note: 'TEXT',
+      organizations: 'TEXT',
+      emails: 'TEXT'      
     }
  }
 })
+
 
 .factory('DB', function ($q, DB_CONFIG) {
  
@@ -112,6 +125,17 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
    return output;
  };
  return self;
+})
+.directive('errSrc', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('error', function() {
+        if (attrs.src != attrs.errSrc) {
+          attrs.$set('src', attrs.errSrc);
+        }
+      });
+    }
+  }
 })
 .factory('$localstorage', ['$window', function($window) {
   return {

@@ -6,10 +6,10 @@
       <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">online</h1>
       <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">typing...</h1>
       <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
- 		<button class="button button-clear button-icon ion-paperclip"></button>
+ 		<button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
  	</header>
  	
-  <ion-content class="has-header" >
+  <ion-content class="has-header" ng-click="uploadview.hide()" >
 	<div class="list" id="messages" ng-if="messageList.length > 0">
 	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" style="background:transparent;padding:0px;">
       

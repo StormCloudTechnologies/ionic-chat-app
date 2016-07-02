@@ -1,4 +1,4 @@
-<ion-view view-title="Home" ng-controller="HomeCtrl">
+<ion-view view-title="Home"  ng-controller="HomeCtrl">
 	<header class="bar bar-header bar-positive">
 		<button class="button pullflash button-clear button-icon ion-ios-bolt"></button>
  		<h1 class="title">StormChat</h1>
@@ -28,29 +28,36 @@
 				</ion-view> -->
             </ion-slide>
             <ion-slide ion-slide-tab-label="Chats" selected>
-        		 <ion-content header-shrink scroll-event-interval="5" class="has-header" style="top: 0;" scroll="true">
-					<div class="list">
-					  <a class="item item-avatar" ng-repeat="room in rooms" ng-click="enterRoom(room)">
-					      <img src="img/ionic.png">
-					      <h2>Venkman</h2>
-					      <p>{{room}}</p>
-					  </a>
-					</div>
+        		 <ion-content header-shrink scroll-event-interval="5" class="has-header" style="top: 0;" scroll="false">
+        		 	<ion-scroll direction="y" style="width:100%;height:100%;">
+						<div class="list">
+						  <a class="item item-avatar" ng-repeat="room in rooms" ng-click="enterRoom(room)">
+						      <img src="img/ionic.png">
+						      <h2>Venkman</h2>
+						      <p>{{room}}</p>
+						  </a>
+						</div>
+					</ion-scroll>
 				  </ion-content>
             </ion-slide>
             <ion-slide ion-slide-tab-label="Contacts">
-        		 <ion-content header-shrink scroll-event-interval="5" scroll="true">
-					<!--<div class="card" ng-repeat="contact in contacts track by $index " ng-if="contact.phoneNumbers[0].value">
-					  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
-					    <strong>{{contact.displayName}}</strong>
-					  </div>
-					</div>-->
-                    <div class="list">
-					  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterChatRoom(user)" ng-if="user.phone!=usernumber">
-					      <img src="img/ionic.png">
-					      <h2>{{ user.username }}</h2>
-					  </a>
+        		 <ion-content header-shrink scroll-event-interval="5">
+					<div class="list">
+						<ion-scroll direction="y" style="width:100%;height:100%;">
+						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in ContactList track by $index" ng-if="contact.number!=usernumber" ng-click="enterChatRoom(contact)">
+						  	<img ng-src="{{contact.photos}}" err-src="img/profile.png">
+						    <h2>{{contact.name}}</h2>
+						  </a>
+						</ion-scroll>
 					</div>
+					<!-- <ion-scroll direction="y" style="width:100%;height:100%;">
+	                    <div class="list">
+						  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterChatRoom(user)" ng-if="user.phone!=usernumber">
+						      <img src="img/ionic.png">
+						      <h2>{{ user.username }}</h2>
+						  </a>
+						</div>
+					</ion-scroll> -->
 				  </ion-content>
             </ion-slide>
         </ion-slide-box>

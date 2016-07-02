@@ -1,12 +1,25 @@
 angular.module('Room.controllers', [])
 
-.controller('RoomCtrl', function($scope, $state, localStorageService, $ionicPlatform, SocketService, moment, $ionicScrollDelegate) {
+.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $ionicPlatform, SocketService, moment, $ionicScrollDelegate) {
 
 	$ionicPlatform.ready(function(){
 		try{
 		
 		$scope.messages = [];
         $scope.messageList = [];
+
+        $ionicModal.fromTemplateUrl('templates/uploadview.html', {
+		    scope: $scope,
+		    animation: 'slide-in-up'
+		}).then(function(uploadview) {
+		    $scope.uploadview = uploadview;
+		});
+		$scope.openModaluploadview = function() {
+		    $scope.uploadview.show();
+		};
+		$scope.closeModaluploadview = function() {
+		    $scope.uploadview.hide();
+		};
 
 		$scope.humanize = function(timestamp){
 			return moment(timestamp).fromNow();
