@@ -283,7 +283,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
   .state('home', {
     url: '/home',
-    cache: false,
+    // cache: false,
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
   })
