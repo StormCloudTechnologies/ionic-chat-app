@@ -9,6 +9,18 @@ angular.module('Home.controllers', [])
    			$scope.hideContact = true;
    			$scope.Contacts = [];
 
+   			 $scope.options = {
+			    loop: true
+			  };
+
+   			$scope.onTouch = function(){ $ionicSlideBoxDelegate.enableSlide(false); };
+
+			$scope.onRelease = function(){ $ionicSlideBoxDelegate.enableSlide(true); };
+
+			$scope.nextSlide = function() { $ionicSlideBoxDelegate.next(); };
+
+			$scope.previousSlide = function() { $ionicSlideBoxDelegate.previous(); };
+
 			$scope.slideHasChanged=function(Value){
 				if(Value==0){
 					$scope.hideCall = false;
@@ -71,9 +83,28 @@ angular.module('Home.controllers', [])
 				$state.go('status');
 			}
 
+			
 			$scope.current_room = localStorageService.get('room');
-			$scope.rooms = ['Storm', 'Cloud', 'Technologies'];
-
+			console.log("hiii");
+			$scope.chatlist = function(){
+				var chatlist = "SELECT * from Message";
+				var results = DB.query(chatlist, []).then(function (result) {
+				    if(result.rows.length!=0){
+				    	console.log(result.rows);
+				    	var len = result.rows.length;
+                        $scope.rooms = [];
+                        for(var j=0;j<len;j++){
+                            $scope.rooms.push({"name":result.rows.item(j).receiver_name, "number":result.rows.item(j).receiver_id});  
+                            // localStorageService.set('checkChat',"0");  
+                        } 
+					}
+				});
+			}
+			// var chatroomvalue = localStorageService.get('checkChat');
+			// if(chatroomvalue=="1"){
+				$scope.chatlist();
+			// }
+			
 			$scope.selectContact = function(){
 				var conatctsel = "SELECT * from Contact";
 				var results = DB.query(conatctsel, []).then(function (result) {
@@ -135,18 +166,23 @@ angular.module('Home.controllers', [])
    //                // This block execute in case of error.
    //          });
             $scope.enterChatRoom = function(user){
-                localStorageService.set('current_chat_friend', user.username);
-                localStorageService.set('current_friend_number', user.phone);
-				SocketService.emit('join chat:room',{
-                    receiver_id: user.phone,
-                    sender_id: $scope.usernumber
-                   });
-
-				$state.go('room');
+            	var entermsg = localStorageService.get('ActiveMsg');
+				if(entermsg!=''){
+					localStorageService.set('current_chat_friend', user.name);
+	                localStorageService.set('current_friend_number', user.number);	
+					SocketService.emit('join chat:room',{
+	                    receiver_id: user.phone,
+	                    sender_id: $scope.usernumber
+	                   });
+					$state.go('room');
+				}
+            	
 			};
 
-			$scope.enterRoom = function(room_name){
+			
 
+			$scope.enterRoom = function(room_name){
+				
 				$scope.current_room = room_name;
 				localStorageService.set('room', room_name);
 				

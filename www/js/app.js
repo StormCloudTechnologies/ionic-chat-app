@@ -5,7 +5,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService, $rootScope, DB) {
   $ionicPlatform.ready(function() {
@@ -29,7 +29,6 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
  tables: {
    Message: 
    {
-      id : 'INTEGER',
       room_id: 'INTEGER',
       sender_id: 'INTEGER',
       sender_name: 'TEXT',
@@ -136,6 +135,22 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       });
     }
   }
+})
+.filter('unique', function() {
+   return function(collection, keyname) {
+      var output = [], 
+          keys = [];
+
+      angular.forEach(collection, function(item) {
+          var key = item[keyname];
+          if(keys.indexOf(key) === -1) {
+              keys.push(key);
+              output.push(item);
+          }
+      });
+
+      return output;
+   };
 })
 .factory('$localstorage', ['$window', function($window) {
   return {
@@ -268,7 +283,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
   .state('home', {
     url: '/home',
-    // cache: false,
+    cache: false,
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
   })
@@ -347,6 +362,26 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     url: '/editprofile',
     templateUrl: 'templates/editprofile.html',
      controller: 'EditProfileCtrl'
+  })
+  .state('chats', {
+    url: '/chats',
+    templateUrl: 'templates/chats.html',
+     controller: 'ChatsCtrl'
+  })
+  .state('notification', {
+    url: '/notification',
+    templateUrl: 'templates/notification.html',
+     controller: 'NotificationCtrl'
+  })
+  .state('about', {
+    url: '/about',
+    templateUrl: 'templates/about.html',
+     controller: 'AboutCtrl'
+  })
+  .state('contact', {
+    url: '/contact',
+    templateUrl: 'templates/contact.html',
+     controller: 'ContactCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
