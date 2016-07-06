@@ -24,11 +24,12 @@
 						    <strong>{{room}}</strong>
 						  </div>
 						</div>
+						<br /><br /><br />
 					  </ion-content>
 				</ion-view> -->
             </ion-slide>
-            <ion-slide ion-slide-tab-label="Chats">
-        		 <ion-content class="has-header" style="top: 0;" overflow-scroll="true">
+            <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Chats">
+        		 <ion-content class="has-header" style="top: 0;" overflow-scroll="true" has-bouncing="true">
         		 		<div class="list">
 						  <a class="item item-avatar" ng-repeat="room in rooms" ng-click="enterRoom(room)">
 						      <!-- <img ng-if="room.photos!='null'" src="{{room.photos}}"  err-src="img/profile.png"> -->
@@ -37,32 +38,19 @@
 						      <p>{{room.number}}</p>
 						  </a>
 						</div>
+						<br /><br /><br />
 				  </ion-content>
             </ion-slide>
-            <ion-slide ion-slide-tab-label="Contacts">
-        		 <ion-content overflow-scroll="true">
+            <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Contacts">
+        		 <ion-content overflow-scroll="true" has-bouncing="true">
 					<div class="list">
-						<!-- <ion-scroll direction="y" style="width:100%;height:500px;"> -->
-						<!-- <scroll> -->
 						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in ContactList track by $index | limitTo: 10" ng-if="contact.number!=usernumber" ng-click="enterChatRoom(contact)">
-						  	<!-- <img ng-if="room.photos!='null'" ng-src="{{contact.photos}}" err-src="img/profile.png"> -->
-						  	<img ng-src="img/profile.png">
-						    <h2>{{contact.name}}</h2>
+						   	<img ng-src="img/profile.png">
+						    <h2>{{contact.displayName}}</h2>
 						  </a>
-						 <!-- </scroll> -->
-						<!-- </ion-scroll> -->
 					</div>
-					<!-- <ion-scroll direction="y" style="width:100%;height:100%;">
-	                    <div class="list">
-						  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterChatRoom(user)" ng-if="user.phone!=usernumber">
-						      <img src="img/ionic.png">
-						      <h2>{{ user.username }}</h2>
-						  </a>
-						</div>
-					</ion-scroll> -->
-				  </ion-content>
-				  <!-- <ion-infinite-scroll on-infinite="loadMore()" distance="1%">
-				  </ion-infinite-scroll> -->
+					<br /><br /><br />
+				</ion-content>
             </ion-slide>
         </ion-slide-box>
     </ion-content>

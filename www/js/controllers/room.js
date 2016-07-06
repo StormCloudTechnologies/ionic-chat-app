@@ -40,6 +40,21 @@ angular.module('Room.controllers', [])
 			return 'current-user';
 		};
 
+		SocketService.on('user data', function(msg){
+			$scope.messageList = msg;
+			setTimeout(function() {
+				$ionicScrollDelegate.scrollBottom();
+			}, 10);
+		});
+        SocketService.on('current room id', function(data){
+			$scope.current_room_id = data.current_room_id;
+			console.log("===$scope.current_room_id====",$scope.current_room_id);
+			setTimeout(function() {
+				$ionicScrollDelegate.scrollBottom();
+			}, 10);
+			
+		});
+
 
 		$scope.sendTextMessage = function(){
 			if($scope.message!=''){
@@ -53,37 +68,30 @@ angular.module('Room.controllers', [])
 				'message': $scope.message,
 				'time': moment()
 				};
-
-			// var chatlist = "SELECT * from Message";
-			// var results = DB.query(chatlist, []).then(function (result) {
-			// 	if(result.rows.length!=0){
-			// 	   console.log(result.rows);
-			// 	   var len = result.rows.length;
-   //                      for(var j=0;j<len;j++){
-			// 		        if(result.rows.item(j).receiver_name!=$scope.current_chat_friend){
-		                   		var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
-						  		DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
-						  				console.log("insert");
-						  				// localStorageService.set('checkChat',"1");
-									});
-		 //                    }
-		 //                }
-               
-			// 	}
-			// })
-			
-			$scope.messageList.push($scope.msg);
+				var userRoom  = localStorageService.get('room');
+				if(userRoom!=$scope.current_chat_friend){
+					var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			  		DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+		  				console.log("insert");
+		  				// localStorageService.set('checkChat',"1");
+					});
+				}
+           	$scope.messageList.push($scope.msg);
 			$scope.message = "";
-			$ionicScrollDelegate.scrollBottom();
+			setTimeout(function() {
+				$ionicScrollDelegate.scrollBottom();
+			}, 10);
 			
-			SocketService.emit('new message', $scope.msg);
+			 SocketService.emit('new message', $scope.msg);
 			}
 			
 		};
         SocketService.on('message created', function(msg){
             if(msg.sender_id != $scope.usernumber)
 			$scope.messageList.push(msg);
-			$ionicScrollDelegate.scrollBottom();
+			setTimeout(function() {
+				$ionicScrollDelegate.scrollBottom();
+			}, 10);
 		});
 
 		$scope.leaveRoom = function(){
@@ -98,15 +106,6 @@ angular.module('Room.controllers', [])
 			$state.go('home');
 
 		};
-        SocketService.on('user data', function(msg){
-			$scope.messageList = msg;
-			$ionicScrollDelegate.scrollBottom();
-		});
-        SocketService.on('current room id', function(data){
-			$scope.current_room_id = data.current_room_id;
-			console.log("===$scope.current_room_id====",$scope.current_room_id);
-			$ionicScrollDelegate.scrollBottom();
-		});
 
 
 		

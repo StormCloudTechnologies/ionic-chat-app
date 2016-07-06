@@ -5,23 +5,62 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'ngCordova.plugins', 'APIModule', 'ionic-native-transitions'])
 
-.run(function($ionicPlatform, localStorageService, $rootScope, DB) {
+.run(function($ionicPlatform, localStorageService, $rootScope, DB, $cordovaSplashscreen, $ionicPopup, $cordovaDialogs, $location) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    setTimeout(function() {
+      $cordovaSplashscreen.hide();
+      deferred.resolve();
+    }, 3000);
+
+     $ionicPlatform.registerBackButtonAction(function () {
+        var hashvalue = $location.url();
+        if(hashvalue=="/home"){
+          // A confirm dialog
+          $cordovaDialogs.confirm('Do you really want to exit !!', 'Are You Sure ?', ['Cancel','OK'])
+            .then(function(buttonIndex) {
+              // no button = 0, 'OK' = 1, 'Cancel' = 2
+             var btnIndex = buttonIndex;
+              if(btnIndex==1){
+                ionic.Platform.exitApp();
+              }
+            });
+        }else{
+          navigator.app.backHistory();
+        }
+      }, 100);
+
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
     }
-   
+
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
     DB.init();
+  });
+})
+.config(function($ionicConfigProvider) {
+  $ionicConfigProvider.scrolling.jsScrolling(false);
+})
+.config(function($ionicNativeTransitionsProvider){
+  $ionicNativeTransitionsProvider.setDefaultTransition({
+    "direction"        : "default", // 'left|right|up|down', default 'left' (which is like 'next')
+    "duration"         :  100, // in milliseconds (ms), default 400
+    "slowdownfactor"   :    3, // overlap views (higher number is more) or no overlap (1). -1 doesn't slide at all. Default 4
+    "slidePixels"      :   20, // optional, works nice with slowdownfactor -1 to create a 'material design'-like effect. Default not set so it slides the entire page.
+    // "iosdelay"         :  50, // ms to wait for the iOS webview to update before animation kicks in, default 60
+    "androiddelay"     :  50, // same as above but for Android, default 70
+    // "winphonedelay"    :  100, // same as above but for Windows Phone, default 200,
+    "fixedPixelsTop"   :    0, // the number of pixels of your fixed header, default 0 (iOS and Android)
+    "fixedPixelsBottom":   60,  // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
+    "href" : 'page'
   });
 })
 .constant('DB_CONFIG', {
@@ -42,12 +81,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       id : 'INTEGER',
       displayName: 'TEXT',
       contactnumber: 'VARCHAR',
-      photos: 'TEXT',
-      addresses: 'TEXT',
-      nickname: 'TEXT',
-      note: 'TEXT',
-      organizations: 'TEXT',
-      emails: 'TEXT'      
+      photos: 'TEXT'
     }
  }
 })
@@ -283,14 +317,14 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
   .state('home', {
     url: '/home',
-    // cache: false,
+    cache: false,
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
   })
 
   .state('room', {
     url: '/room',
-    templateUrl: 'templates/room.html',
+   templateUrl: 'templates/room.html',
      controller: 'RoomCtrl'
   })
   .state('group', {
