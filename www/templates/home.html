@@ -38,18 +38,18 @@
 						      <p>{{room.number}}</p>
 						  </a>
 						</div>
-						<br /><br /><br />
+						<br /><br />
 				  </ion-content>
             </ion-slide>
             <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Contacts">
         		 <ion-content overflow-scroll="true" has-bouncing="true">
 					<div class="list">
-						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in ContactList track by $index | limitTo: 10" ng-if="contact.number!=usernumber" ng-click="enterChatRoom(contact)">
+						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in ContactList track by $index" ng-if="contact.number!=usernumber" ng-click="enterChatRoom(contact)">
 						   	<img ng-src="img/profile.png">
 						    <h2>{{contact.displayName}}</h2>
 						  </a>
 					</div>
-					<br /><br /><br />
+					<br /><br />
 				</ion-content>
             </ion-slide>
         </ion-slide-box>

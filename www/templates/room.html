@@ -11,7 +11,7 @@
  	
   <ion-content class="has-header" ng-click="uploadview.hide()" >
 	<div class="list" id="messages" ng-if="messageList.length > 0">
-	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" style="background:transparent;padding:0px;">
+	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" ng-if="msg.message!=undefined" style="background:transparent;padding:0px;">
       
                       <div ng-if="msg.sender_id == usernumber" class="chat-bubble left">
       
@@ -35,9 +35,8 @@
                       </div>
 
 	    </li>
-	</div>	
-
-	<div class="card" ng-if="!messageList.length">
+	</div>
+	<div class="card" ng-if="!messageList.length" style="margin:25px 10px !important;">
 	  <div class="item item-text-wrap">
 	    No messages yet.
 	  </div>

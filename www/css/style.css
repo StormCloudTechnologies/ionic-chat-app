@@ -535,6 +535,8 @@ ion-content{
 }
 .background-black{
   background-color: #040404 !important;
+  border-color:  #040404 !important;
+  border-bottom-width: 0px !important;
 }
 .text-white{
   color: #FFF !important;

@@ -5,6 +5,9 @@ angular.module('Room.controllers', [])
 	$ionicPlatform.ready(function(){
 		try{
 		
+		setTimeout(function() {
+			$ionicScrollDelegate.scrollBottom();
+		}, 10);
 		$scope.messages = [];
         $scope.messageList = [];
 
@@ -40,21 +43,9 @@ angular.module('Room.controllers', [])
 			return 'current-user';
 		};
 
-		SocketService.on('user data', function(msg){
-			$scope.messageList = msg;
-			setTimeout(function() {
-				$ionicScrollDelegate.scrollBottom();
-			}, 10);
-		});
-        SocketService.on('current room id', function(data){
-			$scope.current_room_id = data.current_room_id;
-			console.log("===$scope.current_room_id====",$scope.current_room_id);
-			setTimeout(function() {
-				$ionicScrollDelegate.scrollBottom();
-			}, 10);
-			
-		});
-
+		
+     
+      
 
 		$scope.sendTextMessage = function(){
 			if($scope.message!=''){
@@ -68,14 +59,39 @@ angular.module('Room.controllers', [])
 				'message': $scope.message,
 				'time': moment()
 				};
-				var userRoom  = localStorageService.get('room');
-				if(userRoom!=$scope.current_chat_friend){
-					var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			  		DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
-		  				console.log("insert");
-		  				// localStorageService.set('checkChat',"1");
-					});
-				}
+				var MessageQry = "Insert into ChatList(sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?)";
+		  		DB.query(MessageQry, [$scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+	  				console.log("insert", result);
+	  				setTimeout(function() {
+						$ionicScrollDelegate.scrollBottom();
+					}, 10);
+				});
+				var chatlist = "SELECT * from Message where receiver_name=?";
+				var results = DB.query(chatlist, [$scope.current_chat_friend]).then(function (result) {
+					console.log(result.rows);
+					// console.log(result.rows[0]);
+				    if(result.rows.length==0){
+						var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				  		DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+			  				console.log("insert All List", result);
+						});
+					}else if(result.rows.item[0].receiver_name!=$scope.current_chat_friend){
+				    	var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				  		DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+			  				console.log("insert All List", result);
+			  				setTimeout(function() {
+								$ionicScrollDelegate.scrollBottom();
+							}, 10);
+						});
+					}else{
+						console.log("insert All Ready List");
+					}
+				});
+			
+ 
+			
+						
+			
            	$scope.messageList.push($scope.msg);
 			$scope.message = "";
 			setTimeout(function() {
@@ -93,6 +109,25 @@ angular.module('Room.controllers', [])
 				$ionicScrollDelegate.scrollBottom();
 			}, 10);
 		});
+
+
+		$scope.SelectAllMsg = function(){
+        	var messagesel = "SELECT * from ChatList WHERE receiver_id=?";
+			var results = DB.query(messagesel, [$scope.current_friend_number]).then(function (result) {
+				console.log(result);
+			    if(result.rows.length!=0){
+			    	var len = result.rows.length;
+                    for(var j=0;j<len;j++){
+                        $scope.messageList.push({"sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time});   
+                        console.log($scope.messageList); 
+                    } 
+				}
+			});
+			setTimeout(function() {
+				$ionicScrollDelegate.scrollBottom();
+			}, 10);
+        }
+        $scope.SelectAllMsg();
 
 		$scope.leaveRoom = function(){
 	

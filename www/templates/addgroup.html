@@ -18,9 +18,9 @@
       </div>
       <div class="list" ng-hide="searchbox" style="position: absolute !important;z-index: 999;margin-top: 0px !important;;width: 100% !important;padding-left: 10px !important;padding-right: 10px !important;height: 350px !important;overflow: scroll !important;overflow-y: scroll !important;">
         <a class="item item-avatar" ng-repeat="airline in searchList">
-          <img ng-src="{{airline.image}}">
-          <h2>{{airline.name}}</h2>
-          <p>{{airline.status}}</p>
+          <img ng-src="img/profile.png">
+          <h2>{{airline.displayName}}</h2>
+          <!-- <p>{{airline.status}}</p> -->
         </a>
       </div>
     </ion-list>

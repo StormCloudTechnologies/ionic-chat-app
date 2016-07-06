@@ -4,8 +4,8 @@ angular.module('Home.controllers', [])
 	$ionicPlatform.ready(function(){
    		try{
    			$scope.isOnline = $cordovaNetwork.isOnline();
-   			$scope.hideCall = false;
-   			$scope.hideChat = true;
+   			$scope.hideCall = true;
+   			$scope.hideChat = false;
    			$scope.hideContact = true;
    			$scope.Contacts = [];
 
@@ -116,7 +116,6 @@ angular.module('Home.controllers', [])
 				var chatlist = "SELECT * from Message";
 				var results = DB.query(chatlist, []).then(function (result) {
 				    if(result.rows.length!=0){
-				    	console.log(result.rows);
 				    	var len = result.rows.length;
                         $scope.rooms = [];
                         for(var j=0;j<len;j++){
@@ -154,7 +153,8 @@ angular.module('Home.controllers', [])
 				if(entermsg!=''){
 					localStorageService.set('current_chat_friend', user.displayName);
 	                localStorageService.set('current_friend_number', user.number);	
-					SocketService.emit('join chat:room',{
+	                localStorageService.set('checkChat',"0");
+	                SocketService.emit('join chat:room',{
 	                    receiver_id: user.number,
 	                    sender_id: $scope.usernumber
 	                   });
@@ -166,9 +166,10 @@ angular.module('Home.controllers', [])
 			
 
 			$scope.enterRoom = function(room_name){
-				
 				$scope.current_room = room_name.name;
-				localStorageService.set('room', room_name.name);
+				localStorageService.set('current_chat_friend', room_name.name);
+				localStorageService.set('roomName', room_name.name);
+				localStorageService.set('current_friend_number', room_name.number);
 				
 				var room = {
 					'room_name': name

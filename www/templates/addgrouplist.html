@@ -12,86 +12,18 @@
       </label>
     </div>
     <div class="list" style="width: 94%;margin: 0 3%;">
-        <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
+        <div class="row no-padding"  ng-repeat="addgroupList in addgroupLists track by $index" style="border-bottom: 1px solid #ddd;">
           <div class="col col-67 no-padding">
             <a class="item no-background item-avatar">
                 <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
+                <h2>{{addgroupList.displayName}}</h2>
+                <!-- <p>{{addgroupList.name}}</p> -->
              </a>
           </div>
           <div class="col col-33 no-padding">
              <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
           </div>
         </div>
-         <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-             <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div> <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-             <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div> <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-            <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div> <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-             <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div> <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-             <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div> <div class="row no-padding" style="border-bottom: 1px solid #ddd;">
-          <div class="col col-67 no-padding">
-            <a class="item no-background item-avatar">
-                <img src="img/ionic.png">
-                <h2>demo</h2>
-                <p>demo</p>
-             </a>
-          </div>
-          <div class="col col-33 no-padding">
-             <ion-checkbox class="no-background" style="height:65px;"></ion-checkbox>
-          </div>
-        </div>
-
-      </div>
+    </div>
     </ion-content>
 </ion-view >

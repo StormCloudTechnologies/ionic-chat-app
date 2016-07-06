@@ -82,6 +82,15 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       displayName: 'TEXT',
       contactnumber: 'VARCHAR',
       photos: 'TEXT'
+    },
+    ChatList: 
+   {
+      sender_id: 'INTEGER',
+      sender_name: 'TEXT',
+      receiver_id: 'INTEGER',
+      receiver_name: 'TEXT',
+      message: 'TEXT',
+      time: 'TEXT'      
     }
  }
 })
