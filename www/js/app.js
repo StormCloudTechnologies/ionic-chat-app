@@ -52,11 +52,11 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 .config(function($ionicNativeTransitionsProvider){
   $ionicNativeTransitionsProvider.setDefaultTransition({
     "direction"        : "default", // 'left|right|up|down', default 'left' (which is like 'next')
-    "duration"         :  100, // in milliseconds (ms), default 400
+    "duration"         :  80, // in milliseconds (ms), default 400
     "slowdownfactor"   :    3, // overlap views (higher number is more) or no overlap (1). -1 doesn't slide at all. Default 4
     "slidePixels"      :   20, // optional, works nice with slowdownfactor -1 to create a 'material design'-like effect. Default not set so it slides the entire page.
     // "iosdelay"         :  50, // ms to wait for the iOS webview to update before animation kicks in, default 60
-    "androiddelay"     :  50, // same as above but for Android, default 70
+    "androiddelay"     :  30, // same as above but for Android, default 70
     // "winphonedelay"    :  100, // same as above but for Windows Phone, default 200,
     "fixedPixelsTop"   :    0, // the number of pixels of your fixed header, default 0 (iOS and Android)
     "fixedPixelsBottom":   60,  // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
@@ -64,35 +64,44 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   });
 })
 .constant('DB_CONFIG', {
- name: 'StormChat',
- tables: {
-   Message: 
-   {
-      room_id: 'INTEGER',
-      sender_id: 'INTEGER',
-      sender_name: 'TEXT',
-      receiver_id: 'INTEGER',
-      receiver_name: 'TEXT',
-      message: 'TEXT',
-      time: 'TEXT'      
-    },
-    Contact: 
-   {
-      id : 'INTEGER',
-      displayName: 'TEXT',
-      contactnumber: 'VARCHAR',
-      photos: 'TEXT'
-    },
-    ChatList: 
-   {
-      sender_id: 'INTEGER',
-      sender_name: 'TEXT',
-      receiver_id: 'INTEGER',
-      receiver_name: 'TEXT',
-      message: 'TEXT',
-      time: 'TEXT'      
-    }
- }
+   name: 'StormChat',
+   tables: {
+     Message: 
+     {
+        room_id: 'INTEGER',
+        sender_id: 'INTEGER',
+        sender_name: 'TEXT',
+        receiver_id: 'INTEGER',
+        receiver_name: 'TEXT',
+        message: 'TEXT',
+        time: 'TEXT'      
+      },
+      Contact: 
+     {
+        id : 'INTEGER',
+        displayName: 'TEXT',
+        contactnumber: 'VARCHAR',
+        photos: 'TEXT'
+      },
+      ChatList: 
+     {
+        sender_id: 'INTEGER',
+        sender_name: 'TEXT',
+        receiver_id: 'INTEGER',
+        receiver_name: 'TEXT',
+        message: 'TEXT',
+        time: 'TEXT'      
+      },
+      GroupList: 
+     {
+        id: 'INTEGER',
+        groupname: 'TEXT',
+        member: 'TEXT',
+        Creatname: 'TEXT',
+        Creatnumber: 'TEXT',
+        time: 'TEXT'      
+      }
+   }
 })
 
 
@@ -211,65 +220,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   }
   }
 }])
-// .directive('headerShrink', function($document) {
-//   var fadeAmt;
 
-//   var shrink = function(header, content, amt, max) {
-//     amt = Math.min(max, amt);
-//     fadeAmt = 1 - amt / max;
-//     ionic.requestAnimationFrame(function() {
-//       header.style[ionic.CSS.TRANSFORM] = 'translate3d(0, -' + amt + 'px, 0)';
-//       for(var i = 0, j = header.children.length; i < j; i++) {
-//         header.children[i].style.opacity = fadeAmt;
-//       }
-//     });
-//   };
-
-//   return {
-//     restrict: 'A',
-//     link: function($scope, $element, $attr) {
-//       var starty = $scope.$eval($attr.headerShrink) || 0;
-//       var shrinkAmt;
-
-//       var amt;
-
-//       var y = 0;
-//       var prevY = 0;
-//       var scrollDelay = 0.4;
-
-//       var fadeAmt;
-      
-//       var header = $document[0].body.querySelector('.bar-header');
-//       var tabs = $document[0].body.querySelector('div.tabs');
-//       var headerHeight = header.offsetHeight;
-      
-//       function onScroll(e) {
-//         var scrollTop = e.detail.scrollTop;
-
-//         if(scrollTop >= 0) {
-//           y = Math.min(headerHeight / scrollDelay, Math.max(0, y + scrollTop - prevY));
-//         } else {
-//           y = 0;
-//         }
-//         console.log(scrollTop);
-
-//         ionic.requestAnimationFrame(function() {
-//           fadeAmt = 1 - (y / headerHeight);
-//           header.style[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + -y + 'px, 0)';
-//           tabs.style[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + y + 'px, 0)';
-//           for(var i = 0, j = header.children.length; i < j; i++) {
-//             header.children[i].style.opacity = fadeAmt;
-//             tabs.children[i].style.opacity = fadeAmt;
-//           }
-//         });
-
-//         prevY = scrollTop;
-//       }
-
-//       $element.bind('scroll', onScroll);
-//     }
-//   }
-// })
 .directive('input', function($timeout) {
   return {
     restrict: 'E',
@@ -311,12 +262,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
-
 
   .state('signup', {
     url: '/signup',
@@ -358,6 +304,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   })
   .state('addgroup', {
     url: '/addgroup',
+    cache: false,
     templateUrl: 'templates/addgroup.html',
      controller: 'AddGroupCtrl'
   })

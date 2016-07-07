@@ -1,8 +1,8 @@
 <ion-view>
     <ion-header-bar class="bar bar-header bar-positive">
-        <button onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
+        <button ng-click="backaddgorup()" class="button button-clear button-icon ion-android-arrow-back"></button>
          <h1 class="title">New Group</h1>
-        <button class="button button-clear button-icon ion-android-done">&nbsp; CREATE</button>
+        <button class="button button-clear button-icon ion-android-done" ng-click="createGroup()">&nbsp; CREATE</button>
     </ion-header-bar>
     <ion-content scroll="true">
     <ion-list>
@@ -16,13 +16,18 @@
         <button ui-sref="addgrouplist" class="button button-clear button-icon ion-android-add" style="color:#2de7c7;">
         </button>
       </div>
-      <div class="list" ng-hide="searchbox" style="position: absolute !important;z-index: 999;margin-top: 0px !important;;width: 100% !important;padding-left: 10px !important;padding-right: 10px !important;height: 350px !important;overflow: scroll !important;overflow-y: scroll !important;">
-        <a class="item item-avatar" ng-repeat="airline in searchList">
-          <img ng-src="img/profile.png">
-          <h2>{{airline.displayName}}</h2>
-          <!-- <p>{{airline.status}}</p> -->
-        </a>
+      <div class="item item-avatar item-icon-right" ng-repeat="addlist in addlistgroup track by $index">
+        <img src="img/profile.png">
+        <h2>{{addlist.displayName}}</h2>
+        <i class="icon ion-android-close" style="color:red !important;" ng-click="removelist(addlist)"></i>
       </div>
-    </ion-list>
-    </ion-content>
+  </ion-list>
+  <div class="list autoComplete" ng-hide="searchbox">
+    <a class="item item-avatar" ng-repeat="airline in searchList">
+      <img ng-src="img/profile.png">
+      <h2>{{airline.displayName}}</h2>
+      <!-- <p>{{airline.status}}</p> -->
+    </a>
+  </div>
+  </ion-content>
 </ion-view >

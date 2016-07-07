@@ -120,11 +120,26 @@ angular.module('Home.controllers', [])
                         $scope.rooms = [];
                         for(var j=0;j<len;j++){
                             $scope.rooms.push({"name":result.rows.item(j).receiver_name, "number":result.rows.item(j).receiver_id});  
+                            // $scope.grouplist();
                             // localStorageService.set('checkChat',"0");  
                         } 
 					}
 				});
 			}
+			// $scope.grouplist = function(){
+			// 	var chatlist = "SELECT * from GroupList";
+			// 	var results = DB.query(chatlist, []).then(function (result) {
+			// 	    if(result.rows.length!=0){
+			// 	    	console.log(result);
+			// 	    	var len = result.rows.length;
+   //                      for(var j=0;j<len;j++){
+   //                          $scope.rooms.push({"name":result.rows.item(j).groupname, "number":result.rows.item(j).Creatnumber});  
+   //                          // localStorageService.set('checkChat',"0");  
+   //                      } 
+			// 		}
+			// 	});
+			// }
+			// $scope.grouplist();
 			// var chatroomvalue = localStorageService.get('checkChat');
 			// if(chatroomvalue=="1"){
 				$scope.chatlist();

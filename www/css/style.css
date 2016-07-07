@@ -541,3 +541,14 @@ ion-content{
 .text-white{
   color: #FFF !important;
 }
+.autoComplete{
+  position: absolute !important;
+  z-index: 99999;
+  margin-top: 0px !important;
+  width: 100% !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  height: 350px !important;
+  overflow: scroll !important;
+  overflow-y: scroll !important;
+}
