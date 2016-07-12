@@ -1,6 +1,6 @@
 angular.module('Home.controllers', [])
 
-.controller('HomeCtrl', function($scope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, APIService) {
+.controller('HomeCtrl', function($scope, $rootScope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, APIService) {
 	$ionicPlatform.ready(function(){
    		try{
 
@@ -95,11 +95,22 @@ angular.module('Home.controllers', [])
                 data: {}
             }).then(function(resp) {
                 if(resp.data) {
-                    $scope.userList = resp.data;
+                    $rootScope.userList = resp.data;
                 }
                },function(resp) {
                   // This block execute in case of error.
             });
+            APIService.setData({
+                req_url: url_prefix + 'getGroups',
+                data: {}
+            }).then(function(resp) {
+                if(resp.data) {
+                    $rootScope.groupList = resp.data;
+                }
+               },function(resp) {
+                  // This block execute in case of error.
+            });
+          
             $scope.enterChatRoom = function(user){
                 localStorageService.set('current_chat_friend', user.username);
                 localStorageService.set('current_friend_number', user.phone);
@@ -123,6 +134,17 @@ angular.module('Home.controllers', [])
 				SocketService.emit('join:room', room);
 
 				$state.go('room');
+			};
+            $scope.enterGroupRoom = function(room){
+
+				localStorageService.set('room_id', room.room_id);
+
+				SocketService.emit('join group chat:room',{
+                    room_id: room.room_id,
+                    sender_id: $scope.usernumber
+                   });
+
+				$state.go('groupChat');
 			};
 		}catch(err){
 	      console.log(err.message);

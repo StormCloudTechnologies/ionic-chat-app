@@ -31,10 +31,9 @@
             <ion-slide ion-slide-tab-label="Chat" selected>
         		 <ion-content  class="has-header" style="top: 0;" scroll="true">
 					<div class="list">
-					  <a class="item item-avatar" ng-repeat="room in rooms" ng-click="enterRoom(room)">
+					  <a class="item item-avatar" ng-repeat="room in groupList" ng-click="enterGroupRoom(room)">
 					      <img src="img/ionic.png">
-					      <h2>Venkman</h2>
-					      <p>{{room}}</p>
+					      <h2>{{room.name}}</h2>
 					  </a>
 					</div>
 				  </ion-content>

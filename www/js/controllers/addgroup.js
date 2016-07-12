@@ -5,6 +5,7 @@ angular.module('AddGroup.controllers', [])
     try{
 
     	$scope.searchbox = true;
+        
 
     	$scope.search = function() {
 			$scope.searchbox = false;

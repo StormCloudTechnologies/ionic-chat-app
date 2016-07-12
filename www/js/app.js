@@ -1,11 +1,12 @@
 // Ionic Starter App
 var url_prefix = 'http://52.36.75.89:9992/api/';
+// var url_prefix = 'http://localhost:9992/api/';
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'ngCordova.plugins', 'APIModule'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'groupchat.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'ngCordova.plugins', 'APIModule'])
 
 .run(function($ionicPlatform, localStorageService) {
   $ionicPlatform.ready(function() {
@@ -86,6 +87,11 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     url: '/room',
     templateUrl: 'templates/room.html',
      controller: 'RoomCtrl'
+  })
+  .state('groupChat', {
+    url: '/groupChat',
+    templateUrl: 'templates/groupChat.html',
+     controller: 'GroupChatCtrl'
   })
   .state('group', {
     url: '/group',
