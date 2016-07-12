@@ -3,6 +3,14 @@ angular.module('Home.controllers', [])
 .controller('HomeCtrl', function($scope, DB, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, $localstorage, APIService, $cordovaNetwork) {
 	$ionicPlatform.ready(function(){
    		try{
+   			
+	     // cordova.plugins.diagnostic.requestContactsAuthorization(function(status){
+	     //  if(status === cordova.plugins.diagnostic.permissionStatus.GRANTED){
+	     //      console.log("Contacts use is authorized");
+	     //  }
+	     //  }, function(error){
+	     //      console.error(error);
+	     //  });
    			$scope.isOnline = $cordovaNetwork.isOnline();
    			$scope.hideCall = true;
    			$scope.hideChat = false;
@@ -77,6 +85,7 @@ angular.module('Home.controllers', [])
 					});
 				}
 			}
+
 
 			$scope.getAllContacts = function() {
 				 try{

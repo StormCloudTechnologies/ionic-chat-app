@@ -32,6 +32,17 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
           navigator.app.backHistory();
         }
       }, 100);
+    //  if (window.cordova) {
+    //     cordova.plugins.diagnostic.isContactsAuthorized(function(status){
+    //     if(status === cordova.plugins.diagnostic.permissionStatus.GRANTED){
+    //         console.log("Contacts use is authorized");
+    //     }
+    //     }, function(error){
+    //         console.error(error);
+    //     });
+    // }
+
+     
 
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
