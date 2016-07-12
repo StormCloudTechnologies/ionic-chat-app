@@ -1,8 +1,12 @@
 <ion-view>
     <ion-header-bar class="bar bar-header bar-positive">
-        <button onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
+        <button ng-click="backgroup();" class="button button-clear button-icon ion-android-arrow-back"></button>
          <h1 class="title">New Group</h1>
+
         <button ng-click="next(group_details.group_name)" class="button button-clear button-icon ion-android-done">&nbsp; NEXT</button>
+<!-- =======
+        <button class="button button-clear button-icon ion-android-done" ng-click="addGorupName(groupform.groupname)">&nbsp; NEXT</button>
+>>>>>>> master -->
     </ion-header-bar>
     <ion-content scroll="true">
     <ion-list>
@@ -13,6 +17,9 @@
       <div class="card no-background1">
         <label class="item item-input" style="width: 90%;margin: 0;">
             <input autofocus type="text" placeholder="Type group subject here....." ng-model="group_details.group_name" style="border-bottom: 2px solid #2de7c7;">
+<!-- =======
+            <input autofocus type="text" ng-model="groupform.groupname" placeholder="Type group subject here....." style="border-bottom: 2px solid #2de7c7;">
+>>>>>>> master -->
         </label>
       </div>
     </ion-list>

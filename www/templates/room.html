@@ -1,13 +1,17 @@
-<ion-view align-title="left" title="{{current_room }}">
+<ion-view align-title="left" title="{{current_room }}" style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;">
  	<header class="bar bar-header bar-positive">
- 		<button class="button button-clear button-icon ion-chevron-left" ng-click="leaveRoom()"></button>
- 		<h1 class="title">{{current_chat_friend}}</h1>
- 		
+ 		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveRoom()"></button>
+      <img src="img/profile.png" style="width:35px;height:35px;">
+ 		  <h1 class="title" style="left: 65px !important;top: -6px;">{{current_chat_friend}}</h1>
+      <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">online</h1>
+      <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">typing...</h1>
+      <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
+ 		<button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
  	</header>
  	
-  <ion-content class="has-header padding" style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;bottom:-30px;">
+  <ion-content class="has-header" ng-click="uploadview.hide()" >
 	<div class="list" id="messages" ng-if="messageList.length > 0">
-	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" style="background:transparent;padding:0px;">
+	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" ng-if="msg.message!=undefined" style="background:transparent;padding:0px;">
       
                       <div ng-if="msg.sender_id == usernumber" class="chat-bubble left">
       
@@ -15,8 +19,7 @@
                           </div>
       
                           <div class="message-detail">
-                              <span 
-                                  class="bold">{{msg.message}}</span>
+                              <span class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
                               <div class="user">{{ msg.sender_name }}, <span>{{ humanize(msg.time) }}</span></div>
                           </div>	
       
@@ -25,16 +28,15 @@
       
                           <div class="message-detail">
                               <span 
-                                  class="bold">{{msg.message}}</span>
+                                  class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
                               <div class="user">{{ msg.receiver_name }}, <span>{{ humanize(msg.time) }}</span></div>
                           </div>
       
                       </div>
 
 	    </li>
-	</div>	
-
-	<div class="card" ng-if="!messageList.length">
+	</div>
+	<div class="card" ng-if="!messageList.length" style="margin:25px 10px !important;">
 	  <div class="item item-text-wrap">
 	    No messages yet.
 	  </div>
@@ -44,7 +46,7 @@
 
 <ion-footer-bar keyboard-attach class="bar-stable item-input-inset  has-content">
   <label class="item-input-wrapper">
-    <input type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" on-focus="inputUp()" on-blur="inputDown()" style="margin:5px;" />
+    <textarea type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" on-focus="inputUp()" on-blur="inputDown()" style="margin:5px;width: 100%;" ></textarea>
   </label>
   <button class="button button-clear" ng-click="sendTextMessage()">
     Send

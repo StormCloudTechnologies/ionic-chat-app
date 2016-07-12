@@ -1,4 +1,4 @@
-angular.module('groupchat.controllers', [])
+angular.module('GroupChat.controllers', [])
 
 .controller('GroupChatCtrl', function($scope, $state, localStorageService, $ionicPlatform, SocketService, moment, $ionicScrollDelegate) {
 
@@ -39,6 +39,7 @@ angular.module('groupchat.controllers', [])
 
 			
 			$scope.messageList.push($scope.msg);
+			$scope.message = "";
 			$ionicScrollDelegate.scrollBottom();
 			
 			SocketService.emit('new group message', $scope.msg);

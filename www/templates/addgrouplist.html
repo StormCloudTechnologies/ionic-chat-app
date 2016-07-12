@@ -2,7 +2,11 @@
     <ion-header-bar class="bar bar-header bar-positive">
         <button onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
          <h1 class="title">New Group</h1>
-        <button ng-click="createGroup()" class="button button-clear button-icon ion-android-done">&nbsp; DONE</button>
+
+        <button ng-click="Donelist()" class="button button-clear button-icon ion-android-done">&nbsp; DONE</button>
+<!-- =======
+        <button class="button button-clear button-icon ion-android-done" ng-click="Donelist();">&nbsp; DONE</button>
+>>>>>>> master -->
     </ion-header-bar>
     <ion-content scroll="true">
     <div class="list list-inset no-background1" style="margin: 0px 0px 5px 0px;border:none;">
@@ -25,5 +29,19 @@
           </div>
         </div>
       </div>
+       <!--  <div class="row no-padding"  ng-repeat="addgroupList in addgroupLists track by $index" style="border-bottom: 1px solid #ddd;">
+          <div class="col col-67 no-padding">
+            <a class="item no-background item-avatar">
+                <img src="img/ionic.png">
+                <h2>{{addgroupList.displayName}}</h2>
+               <p>{{addgroupList.name}}</p> 
+             </a>
+          </div>
+          <div class="col col-33 no-padding">
+             <ion-checkbox class="no-background" ng-model="addgroupList.ischeck" value="{{addgroupList}}" style="height:65px;"></ion-checkbox>
+          </div>
+        </div>
+    </div> -->
+
     </ion-content>
 </ion-view >

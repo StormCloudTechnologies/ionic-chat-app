@@ -1,4 +1,4 @@
-<ion-view view-title="Sliding Tabs 2" ng-controller="HomeCtrl">
+<ion-view view-title="Home" ng-controller="HomeCtrl">
 	<header class="bar bar-header bar-positive">
 		<button class="button pullflash button-clear button-icon ion-ios-bolt"></button>
  		<h1 class="title">StormChat</h1>
@@ -13,11 +13,10 @@
 
  		<button ng-hide="hideContact" class="button pullSame button-clear button-icon ion-android-person-add"></button>
  		<button ng-hide="hideContact" ng-click="openPopovercontactPop($event)" class="button pullRight button-clear button-icon ion-android-more-vertical"></button>
-
- 	</header>
+	</header>
     <ion-content header-shrink scroll-event-interval="5" scroll="false" style="top: 44px;">
-        <ion-slide-box slide-tabs-scrollable="true"  show-pager="false" ion-slide-tabs on-slide-changed="slideHasChanged($index)">
-            <ion-slide ion-slide-tab-label="Call">
+        <ion-slide-box  options="options" slide-tabs-scrollable="true"  show-pager="false" ion-slide-tabs on-slide-changed="slideHasChanged($index)">
+            <ion-slide ion-slide-tab-label="Calls">
             	<!-- <ion-view title="Rooms" ng-controller="HomeController as home_ctrl">
 					 <ion-content class="has-header padding" scroll="true">
 						<div class="card" ng-repeat="room in home_ctrl.rooms">
@@ -25,33 +24,31 @@
 						    <strong>{{room}}</strong>
 						  </div>
 						</div>
+						<br /><br /><br />
 					  </ion-content>
 				</ion-view> -->
             </ion-slide>
-            <ion-slide ion-slide-tab-label="Chat" selected>
-        		 <ion-content  class="has-header" style="top: 0;" scroll="true">
-					<div class="list">
-					  <a class="item item-avatar" ng-repeat="room in groupList" ng-click="enterGroupRoom(room)">
+            <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Chats">
+        		 <ion-content class="has-header" style="top: 0;" overflow-scroll="true" has-bouncing="true">
+        		 		<div class="list">
+						  <a class="item item-avatar" ng-repeat="room in groupList" ng-click="enterGroupRoom(room)">
 					      <img src="img/ionic.png">
 					      <h2>{{room.name}}</h2>
-					  </a>
-					</div>
+					  	</a>
+						</div>
+						<br /><br />
 				  </ion-content>
             </ion-slide>
-            <ion-slide ion-slide-tab-label="Contact">
-        		 <ion-content scroll="true">
-					<!--<div class="card" ng-repeat="contact in contacts track by $index " ng-if="contact.phoneNumbers[0].value">
-					  <div class="item item-text-wrap text-center" ng-click="enterRoom(room)">
-					    <strong>{{contact.displayName}}</strong>
-					  </div>
-					</div>-->
-                    <div class="list">
-					  <a class="item item-avatar" ng-repeat="user in userList" ng-click="enterChatRoom(user)" ng-if="user.phone!=usernumber">
-					      <img src="img/ionic.png">
-					      <h2>{{ user.username }}</h2>
-					  </a>
+            <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Contacts">
+        		 <ion-content overflow-scroll="true" has-bouncing="true">
+					<div class="list">
+						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in userList track by $index" ng-if="contact.number!=usernumber" ng-click="enterChatRoom(contact)">
+						   	<img ng-src="img/profile.png">
+						    <h2>{{contact.username}}</h2>
+						  </a>
 					</div>
-				  </ion-content>
+					<br /><br />
+				</ion-content>
             </ion-slide>
         </ion-slide-box>
     </ion-content>
