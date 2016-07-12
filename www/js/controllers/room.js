@@ -42,6 +42,33 @@ angular.module('Room.controllers', [])
 			}
 			return 'current-user';
 		};
+        $scope.startTyping = function() {
+            var data_server={
+                'room_id': $scope.current_room_id,
+				'sender_id': $scope.usernumber,
+                'message':$scope.current_user+" is typing"
+            }
+            SocketService.emit('start typing',data_server); //sending data to server
+        };
+        $scope.stopTyping = function() {
+          console.log("msg.message");
+            var data={
+                'room_id': $scope.current_room_id,
+				'sender_id': $scope.usernumber,
+                'message': ''
+            }
+            SocketService.emit('stop typing',data); //sending data to server
+        };
+        SocketService.on('listen start typing', function(msg){
+            if(msg.sender_id != $scope.usernumber) {;
+                $scope.type_message = msg.message;
+            }
+		});
+        SocketService.on('listen stop typing', function(msg){
+            if(msg.sender_id != $scope.usernumber) {
+                $scope.type_message = msg.message;
+            }
+		});
 
 		
      

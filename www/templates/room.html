@@ -10,6 +10,7 @@
  	</header>
  	
   <ion-content class="has-header" ng-click="uploadview.hide()" >
+    {{type_message}}
 	<div class="list" id="messages" ng-if="messageList.length > 0">
 	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" ng-if="msg.message!=undefined" style="background:transparent;padding:0px;">
       
@@ -46,7 +47,7 @@
 
 <ion-footer-bar keyboard-attach class="bar-stable item-input-inset  has-content">
   <label class="item-input-wrapper">
-    <textarea type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" on-focus="inputUp()" on-blur="inputDown()" style="margin:5px;width: 100%;" ></textarea>
+    <textarea type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" ng-keyup="stopTyping()" ng-change="startTyping()" style="margin:5px;width: 100%;" ></textarea>
   </label>
   <button class="button button-clear" ng-click="sendTextMessage()">
     Send

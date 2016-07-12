@@ -32,6 +32,7 @@
                       </div>
 
 	    </li>
+      {{type_message}}
 	</div>	
 
 	<div class="card" ng-if="!messageList.length">
@@ -44,7 +45,7 @@
 
 <ion-footer-bar keyboard-attach class="bar-stable item-input-inset  has-content">
   <label class="item-input-wrapper">
-    <input type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()"  ng-model="message" on-focus="inputUp()" on-blur="inputDown()" style="margin:5px;" />
+    <input type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()" ng-keyup="stopTyping()" ng-change="startTyping()" ng-model="message" style="margin:5px;" />
   </label>
   <button class="button button-clear" ng-click="sendTextMessage()">
     Send
