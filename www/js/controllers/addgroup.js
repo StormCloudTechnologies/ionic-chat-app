@@ -30,9 +30,9 @@ angular.module('AddGroup.controllers', [])
   			// });
      //  }
 
-     console.log($rootScope.addList);
+    console.log($rootScope.addList);
 
-     $scope.group_name = localStorage.getItem("groupName");
+    $scope.group_name = localStorage.getItem("groupName");
       // $scope.group_list = [];
       // $scope.addMember = function(phone) {
       //     $scope.group_list.push(phone)
@@ -53,10 +53,8 @@ angular.module('AddGroup.controllers', [])
 
       // $scope.createGroup = function(){
       //   var createTime = new Date();
-      //   var ID = 1;
       //   var CreateGroupQry = "Insert into GroupList(id, groupname, member, Creatname, Creatnumber, time) VALUES (?, ?, ?, ?, ?, ?)";
       //   DB.query(CreateGroupQry, [ID, $scope.groupname,  $scope.addlistgroup,username, usernumber,createTime]).then(function (result) {
-      //       ID = ID+1;
       //       console.log('insert  '+ID);
       //       $state.go('home');
       //     // $scope.selectContact();
