@@ -16,7 +16,7 @@
       </label>
     </div>  
     <div class="list" style="width: 94%;margin: 0 3%;">
-        <div class="row no-padding" style="border-bottom: 1px solid #ddd;" ng-repeat="user in userList">
+        <div class="row no-padding" style="border-bottom: 1px solid #ddd;" ng-repeat="user in userList" ng-if="user.phone!=usernumber">
           <div class="col col-67 no-padding">
             <a class="item no-background item-avatar">
                 <img src="img/ionic.png">

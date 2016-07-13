@@ -15,6 +15,7 @@ angular.module('AddGroupList.controllers', [])
      //          } 
      //  	}
      //  });
+     $scope.usernumber = localStorageService.get('usernumber');
 
       $scope.Donelist = function(){
         for(var i=0;i<$rootScope.userList.length;i++){
