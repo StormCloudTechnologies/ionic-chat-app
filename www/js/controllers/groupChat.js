@@ -17,7 +17,7 @@ angular.module('GroupChat.controllers', [])
 		$scope.current_user = localStorageService.get('username');
         $scope.usernumber = localStorageService.get('usernumber');
         $scope.current_room_id = localStorageService.get('room_id');
-
+        alert($scope.current_room_id);
 		$scope.isNotCurrentUser = function(user){
 			
 			if($scope.current_user != user){
@@ -86,6 +86,7 @@ angular.module('GroupChat.controllers', [])
 
 				
 				$scope.messageList.push($scope.msg);
+				console.log($scope.messageList);
 				$ionicScrollDelegate.scrollBottom();
 				$scope.message = "";
 				
@@ -95,6 +96,7 @@ angular.module('GroupChat.controllers', [])
         SocketService.on('group message created', function(msg){
             if(msg.sender_id != $scope.usernumber)
 			$scope.messageList.push(msg);
+			console.log($scope.messageList);
 			$ionicScrollDelegate.scrollBottom();
 		});
 
@@ -112,9 +114,15 @@ angular.module('GroupChat.controllers', [])
 		};
         SocketService.on('group data', function(msg){
 			$scope.messageList = msg;
+			console.log($scope.messageList);
 			$ionicScrollDelegate.scrollBottom();
 		});
 
+        $scope.leaveGroupRoom = function(){
+        	console.log("call");
+            SocketService.emit('leave group chat:room', {'room_id': $scope.current_room_id});
+            $state.go('home');
+        };
 
 		
 

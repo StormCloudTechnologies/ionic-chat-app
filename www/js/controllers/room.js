@@ -126,18 +126,18 @@ angular.module('Room.controllers', [])
 			$ionicScrollDelegate.scrollBottom();
 		});
 
-		$scope.leaveRoom = function(){
+		// $scope.leaveRoom = function(){
 	
-			$scope.msg = {
-				'user': $scope.current_user,
-				'room': $scope.current_room,
-				'time': moment()
-			};
+		// 	$scope.msg = {
+		// 		'user': $scope.current_user,
+		// 		'room': $scope.current_room,
+		// 		'time': moment()
+		// 	};
 
-			SocketService.emit('leave:room', $scope.msg);
-			$state.go('home');
+		// 	SocketService.emit('leave:room', $scope.msg);
+		// 	$state.go('home');
 
-		};
+		// };
         SocketService.on('user data', function(msg){
 			$scope.messageList = msg;
 			console.log($scope.messageList);
@@ -146,8 +146,15 @@ angular.module('Room.controllers', [])
         SocketService.on('current room id', function(data){
 			$scope.current_room_id = data.current_room_id;
 			console.log(data.current_room_id);
+			alert(data.current_room_id);
 			$ionicScrollDelegate.scrollBottom();
 		});
+
+		$scope.leaveRoom = function(){
+
+            SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
+            $state.go('home');
+        };
      
       
 
