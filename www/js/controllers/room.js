@@ -153,6 +153,11 @@ angular.module('Room.controllers', [])
 		$scope.leaveRoom = function(){
 
             SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
+            SocketService.removeAllListeners('listen start typing');
+            SocketService.removeAllListeners('listen stop typing');
+            SocketService.removeAllListeners('message created');
+            SocketService.removeAllListeners('user data');
+            SocketService.removeAllListeners('current room id');
             $state.go('home');
         };
      

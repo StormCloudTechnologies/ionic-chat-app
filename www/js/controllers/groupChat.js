@@ -100,18 +100,6 @@ angular.module('GroupChat.controllers', [])
 			$ionicScrollDelegate.scrollBottom();
 		});
 
-		$scope.leaveRoom = function(){
-	
-			$scope.msg = {
-				'user': $scope.current_user,
-				'room': $scope.current_room,
-				'time': moment()
-			};
-
-			SocketService.emit('leave:room', $scope.msg);
-			$state.go('home');
-
-		};
         SocketService.on('group data', function(msg){
 			$scope.messageList = msg;
 			console.log($scope.messageList);
@@ -121,6 +109,10 @@ angular.module('GroupChat.controllers', [])
         $scope.leaveGroupRoom = function(){
         	console.log("call");
             SocketService.emit('leave group chat:room', {'room_id': $scope.current_room_id});
+            SocketService.removeAllListeners('listen start typing');
+            SocketService.removeAllListeners('listen stop typing');
+            SocketService.removeAllListeners('group message created');
+            SocketService.removeAllListeners('group data');
             $state.go('home');
         };
 
