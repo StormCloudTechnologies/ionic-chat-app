@@ -1,11 +1,14 @@
-<ion-view align-title="left" title="{{current_room }}">
+<ion-view align-title="left" title="{{current_room }}"  style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;">
  	<header class="bar bar-header bar-positive">
  		<button class="button button-clear button-icon ion-chevron-left" ng-click="leaveRoom()"></button>
- 		<h1 class="title">{{current_user}}</h1>
+    <img src="img/profile.png" style="width:35px;height:35px;">
+ 		<h1 class="title"  style="left: 65px !important;top: -6px;">{{current_user}}</h1>
+    <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
+    <button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
  		
  	</header>
  	
-  <ion-content class="has-header padding" style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;bottom:-30px;">
+  <ion-content class="has-header" ng-click="uploadview.hide()" >
 	<div class="list" id="messages" ng-if="messageList.length > 0">
 	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" style="background:transparent;padding:0px;">
       
@@ -32,7 +35,7 @@
                       </div>
 
 	    </li>
-      {{type_message}}
+     
 	</div>	
 
 	<div class="card" ng-if="!messageList.length">
@@ -45,7 +48,8 @@
 
 <ion-footer-bar keyboard-attach class="bar-stable item-input-inset  has-content">
   <label class="item-input-wrapper">
-    <input type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()" ng-keyup="stopTyping()" ng-change="startTyping()" ng-model="message" style="margin:5px;" />
+    <textarea type="text" placeholder="Type your message" on-return="sendTextMessage(); closeKeyboard()" ng-keyup="stopTyping()" ng-change="startTyping()" ng-model="message" style="margin:5px;width: 100%;" ></textarea>
+  </label>
   </label>
   <button class="button button-clear" ng-click="sendTextMessage()">
     Send

@@ -3,14 +3,14 @@
  		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveRoom()"></button>
       <img src="img/profile.png" style="width:35px;height:35px;">
  		  <h1 class="title" style="left: 65px !important;top: -6px;">{{current_chat_friend}}</h1>
-      <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">online</h1>
-      <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">typing...</h1>
-      <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
+      <!-- <h1 class="title" ng-hide="online" style="left: 65px !important;top: 12px;font-size:13px;">online</h1> -->
+      <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
+      <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
  		<button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
  	</header>
  	
   <ion-content class="has-header" ng-click="uploadview.hide()" >
-    {{type_message}}
+    <!-- {{type_message}} -->
 	<div class="list" id="messages" ng-if="messageList.length > 0">
 	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" ng-if="msg.message!=undefined" style="background:transparent;padding:0px;">
       

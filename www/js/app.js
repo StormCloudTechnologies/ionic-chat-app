@@ -235,7 +235,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   }
 }])
 
-.directive('input', function($timeout) {
+.directive('textarea', function($timeout) {
   return {
     restrict: 'E',
     scope: {
