@@ -1,6 +1,6 @@
 angular.module('Home.controllers', [])
 
-.controller('HomeCtrl', function($scope, DB, $rootScope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, $localstorage, APIService, $cordovaNetwork) {
+.controller('HomeCtrl', function($scope, DB, $cordovaFile, $rootScope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, $localstorage, APIService, $cordovaNetwork) {
 	$ionicPlatform.ready(function(){
    		try{
    			
@@ -21,8 +21,7 @@ angular.module('Home.controllers', [])
    			 $scope.options = {
 			    loop: true
 			  };
-
-
+			
 			var usernumber = localStorageService.get('usernumber');
 
 			// $scope.ContactList = [];

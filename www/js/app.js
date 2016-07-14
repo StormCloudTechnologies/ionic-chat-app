@@ -10,7 +10,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'GroupChat.controllers', 'ngCordova.plugins', 'APIModule', 'ionic-native-transitions'])
 
 
-.run(function($ionicPlatform, localStorageService, $rootScope, DB, $cordovaSplashscreen, $ionicPopup, $cordovaDialogs, $location) {
+.run(function($ionicPlatform, localStorageService, $cordovaFile, $rootScope, DB, $cordovaSplashscreen, $ionicPopup, $cordovaDialogs, $location) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -35,6 +35,194 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
           navigator.app.backHistory();
         }
       }, 100);
+
+
+     var testfolder=function(){
+        
+        
+        // firstuser = $localstorage.get("firstuser");
+        // if(firstuser=="0"){
+        //   $state.go('app.Home');
+        // }else{
+        //   firstuser="";
+        // }
+        // var device = $cordovaDevice.getDevice();
+
+       // var cordova = $cordovaDevice.getCordova();
+    //alert("cordova"+JSON.stringify(cordova));
+//alert("FILE"+JSON.stringify(cordova.file));
+//    alert("DIR123"+JSON.stringify(cordova.file.dataDirectory));
+        //var model = $cordovaDevice.getModel();
+
+//        var platform = $cordovaDevice.getPlatform();
+
+ //       var uuid = $cordovaDevice.getUUID();
+
+   //     $scope.deviceID = $cordovaDevice.getUUID();
+    $cordovaFile.getFreeDiskSpace().then(function (success) {
+      if(success){
+        $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat").then(function (success)
+        {
+          $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/images").then(function (success)
+          {
+            
+          }, function (error) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images", false)
+            .then(function (success) {
+              //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+          });
+          $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/documents").then(function (success)
+          {
+            
+          }, function (error) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/documents", false)
+            .then(function (success) {
+              //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+          });
+          $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/videos").then(function (success)
+          {
+            //downloadvideo();
+          }, function (error) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos", false)
+            .then(function (success) {
+              //downloadvideo();
+              //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+          });
+        }, function (error) {
+          // CREATE
+          $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat", false)
+          .then(function (success) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images", false)
+            .then(function (success) {
+           //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/documents", false)
+            .then(function (success) {
+              //alert("CREATEdocuments Folder"+JSON.stringify(success));
+            }, function (error) {
+            //  alert("CREATEdocumentserror"+JSON.stringify(error));
+            });
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos", false)
+            .then(function (success) {
+              //downloadvideo();
+              //alert("CREATEvideos Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEvideoserror"+JSON.stringify(error));
+            });
+              
+          }, function (error) {
+            //alert("CREATEerror"+JSON.stringify(error));
+          });
+        });
+        $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/videos").then(function (success)
+        {
+          $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/videos/sent").then(function (success)
+          {
+            
+          }, function (error) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos/sent", false)
+            .then(function (success) {
+              //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+          });
+          }, function (error) {
+            // CREATE
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos", false)
+            .then(function (success) {
+              $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos/sent", false)
+              .then(function (success) {
+             //alert("CREATEImage Folder"+JSON.stringify(success));
+              }, function (error) {
+                //alert("CREATEImageserror"+JSON.stringify(error));
+              });
+            }, function (error) {
+              //alert("CREATEerror"+JSON.stringify(error));
+            });
+          });
+  
+        $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/documents").then(function (success)
+          {
+            $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/documents/sent").then(function (success)
+            {
+              
+            }, function (error) {
+              $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/documents/sent", false)
+              .then(function (success) {
+                //alert("CREATEImage Folder"+JSON.stringify(success));
+              }, function (error) {
+                //alert("CREATEImageserror"+JSON.stringify(error));
+              });
+            });
+            }, function (error) {
+              // CREATE
+              $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/documents", false)
+              .then(function (success) {
+                $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/documents/sent", false)
+                .then(function (success) {
+               //alert("CREATEImage Folder"+JSON.stringify(success));
+                }, function (error) {
+                  //alert("CREATEImageserror"+JSON.stringify(error));
+                });
+              }, function (error) {
+                //alert("CREATEerror"+JSON.stringify(error));
+              });
+            });
+
+
+            $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/images").then(function (success)
+              {
+                $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/images/sent").then(function (success)
+                {
+                  
+                }, function (error) {
+                  $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images/sent", false)
+                  .then(function (success) {
+                    //alert("CREATEImage Folder"+JSON.stringify(success));
+                  }, function (error) {
+                    //alert("CREATEImageserror"+JSON.stringify(error));
+                  });
+                });
+                }, function (error) {
+                  // CREATE
+                  $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images", false)
+                  .then(function (success) {
+                    $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images/sent", false)
+                    .then(function (success) {
+                   //alert("CREATEImage Folder"+JSON.stringify(success));
+                    }, function (error) {
+                      //alert("CREATEImageserror"+JSON.stringify(error));
+                    });
+                  }, function (error) {
+                    //alert("CREATEerror"+JSON.stringify(error));
+                  });
+                });
+           
+        }
+        }, function (error) {
+            //alert("Space"+JSON.stringify(error));
+        });
+      
+
+  
+       
+      }
+    
+      testfolder();
+
     //  if (window.cordova) {
     //     cordova.plugins.diagnostic.isContactsAuthorized(function(status){
     //     if(status === cordova.plugins.diagnostic.permissionStatus.GRANTED){

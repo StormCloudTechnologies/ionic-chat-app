@@ -20,7 +20,10 @@
   <preference name="AutoHideSplashScreen" value="false"/>
   <preference name="ShowSplashScreenSpinner" value="false" />
   <preference name="SplashShowOnlyFirstTime" value="false" />
-
+  <feature name="http://api.phonegap.com/1.0/file"/>
+  <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external" />
+  <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+  <preference name="AndroidExtraFilesystems" value="sdcard,cache" />
   <feature name="SplashScreen">
     <param name="ios-package" value="CDVSplashScreen"/>
     <param name="android-package" value="org.apache.cordova.SplashScreen" />
