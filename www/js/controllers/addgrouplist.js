@@ -15,23 +15,29 @@ angular.module('AddGroupList.controllers', [])
      //          } 
      //  	}
      //  });
+     $rootScope.addList = [];
      $scope.usernumber = localStorageService.get('usernumber');
+     
+     $rootScope.addList.push($scope.usernumber);
 
       $scope.Donelist = function(){
-        for(var i=0;i<$rootScope.userList.length;i++){
-          if($rootScope.userList[i].ischeck==true){
-            $rootScope.addList.push($rootScope.userList[i]);
-            console.log($scope.addList);
-          }
-        }
+        // for(var i=0;i<$rootScope.userList.length;i++){
+        //   if($rootScope.userList[i].ischeck==true){
+        //     console.log($rootScope.userList[i]);
+        //     $rootScope.addList.push($rootScope.userList[i]);
+           
+        //   }
+        // }
+        // $rootScope.addList.push($scope.usernumber);
+         console.log($rootScope.addList);
         // $localstorage.set("addlistgroup", JSON.stringify($scope.addList));
         $state.go('addgroup');
       }
 
       $scope.group_name = localStorage.getItem("groupName");
-      $rootScope.addList = [];
+      
       $scope.addMember = function(phone) {
-           $rootScope.addList.push(phone)
+          $rootScope.addList.push(phone)
           console.log($rootScope.addList);
       };
       // $scope.createGroup = function() {

@@ -10,6 +10,7 @@ angular.module('AddGroup.controllers', [])
         $state.go('group');
       }
       var usernumber = localStorageService.get('usernumber');
+      $scope.usernumber = localStorageService.get('usernumber');
       var username = localStorageService.get('username');
       $scope.addlistgroup = $rootScope.addList;
       console.log($scope.addlistgroup);

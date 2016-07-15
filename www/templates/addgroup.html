@@ -16,7 +16,7 @@
         <button ui-sref="addgrouplist" class="button button-clear button-icon ion-android-add" style="color:#2de7c7;">
         </button>
       </div>
-      <div class="item item-avatar item-icon-right" ng-repeat="addlist in addlistgroup track by $index">
+      <div class="item item-avatar item-icon-right" ng-repeat="addlist in addlistgroup track by $index" ng-if="addlist!=usernumber">
         <img src="img/profile.png">
         <h2>{{addlist}}</h2>
         <i class="icon ion-android-close" style="color:red !important;" ng-click="removelist(addlist)"></i>
