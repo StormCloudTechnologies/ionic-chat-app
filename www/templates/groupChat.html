@@ -10,7 +10,8 @@
   <ion-content class="has-header" ng-click="uploadview.hide()" >
 	<div class="list" id="messages" ng-if="messageList.length > 0">
 	    <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index" style="background:transparent;padding:0px;">
-      
+             <!--  <img class="profile-pic left" 
+                          actual-src="{{_toUserDetail.avatar}}"  ng-src="images/mail_defoult.png"  onerror="onProfilePicError(this)" /> -->
             <div ng-if="msg.sender_id == usernumber" class="chat-bubble left">
 
                 <div class="message" ng-bind-html="msg.text" autolinker>
@@ -19,7 +20,7 @@
                 <div class="message-detail">
                     <span 
                         class="bold">{{msg.message}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{url_prefix}}{{msg.image_url}}">
+                    <img ng-if="msg.image_url" ng-src="{{url_prefix1}}{{msg.image_url}}">
                     <div class="user">{{ msg.sender_name }}, <span>{{ humanize(msg.time) }}</span></div>
                 </div>	
 
@@ -29,7 +30,7 @@
                 <div class="message-detail">
                     <span 
                         class="bold">{{msg.message}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{url_prefix}}{{msg.image_url}}">
+                    <img ng-if="msg.image_url" ng-src="{{url_prefix1}}{{msg.image_url}}">
                     <div class="user">{{ msg.receiver_name }}, <span>{{ humanize(msg.time) }}</span></div>
                 </div>
 
@@ -37,7 +38,7 @@
        </li>
 	</div>	
 
-	<div class="card" ng-if="!messageList.length">
+	<div class="card" ng-if="!messageList.length" style="top:10%;">
 	  <div class="item item-text-wrap">
 	    No messages yet.
 	  </div>

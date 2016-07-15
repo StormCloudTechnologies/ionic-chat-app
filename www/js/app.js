@@ -1,6 +1,8 @@
 // Ionic Starter App
 var url_prefix = 'http://52.36.75.89:9992/api/';
 // var url_prefix = 'http://localhost:9992/api/';
+// var url_prefix = 'http://192.168.0.100:9992/api/';
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'

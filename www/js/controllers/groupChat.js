@@ -7,7 +7,10 @@ angular.module('GroupChat.controllers', [])
 		
 		$scope.messages = [];
         $scope.messageList = [];
-        $scope.url_prefix = 'http://192.168.0.105:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.105:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+
+        
 
 		$scope.humanize = function(timestamp){
 			return moment(timestamp).fromNow();
@@ -16,8 +19,8 @@ angular.module('GroupChat.controllers', [])
 		$scope.current_room = localStorageService.get('current_room');
 		
 		$scope.current_user = localStorageService.get('username');
-        $scope.usernumber = localStorageService.get('usernumber');
-        $scope.current_room_id = localStorageService.get('room_id');
+    $scope.usernumber = localStorageService.get('usernumber');
+    $scope.current_room_id = localStorageService.get('room_id');
 		$scope.isNotCurrentUser = function(user){
 			
 			if($scope.current_user != user){
@@ -67,6 +70,7 @@ angular.module('GroupChat.controllers', [])
               targetHeight: 250,
               encodingType: Camera.EncodingType.JPEG,
               popoverOptions: CameraPopoverOptions,
+              mediaType: Camera.MediaType.ALLMEDIA,   
               correctOrientation: false
             };
             $cordovaCamera.getPicture(options).then(function(imageData) {
@@ -94,7 +98,7 @@ angular.module('GroupChat.controllers', [])
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = filePath.substr(filePath.lastIndexOf('/')+1);
-                options.mimeType = "uploads/png";
+                options.mimeType = "uploads/jpg";
                 var params = new Object();
                 options.params = params;
                 var headers={'headerParam':'application/json'};
@@ -109,7 +113,7 @@ angular.module('GroupChat.controllers', [])
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = filePath.substr(filePath.lastIndexOf('/')+1);
-                options.mimeType = "uploads/png";
+                options.mimeType = "uploads/jpg";
                 var params = new Object();
                 options.params = params;
                 var headers={'headerParam':'application/json'};
@@ -133,7 +137,7 @@ angular.module('GroupChat.controllers', [])
                         'sender_name': $scope.current_user,
                         'image_url': imagePath,
                         'time': moment()
-                    };
+                     };
 
 
                     $scope.messageList.push($scope.msg);
@@ -214,7 +218,7 @@ angular.module('GroupChat.controllers', [])
 				$scope.msg = {
 					'room_id': $scope.current_room_id,
 					'sender_id': $scope.usernumber,
-	                'sender_name': $scope.current_user,
+	        'sender_name': $scope.current_user,
 					'message': $scope.message,
 					'time': moment()
 				};
