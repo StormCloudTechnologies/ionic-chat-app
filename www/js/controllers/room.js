@@ -1,13 +1,9 @@
 angular.module('Room.controllers', [])
 
-.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB) {
+.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $cordovaCamera, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB) {
 
 	$ionicPlatform.ready(function(){
 		try{
-		
-		setTimeout(function() {
-			$ionicScrollDelegate.scrollBottom();
-		}, 10);
 		// $scope.online = false;
 		// $scope.typing = true;
 		$scope.messages = [];
@@ -45,13 +41,61 @@ angular.module('Room.controllers', [])
         $scope.current_friend_number = localStorageService.get('current_friend_number');
 
 
-		$scope.isNotCurrentUser = function(user){
-			
-			if($scope.current_user != user){
-				return 'not-current-user';
-			}
-			return 'current-user';
-		};
+		$scope.cameraOpen = function(){
+          try{
+            var options = {
+              quality : 100,
+              destinationType : Camera.DestinationType.FILE_URI,
+              sourceType : Camera.PictureSourceType.CAMERA,
+              allowEdit : false,
+              encodingType: Camera.EncodingType.JPEG,
+              targetWidth: 277,
+              targetHeight: 250,
+              popoverOptions: CameraPopoverOptions,
+              saveToPhotoAlbum: false,
+              correctOrientation: true
+            };
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+              console.log("====imageData====",imageData);
+              SocketService.emit('share image',{
+                'room_id': $scope.current_room_id,
+				'sender_id': $scope.usernumber,
+				'imageData': imageData
+              });
+            }, function(err) {
+                console.log(err.message);
+            });
+          }
+          catch(err){
+            console.log(err.message);
+          }
+        };
+
+
+       
+        $scope.galleryOpen = function(){
+          try{
+            var options = {
+              quality : 100,
+              destinationType : Camera.DestinationType.FILE_URI,
+              sourceType : Camera.PictureSourceType.PHOTOLIBRARY ,
+              allowEdit : false,
+              targetWidth: 277,
+              targetHeight: 250,
+              encodingType: Camera.EncodingType.JPEG,
+              popoverOptions: CameraPopoverOptions,
+              correctOrientation: false
+            };
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+              console.log("====imageData====",imageData);
+            }, function(err) {
+              console.log(err.message);
+            });
+          }
+          catch(err){
+            console.log(err.message);
+          }
+        };
         $scope.startTyping = function() {
             var data_server={
                 'room_id': $scope.current_room_id,
@@ -89,6 +133,13 @@ angular.module('Room.controllers', [])
 		            }
 	        	}, 800);
 	            
+		});
+        
+        SocketService.on('listen share image', function(msg){
+
+        	if(msg.sender_id != $scope.usernumber) {
+        		$scope.image_data = msg.imageData;
+            }
 		});
 		
        
@@ -146,7 +197,6 @@ angular.module('Room.controllers', [])
         SocketService.on('current room id', function(data){
 			$scope.current_room_id = data.current_room_id;
 			console.log(data.current_room_id);
-			alert(data.current_room_id);
 			$ionicScrollDelegate.scrollBottom();
 		});
 

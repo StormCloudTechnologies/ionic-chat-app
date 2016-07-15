@@ -34,6 +34,7 @@
 						  <a class="item item-avatar" ng-repeat="room in groupList" ng-click="enterGroupRoom(room)">
 					      <img src="img/ionic.png">
 					      <h2>{{room.name}}</h2>
+                            {{room.users}}
 					  	</a>
 						</div>
 						<br /><br />
@@ -45,6 +46,7 @@
 						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in userList track by $index" ng-if="contact.phone!=usernumber" ng-click="enterChatRoom(contact)">
 						   	<img ng-src="img/profile.png">
 						    <h2>{{contact.username}}</h2>
+						    {{contact.phone}}
 						  </a>
 					</div>
 					<br /><br />
