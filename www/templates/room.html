@@ -20,8 +20,8 @@
       
                           <div class="message-detail">
                               <span class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
-                              <img ng-if="msg.image_url.split('.')=='jpg'" ng-src="{{url_prefix1}}{{msg.image_url}}">
-                              <video ng-if="msg.image_url.split('.')=='mp4'" controls="controls" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="{{url_prefix1}}{{msg.image_url}}" type="video/mp4"/></video>
+                              <img ng-if="msg.image_url" ng-src="{{url_prefix1}}{{msg.image_url}}">
+                              <video controls="controls" preload="metadata" autoplay="autoplay" webkit-playsinline="webkit-playsinline" class="videoPlayer"><source src="{{url_prefix1}}{{msg.image_url}}" type="video/mp4"/></video>
                               <div class="user">{{ msg.sender_name }}, <span>{{ humanize(msg.time) }}</span></div>
                           </div>	
       
