@@ -20,6 +20,7 @@
   <preference name="AutoHideSplashScreen" value="false"/>
   <preference name="ShowSplashScreenSpinner" value="false" />
   <preference name="SplashShowOnlyFirstTime" value="false" />
+  <preference name="AllowInlineMediaPlayback" value="true" />
   <feature name="http://api.phonegap.com/1.0/file"/>
   <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external" />
   <preference name="AndroidPersistentFileLocation" value="Compatibility" />

@@ -1,7 +1,7 @@
 // Ionic Starter App
-var url_prefix = 'http://52.36.75.89:9992/api/';
+// var url_prefix = 'http://52.36.75.89:9992/api/';
 // var url_prefix = 'http://localhost:9992/api/';
-// var url_prefix = 'http://192.168.0.100:9992/api/';
+var url_prefix = 'http://192.168.0.102:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -99,6 +99,18 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
               //alert("CREATEImageserror"+JSON.stringify(error));
             });
           });
+          $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/audio").then(function (success)
+          {
+            //downloadvideo();
+          }, function (error) {
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/audio", false)
+            .then(function (success) {
+              //downloadvideo();
+              //alert("CREATEImage Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEImageserror"+JSON.stringify(error));
+            });
+          });
         }, function (error) {
           // CREATE
           $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat", false)
@@ -117,6 +129,13 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
             //  alert("CREATEdocumentserror"+JSON.stringify(error));
             });
             $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/videos", false)
+            .then(function (success) {
+              //downloadvideo();
+              //alert("CREATEvideos Folder"+JSON.stringify(success));
+            }, function (error) {
+              //alert("CREATEvideoserror"+JSON.stringify(error));
+            });
+            $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/audio", false)
             .then(function (success) {
               //downloadvideo();
               //alert("CREATEvideos Folder"+JSON.stringify(success));
@@ -203,6 +222,34 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
                   $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images", false)
                   .then(function (success) {
                     $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/images/sent", false)
+                    .then(function (success) {
+                   //alert("CREATEImage Folder"+JSON.stringify(success));
+                    }, function (error) {
+                      //alert("CREATEImageserror"+JSON.stringify(error));
+                    });
+                  }, function (error) {
+                    //alert("CREATEerror"+JSON.stringify(error));
+                  });
+                });
+
+            $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/audio").then(function (success)
+              {
+                $cordovaFile.checkDir(cordova.file.externalRootDirectory, "StormChat/audio/sent").then(function (success)
+                {
+                  
+                }, function (error) {
+                  $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/audio/sent", false)
+                  .then(function (success) {
+                    //alert("CREATEImage Folder"+JSON.stringify(success));
+                  }, function (error) {
+                    //alert("CREATEImageserror"+JSON.stringify(error));
+                  });
+                });
+                }, function (error) {
+                  // CREATE
+                  $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/audio", false)
+                  .then(function (success) {
+                    $cordovaFile.createDir(cordova.file.externalRootDirectory, "StormChat/audio/sent", false)
                     .then(function (success) {
                    //alert("CREATEImage Folder"+JSON.stringify(success));
                     }, function (error) {

@@ -1,18 +1,20 @@
 angular.module('Room.controllers', [])
 
-.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $cordovaCamera, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB, $cordovaFileTransfer, $ionicLoading) {
+.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $cordovaCamera, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB, $cordovaFileTransfer, $ionicLoading, $cordovaCapture) {
 
 	$ionicPlatform.ready(function(){
 		try{
 		// $scope.online = false;
 		// $scope.typing = true;
 		$scope.messages = [];
-        $scope.messageList = [];
-        $scope.url_prefix1 = 'http://192.168.0.105:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
-        $ionicModal.fromTemplateUrl('templates/uploadview.html', {
-		    scope: $scope,
-		    animation: 'slide-in-up'
+		$scope.videoDiv = "true";
+    $scope.AudioDiv = "true";
+    $scope.messageList = [];
+    // $scope.url_prefix1 = 'http://192.168.0.105:9992/';
+    $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+    $ionicModal.fromTemplateUrl('templates/uploadview.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
 		}).then(function(uploadview) {
 		    $scope.uploadview = uploadview;
 		});
@@ -139,22 +141,20 @@ angular.module('Room.controllers', [])
 			console.log($scope.messageList);
 			$ionicScrollDelegate.scrollBottom();
 		});
-        SocketService.on('current room id', function(data){
+    SocketService.on('current room id', function(data){
 			$scope.current_room_id = data.current_room_id;
-			alert(data.current_room_id);
 			$ionicScrollDelegate.scrollBottom();
 		});
 
 		$scope.leaveRoom = function(){
-
-            SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
-            SocketService.removeAllListeners('listen start typing');
-            SocketService.removeAllListeners('listen stop typing');
-            SocketService.removeAllListeners('message created');
-            SocketService.removeAllListeners('user data');
-            SocketService.removeAllListeners('current room id');
-            $state.go('home');
-        };
+        SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
+        SocketService.removeAllListeners('listen start typing');
+        SocketService.removeAllListeners('listen stop typing');
+        SocketService.removeAllListeners('message created');
+        SocketService.removeAllListeners('user data');
+        SocketService.removeAllListeners('current room id');
+        $state.go('home');
+    };
      
      	  $scope.typistList = [];
         $scope.cameraOpen = function(){
@@ -183,6 +183,32 @@ angular.module('Room.controllers', [])
             console.log(err.message);
           }
         };
+
+
+        $scope.captureVideo = function() {
+		    var options = { limit: 1, duration: 30 };
+
+		    $cordovaCapture.captureVideo(options).then(function(videoData) {
+		       localStorage.setItem("type","gallery");
+		       $scope.ProfilePic = videoData[0].fullPath;
+               console.log(videoData[0].fullPath);
+               $scope.uploadPhoto($scope.ProfilePic);
+		    }, function(err) {
+		      // An error occurred. Show a message to the user
+		    });
+		  }
+
+		$scope.captureAudio = function() {
+		    var options = { limit:1, duration: 30 };
+			$cordovaCapture.captureAudio(options).then(function(audioData) {
+		       localStorage.setItem("type","gallery");
+		       $scope.ProfilePic = audioData[0].fullPath;
+               console.log(audioData[0].fullPath);
+               $scope.uploadPhoto($scope.ProfilePic);
+		    }, function(err) {
+		      // An error occurred. Show a message to the user
+		    });
+		}
 
 
        
@@ -269,27 +295,67 @@ angular.module('Room.controllers', [])
             $cordovaFileTransfer.upload(server, filePath, options)
               .then(function(result) {
                 try{
-                    console.log(result.response);
-                     var obj = JSON.parse(result.response);
-                     var imagePath = obj.path;
+	                    console.log(result.response);
+	                    var obj = JSON.parse(result.response);
+	                    var imagePath = obj.path;
+						$ionicLoading.hide();
+						var res = imagePath.split(".");
+			            var check = res[1];
+			            console.log(check);
+			            if(check=="mp4" || check=="MP4" || check=="3gp"){
+			              	$scope.msg = {
+		                        'room_id': $scope.current_room_id,
+								'sender_id': $scope.usernumber,
+				                'sender_name': $scope.current_user,
+								'receiver_id': $scope.current_friend_number,
+				                'receiver_name': $scope.current_chat_friend,
+								'video_url': imagePath,
+								'time': moment()
+		                     };
+							console.log($scope.msg);
+		                    $scope.messageList.push($scope.msg);
+		                    console.log("===cordova file transfer====",$scope.messageList);
+		                    $ionicScrollDelegate.scrollBottom();
+
+		                    SocketService.emit('new message', $scope.msg);
+			            }else if(check=="amr" || check=="mp3"){
+			              	$scope.msg = {
+		                        'room_id': $scope.current_room_id,
+								'sender_id': $scope.usernumber,
+				                'sender_name': $scope.current_user,
+								'receiver_id': $scope.current_friend_number,
+				                'receiver_name': $scope.current_chat_friend,
+								'audio_url': imagePath,
+								'time': moment()
+		                     };
+							console.log($scope.msg);
+		                    $scope.messageList.push($scope.msg);
+		                    console.log("===cordova file transfer====",$scope.messageList);
+		                    $ionicScrollDelegate.scrollBottom();
+
+		                    SocketService.emit('new message', $scope.msg);
+			            }else{
+			              	$scope.msg = {
+		                        'room_id': $scope.current_room_id,
+								'sender_id': $scope.usernumber,
+				                'sender_name': $scope.current_user,
+								'receiver_id': $scope.current_friend_number,
+				                'receiver_name': $scope.current_chat_friend,
+								'image_url': imagePath,
+								'time': moment()
+		                     };
+
+		                     console.log($scope.msg);
+		                    $scope.messageList.push($scope.msg);
+		                    console.log("===cordova file transfer====",$scope.messageList);
+		                    $ionicScrollDelegate.scrollBottom();
+
+		                    SocketService.emit('new message', $scope.msg);
+			            }
+		                     	
+
+
                     
-                     $ionicLoading.hide();
-                     $scope.msg = {
-                        'room_id': $scope.current_room_id,
-						'sender_id': $scope.usernumber,
-		                'sender_name': $scope.current_user,
-						'receiver_id': $scope.current_friend_number,
-		                'receiver_name': $scope.current_chat_friend,
-						'image_url': imagePath,
-						'time': moment()
-                     };
-
-                     console.log($scope.msg);
-                    $scope.messageList.push($scope.msg);
-                    console.log("===cordova file transfer====",$scope.messageList);
-                    $ionicScrollDelegate.scrollBottom();
-
-                    SocketService.emit('new message', $scope.msg);
                     }catch(err){
                       // alert(err.message);
                     }
@@ -305,6 +371,133 @@ angular.module('Room.controllers', [])
                 }
         };
       
+      	$scope.downloadVideo=function(videoFile){
+          console.log(videoFile);
+          var resVideo = videoFile.split('-');
+          var filename = resVideo[1];
+            var url = url_prefix1+'public/uploads/file-'+filename;
+            console.log(targetPath);
+            if($scope.usernumber){
+              var targetPath = cordova.file.externalRootDirectory+"StormChat/videos/sent/file-"+ filename;
+              $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
+                  console.log(result);
+                  console.log(result.nativeURL);
+                  $scope.videoDiv = "false";
+                  // $scope.openModalvideoplay(result.fullPath);
+                  $scope.msg = {
+                    'room_id': $scope.current_room_id,
+					'sender_id': $scope.usernumber,
+	                'sender_name': $scope.current_user,
+					'receiver_id': $scope.current_friend_number,
+	                'receiver_name': $scope.current_chat_friend,
+					'video_url': result.nativeURL,
+					'time': moment()
+                   };
+                    console.log($scope.msg);
+                  $scope.messageList.push($scope.msg);
+                  console.log("===cordova file transfer====",$scope.messageList);
+                  $ionicScrollDelegate.scrollBottom();
+                  SocketService.emit('new group message', $scope.msg);
+
+                  console.log('Success');
+                  $ionicScrollDelegate.scrollBottom();
+              }, function (error) {
+                  console.log('Error', error);
+              }, function (progress) {
+                  // PROGRESS HANDLING GOES HERE
+              });
+            }else{
+                var targetPath = cordova.file.externalRootDirectory+"StormChat/videos/file-"+ filename;
+                $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
+                  console.log(result);
+                  console.log(result.nativeURL);
+                  $scope.videoDiv = "false";
+                  // $scope.openModalvideoplay(result.fullPath);
+                  $scope.msg = {
+                      'room_id': $scope.current_room_id,
+                      'sender_id': $scope.usernumber,
+                      'sender_name': $scope.current_user,
+                      'video_url': result.nativeURL,
+                      'time': moment()
+                   };
+                    console.log($scope.msg);
+                  $scope.messageList.push($scope.msg);
+                  console.log("===cordova file transfer====",$scope.messageList);
+                  $ionicScrollDelegate.scrollBottom();
+                  SocketService.emit('new group message', $scope.msg);
+
+                  console.log('Success');
+                  $ionicScrollDelegate.scrollBottom();
+              }, function (error) {
+                  console.log('Error', error);
+              }, function (progress) {
+                  // PROGRESS HANDLING GOES HERE
+              });
+           }
+        }; 
+
+           $scope.downloadAudio=function(AudioFile){
+          console.log(AudioFile);
+          var resAudio = AudioFile.split('-');
+          var filename = resAudio[1];
+            var url = $scope.url_prefix1+'public/uploads/file-'+filename;
+            if($scope.usernumber){
+              var targetPath = cordova.file.externalRootDirectory+"StormChat/audio/sent/file-"+ filename;
+              $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
+                  console.log(result);
+                  console.log(result.nativeURL);
+                  $scope.AudioDiv = "false";
+                  // $scope.openModalvideoplay(result.fullPath);
+                  $scope.msg = {
+                      'room_id': $scope.current_room_id,
+                      'sender_id': $scope.usernumber,
+                      'sender_name': $scope.current_user,
+                      'audio_url': result.nativeURL,
+                      'time': moment()
+                   };
+                    console.log($scope.msg);
+                  $scope.messageList.push($scope.msg);
+                  console.log("===cordova file transfer====",$scope.messageList);
+                  $ionicScrollDelegate.scrollBottom();
+                  SocketService.emit('new group message', $scope.msg);
+
+                  console.log('Success');
+                  $ionicScrollDelegate.scrollBottom();
+              }, function (error) {
+                  console.log('Error', error);
+              }, function (progress) {
+                  // PROGRESS HANDLING GOES HERE
+              });
+            }else{
+                var targetPath = cordova.file.externalRootDirectory+"StormChat/audio/file-"+ filename;
+                $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
+                  console.log(result);
+                  console.log(result.nativeURL);
+                  $scope.AudioDiv = "false";
+                  // $scope.openModalvideoplay(result.fullPath);
+                  $scope.msg = {
+                      'room_id': $scope.current_room_id,
+                      'sender_id': $scope.usernumber,
+                      'sender_name': $scope.current_user,
+                      'audio_url': result.nativeURL,
+                      'time': moment()
+                   };
+                    console.log($scope.msg);
+                  $scope.messageList.push($scope.msg);
+                  console.log("===cordova file transfer====",$scope.messageList);
+                  $ionicScrollDelegate.scrollBottom();
+                  SocketService.emit('new group message', $scope.msg);
+
+                  console.log('Success');
+                  $ionicScrollDelegate.scrollBottom();
+              }, function (error) {
+                  console.log('Error', error);
+              }, function (progress) {
+                  // PROGRESS HANDLING GOES HERE
+              });
+           }
+        }; 
+
 
 		// $scope.sendTextMessage = function(){
 		// 	if($scope.message!=''){
