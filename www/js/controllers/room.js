@@ -10,8 +10,8 @@ angular.module('Room.controllers', [])
 		$scope.videoDiv = "true";
     $scope.AudioDiv = "true";
     $scope.messageList = [];
-    // $scope.url_prefix1 = 'http://192.168.0.105:9992/';
-    $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+    $scope.url_prefix1 = 'http://192.168.0.105:9992/';
+    // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
     $ionicModal.fromTemplateUrl('templates/uploadview.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -39,35 +39,35 @@ angular.module('Room.controllers', [])
 		// $scope.current_room = localStorageService.get('current_room');
 		
 		$scope.current_user = localStorageService.get('username');
-        $scope.usernumber = localStorageService.get('usernumber');
-        $scope.current_chat_friend = localStorageService.get('current_chat_friend');
-        $scope.current_friend_number = localStorageService.get('current_friend_number');
+    $scope.usernumber = localStorageService.get('usernumber');
+    $scope.current_chat_friend = localStorageService.get('current_chat_friend');
+    $scope.current_friend_number = localStorageService.get('current_friend_number');
 
-        $scope.startTyping = function() {
-            var data_server={
-                'room_id': $scope.current_room_id,
-				'sender_id': $scope.usernumber,
-                'message':$scope.current_user+" is typing"
-            }
-            SocketService.emit('start typing',data_server); //sending data to server
-        };
-        $scope.stopTyping = function() {
-            var data={
-                'room_id': $scope.current_room_id,
-				'sender_id': $scope.usernumber,
-                'message': ''
-            }
-            SocketService.emit('stop typing',data); //sending data to server
-        };
-        SocketService.on('listen start typing', function(msg){
+    $scope.startTyping = function() {
+        var data_server={
+            'room_id': $scope.current_room_id,
+		'sender_id': $scope.usernumber,
+            'message':$scope.current_user+" is typing"
+        }
+        SocketService.emit('start typing',data_server); //sending data to server
+    };
+    $scope.stopTyping = function() {
+        var data={
+            'room_id': $scope.current_room_id,
+		'sender_id': $scope.usernumber,
+            'message': ''
+        }
+        SocketService.emit('stop typing',data); //sending data to server
+    };
+    SocketService.on('listen start typing', function(msg){
 
-        	if(msg.sender_id != $scope.usernumber) {
-        		if($scope.current_receiver_id == msg.sender_id)
-	                $scope.type_message = $scope.current_user+" is typing";
-	                $scope.current_receiver_id = msg.sender_id;
-	       //          $scope.online = true;
-				    // $scope.typing = false;
-	            }
+    	if(msg.sender_id != $scope.usernumber) {
+    		if($scope.current_receiver_id == msg.sender_id)
+              $scope.type_message = $scope.current_user+" is typing";
+              $scope.current_receiver_id = msg.sender_id;
+     //          $scope.online = true;
+		    // $scope.typing = false;
+          }
 		});
 		
 		 SocketService.on('listen stop typing', function(msg){
@@ -90,7 +90,47 @@ angular.module('Room.controllers', [])
 		});
 		
        
-
+    // $scope.sendTextMessage = function(){
+    //  if($scope.message!=''){
+    //    localStorageService.set('ActiveMsg', $scope.message);
+    //    $scope.msg = {
+    //    'room_id': $scope.current_room_id,
+    //    'sender_id': $scope.usernumber,
+  //               'sender_name': $scope.current_user,
+    //    'receiver_id': $scope.current_friend_number,
+  //               'receiver_name': $scope.current_chat_friend,
+    //    'message': $scope.message,
+    //    'time': moment()
+    //    };
+    //    var MessageQry = "Insert into ChatList(sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?)";
+    //      DB.query(MessageQry, [$scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+   //         console.log("insert", result);
+   //         setTimeout(function() {
+    //        $ionicScrollDelegate.scrollBottom();
+    //      }, 10);
+    //    });
+    //    var chatlist = "SELECT * from Message where receiver_name=?";
+    //    var results = DB.query(chatlist, [$scope.current_chat_friend]).then(function (result) {
+    //      console.log(result.rows);
+    //      // console.log(result.rows[0]);
+    //        if(result.rows.length==0){
+    //        var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //          DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+    //            console.log("insert All List", result);
+    //        });
+    //      }else if(result.rows.item[0].receiver_name!=$scope.current_chat_friend){
+    //          var MessageQry = "Insert into Message(room_id, sender_id, sender_name, receiver_id, receiver_name, message, time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //          DB.query(MessageQry, [$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend,  $scope.message, moment()]).then(function (result) {
+    //            console.log("insert All List", result);
+    //            setTimeout(function() {
+    //            $ionicScrollDelegate.scrollBottom();
+    //          }, 10);
+    //        });
+    //      }else{
+    //        console.log("insert All Ready List");
+    //      }
+    //    });
+      
 
 
 
@@ -99,9 +139,9 @@ angular.module('Room.controllers', [])
 				$scope.msg = {
 					'room_id': $scope.current_room_id,
 					'sender_id': $scope.usernumber,
-	                'sender_name': $scope.current_user,
+	        'sender_name': $scope.current_user,
 					'receiver_id': $scope.current_friend_number,
-	                'receiver_name': $scope.current_chat_friend,
+	        'receiver_name': $scope.current_chat_friend,
 					'message': $scope.message,
 					'time': moment()
 				};

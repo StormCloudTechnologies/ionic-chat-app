@@ -241,7 +241,7 @@ angular.module('Home.controllers', [])
             $scope.enterGroupRoom = function(room){
 
 				localStorageService.set('room_id', room.room_id);
-
+				localStorageService.set("oneTime", "1");
 				SocketService.emit('join group chat:room',{
                     room_id: room.room_id,
                     sender_id: $scope.usernumber

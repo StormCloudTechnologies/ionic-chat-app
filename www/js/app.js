@@ -1,7 +1,7 @@
 // Ionic Starter App
-// var url_prefix = 'http://52.36.75.89:9992/api/';
+var url_prefix = 'http://52.36.75.89:9992/api/';
 // var url_prefix = 'http://localhost:9992/api/';
-var url_prefix = 'http://192.168.0.102:9992/api/';
+// var url_prefix = 'http://192.168.0.100:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -16,6 +16,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    DB.init();
     setTimeout(function() {
       $cordovaSplashscreen.hide();
       deferred.resolve();
@@ -282,8 +283,6 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     //     });
     // }
 
-     
-
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -294,7 +293,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    DB.init();
+    
   });
 })
 .config(function($ionicConfigProvider) {
@@ -326,6 +325,20 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
         receiver_name: 'TEXT',
         message: 'TEXT',
         time: 'TEXT'      
+      },
+      GroupChat: 
+     {
+        room_id: 'INTEGER',
+        message_id: 'INTEGER',
+        sender_id: 'INTEGER',
+        sender_name: 'TEXT',
+        image_url:'TEXT',
+        video_url:'TEXT',
+        audio_url:'TEXT',
+        document_url:'TEXT',
+        message: 'TEXT',
+        time: 'TEXT',
+        isdownload: 'TEXT'      
       },
       Contact: 
      {
