@@ -250,8 +250,6 @@ angular.module('Home.controllers', [])
 				$state.go('groupChat');
 			};
 
-
-
 			$scope.slideHasChanged=function(Value){
 				if(Value==0){
 					$scope.hideCall = false;

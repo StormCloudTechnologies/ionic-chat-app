@@ -18,11 +18,11 @@
 
                 <div class="message-detail">
                     <span 
-                        class="bold">{{msg.message}}{{msg._id}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                        class="bold">{{msg.message}}</span>
+                    <img ng-if="msg.image_url" ng-src="{{msg.image_url}}" style="width:100%;">
                     <!-- <img ng-if="msg.image_url  && ImageDiv!='true'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;"> -->
                     <!-- ng-click="downloadVideo(msg.video_url)" ng-if="msg.video_url" -->
-                    <video ng-click="downloadVideo(msg.video_url, msg._id)" ng-if="videoDiv=='true' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                    <video ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="videoDiv=='true' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
                       <source ng-src="{{msg.video_url}}" type="video/mp4"/>
                     </video>
                     <video style="width: 100%;" ng-if="videoDiv!='true' && msg.video_url" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
@@ -46,7 +46,7 @@
 
                 <div class="message-detail">
                     <span class="bold">{{msg.message}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <img ng-if="msg.image_url" ng-src="{{msg.image_url}}" style="width:100%;">
                     <!-- <img ng-if="msg.image_url  && ImageDiv!='true'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;"> -->
                     <!-- ng-click="downloadVideo(msg.video_url)" ng-if="msg.video_url" -->
                     <video ng-click="downloadVideo(msg.video_url)" ng-if="videoDiv=='true' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">

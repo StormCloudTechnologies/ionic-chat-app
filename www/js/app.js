@@ -1,7 +1,7 @@
 // Ionic Starter App
 var url_prefix = 'http://52.36.75.89:9992/api/';
 // var url_prefix = 'http://localhost:9992/api/';
-// var url_prefix = 'http://192.168.0.100:9992/api/';
+// var url_prefix = 'http://192.168.0.102:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -302,12 +302,12 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 .config(function($ionicNativeTransitionsProvider){
   $ionicNativeTransitionsProvider.setDefaultTransition({
     "direction"        : "default", // 'left|right|up|down', default 'left' (which is like 'next')
-    "duration"         :  80, // in milliseconds (ms), default 400
+    "duration"         :  40, // in milliseconds (ms), default 400
     "slowdownfactor"   :    3, // overlap views (higher number is more) or no overlap (1). -1 doesn't slide at all. Default 4
     "slidePixels"      :   20, // optional, works nice with slowdownfactor -1 to create a 'material design'-like effect. Default not set so it slides the entire page.
-    // "iosdelay"         :  50, // ms to wait for the iOS webview to update before animation kicks in, default 60
-    "androiddelay"     :  30, // same as above but for Android, default 70
-    // "winphonedelay"    :  100, // same as above but for Windows Phone, default 200,
+    "iosdelay"         :  20, // ms to wait for the iOS webview to update before animation kicks in, default 60
+    "androiddelay"     :  10, // same as above but for Android, default 70
+    "winphonedelay"    :  20, // same as above but for Windows Phone, default 200,
     "fixedPixelsTop"   :    0, // the number of pixels of your fixed header, default 0 (iOS and Android)
     "fixedPixelsBottom":   60,  // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
     "href" : 'page'
@@ -319,12 +319,18 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
      Message: 
      {
         room_id: 'INTEGER',
+        message_id: 'INTEGER',
         sender_id: 'INTEGER',
         sender_name: 'TEXT',
         receiver_id: 'INTEGER',
         receiver_name: 'TEXT',
         message: 'TEXT',
-        time: 'TEXT'      
+        image_url:'TEXT',
+        video_url:'TEXT',
+        audio_url:'TEXT',
+        document_url:'TEXT',
+        time: 'DATE',
+        isdownload: 'TEXT'       
       },
       GroupChat: 
      {
@@ -337,7 +343,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
         audio_url:'TEXT',
         document_url:'TEXT',
         message: 'TEXT',
-        time: 'TEXT',
+        time: 'DATE',
         isdownload: 'TEXT'      
       },
       Contact: 
@@ -421,12 +427,16 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
    }
  };
  self.query = function (sql, bindings) {
+   console.log(sql+"=========sql===========");
    bindings = typeof bindings !== 'undefined' ? bindings : [];
    var deferred = $q.defer();
    self.db.transaction(function (transaction) {
+    // console.log(transaction+"=========transaction===========");
      transaction.executeSql(sql, bindings, function (transaction, result) {
+      // console.log(transaction+"=========result==========="+JSON.stringify(result));
          deferred.resolve(result);
      }, function (transaction, error) {
+      // console.log(transaction+"=========error==========="+JSON.stringify(error));
          deferred.reject(error);
      });
    });
