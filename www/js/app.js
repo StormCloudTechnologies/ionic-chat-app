@@ -1,7 +1,7 @@
 // Ionic Starter App
 var url_prefix = 'http://52.36.75.89:9992/api/';
 // var url_prefix = 'http://localhost:9992/api/';
-// var url_prefix = 'http://192.168.0.102:9992/api/';
+// var url_prefix = 'http://192.168.0.105:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -314,7 +314,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   });
 })
 .constant('DB_CONFIG', {
-   name: 'StormChat',
+   name: 'StormChat1',
    tables: {
      Message: 
      {
@@ -427,16 +427,12 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
    }
  };
  self.query = function (sql, bindings) {
-   console.log(sql+"=========sql===========");
    bindings = typeof bindings !== 'undefined' ? bindings : [];
    var deferred = $q.defer();
    self.db.transaction(function (transaction) {
-    // console.log(transaction+"=========transaction===========");
      transaction.executeSql(sql, bindings, function (transaction, result) {
-      // console.log(transaction+"=========result==========="+JSON.stringify(result));
          deferred.resolve(result);
      }, function (transaction, error) {
-      // console.log(transaction+"=========error==========="+JSON.stringify(error));
          deferred.reject(error);
      });
    });

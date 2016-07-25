@@ -8,7 +8,7 @@ angular.module('GroupChat.controllers', [])
 		    $scope.messages = [];
         $scope.messageList = [];
         $scope.url_prefix1 = 'http://192.168.0.105:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.105:9992/';
 
     $scope.videoDiv = "true";
     $scope.AudioDiv = "true";
@@ -60,18 +60,18 @@ angular.module('GroupChat.controllers', [])
 
 
 
-          $scope.captureVideo = function() {
-            var options = { limit: 1, duration: 30 };
+        $scope.captureVideo = function() {
+          var options = { limit: 1, duration: 30 };
 
-            $cordovaCapture.captureVideo(options).then(function(videoData) {
-               localStorage.setItem("type","gallery");
-               $scope.ProfilePic = videoData[0].fullPath;
-                   console.log(videoData[0].fullPath);
-                   $scope.uploadPhoto($scope.ProfilePic);
-            }, function(err) {
-              // An error occurred. Show a message to the user
-            });
-          }
+          $cordovaCapture.captureVideo(options).then(function(videoData) {
+             localStorage.setItem("type","gallery");
+             $scope.ProfilePic = videoData[0].fullPath;
+                 console.log(videoData[0].fullPath);
+                 $scope.uploadPhoto($scope.ProfilePic);
+          }, function(err) {
+            // An error occurred. Show a message to the user
+          });
+        }
 
         $scope.captureAudio = function() {
             var options = { limit:1, duration: 30 };
@@ -315,7 +315,7 @@ angular.module('GroupChat.controllers', [])
         };
 
         $scope.downloadVideo=function(videoFile, messageId){
-          if(msg.sender_id != $scope.usernumber){
+          // if(!$scope.usernumber){
             alert(messageId);
             console.log(videoFile);
             var resVideo = videoFile.split('-');
@@ -337,7 +337,17 @@ angular.module('GroupChat.controllers', [])
                    };
                   console.log($scope.msg);
                   // $scope.messageList.push($scope.msg);
-               
+                  var isdownload = true;
+                  var updateQry = "UPDATE GroupChat SET isdownload = ?, video_url = ? WHERE message_id=?";
+                   console.log(updateQry);
+                      DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
+                        console.log("update successfully", result);
+                        $scope.getAllMsg();
+                       setTimeout(function() {
+                        $ionicScrollDelegate.scrollBottom();
+                     }, 10);
+                   });
+
                   console.log("===cordova file transfer====",$scope.messageList);
                   $ionicScrollDelegate.scrollBottom();
                   SocketService.emit('new group message', $scope.msg);
@@ -348,11 +358,12 @@ angular.module('GroupChat.controllers', [])
               }, function (progress) {
                   // PROGRESS HANDLING GOES HERE
               });
-          }
+          // }
         }; 
-        $scope.downloadAudio=function(AudioFile){
-          if(msg.sender_id != $scope.usernumber){  
+        $scope.downloadAudio=function(AudioFile, messageId){
+          // if(msg.sender_id != $scope.usernumber){  
             console.log(AudioFile);
+            alert(messageId);
             var resAudio = AudioFile.split('-');
             var filename = resAudio[1];
             var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -370,11 +381,20 @@ angular.module('GroupChat.controllers', [])
                       'time': moment()
                    };
                   console.log($scope.msg);
-
-                  // $scope.messageList.push($scope.msg);
+                  var isdownload = true;
+                  var updateQry = "UPDATE GroupChat SET isdownload =?, audio_url = ?  WHERE message_id=?";
+                   console.log(updateQry);
+                      DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
+                        console.log("update successfully", result);
+                        $scope.getAllMsg();
+                       setTimeout(function() {
+                        $ionicScrollDelegate.scrollBottom();
+                     }, 10);
+                   });
+                 // $scope.messageList.push($scope.msg);
                   console.log("===cordova file transfer====",$scope.messageList);
                   $ionicScrollDelegate.scrollBottom();
-                  SocketService.emit('new group message', $scope.msg);
+                  // SocketService.emit('new group message', $scope.msg);
 
                   console.log('Success');
                   $ionicScrollDelegate.scrollBottom();
@@ -383,7 +403,7 @@ angular.module('GroupChat.controllers', [])
               }, function (progress) {
                   // PROGRESS HANDLING GOES HERE
               });
-          }
+          // }
         }; 
 
       
@@ -468,11 +488,11 @@ angular.module('GroupChat.controllers', [])
 					'time': moment()
 				};
 
-       $scope.messageList.push($scope.msg);
+       
         var timeMsg = $scope.msg.time;
-        console.log(timeMsg);
+        // console.log(timeMsg);
         var MsgTime = Date.parse(timeMsg);
-        console.log(MsgTime);
+        // console.log(MsgTime);
         var messageId = '';
         var videoUrl = '';
         var audioUrl = '';
@@ -480,104 +500,103 @@ angular.module('GroupChat.controllers', [])
         var imageUrl = "";
         // var message = '';
    
-      var isDownload = true;
+      var isDownload = false;
   
       var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
        DB.query(MessageQry, [messageId,$scope.msg.room_id,$scope.msg.sender_id, $scope.msg.sender_name, audioUrl, videoUrl, imageUrl, documentUrl, $scope.message, MsgTime, isDownload]).then(function (result) {
            console.log("insert", result);
+           $scope.messageList.push($scope.msg);
            setTimeout(function() {
             $ionicScrollDelegate.scrollBottom();
+            SocketService.emit('new group message', $scope.msg);
          }, 10);
        });
-
-				console.log($scope.messageList);
-				$ionicScrollDelegate.scrollBottom();
 				$scope.message = "";
 				
-				SocketService.emit('new group message', $scope.msg);
+				
 			}
 		};
     SocketService.on('group message created', function(msg){
-        console.log(msg);
-        var messageID = msg._id;
-        console.log(messageID);
-        var roomID = msg.room_id;
-        var senderID = msg.sender_id;
-        var senderName = msg.sender_name;
-        var Time = msg.time;
-        console.log(Time);
-        var newDate = new Date(Time);
-        var timestamptest = Date.parse(newDate);
-        console.log(timestamptest);
-        // var StringTime = Time.toDateString();
-        // console.log(StringTime);
+      console.log(msg);
+      var messageID = msg._id;
+      console.log(messageID);
+      var roomID = msg.room_id;
+      var senderID = msg.sender_id;
+      var senderName = msg.sender_name;
+      var Time = msg.time;
+      console.log(Time);
+      var newDate = new Date(Time);
+      var timestamptest = Date.parse(newDate);
+      console.log(timestamptest);
+      // var StringTime = Time.toDateString();
+      // console.log(StringTime);
 
-        console.log(msg.audio_url, msg.video_url, msg.document_url, msg.image_url, msg.message);
-        // var newDate= $filter('date')(Time, "EEE MMM DD YYYY HH:mm:ss Z");
-        // console.log(newDate);
-        if(msg.sender_id==$scope.usernumber){
-          console.log("if worng");
-          if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
-                console.log("hiiiiiiiii");
-                // var updateQry = "UPDATE GroupChat SET message_id ="+msg._id+" WHERE time="+timestamptest;
-                var updateQry = "UPDATE GroupChat SET message_id =? WHERE time=?";
-                 console.log(updateQry);
-                  DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
-                    console.log("update successfully", result);
+      console.log(msg.audio_url, msg.video_url, msg.document_url, msg.image_url, msg.message);
+      // var newDate= $filter('date')(Time, "EEE MMM DD YYYY HH:mm:ss Z");
+      // console.log(newDate);
+      if(msg.sender_id==$scope.usernumber){
+        console.log("if worng");
+        if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
+              console.log("hiiiiiiiii");
+              // var updateQry = "UPDATE GroupChat SET message_id ="+msg._id+" WHERE time="+timestamptest;
+              var updateQry = "UPDATE GroupChat SET message_id =? WHERE time=?";
+               console.log(updateQry);
+                DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
+                  console.log("update successfully", result);
+                  $scope.getAllMsg();
+                 setTimeout(function() {
+                  $ionicScrollDelegate.scrollBottom();
+               }, 10);
+             });
+          }
+      }
+
+      if(msg.audio_url==undefined || msg.audio_url==''){
+        var audioUrl = '';
+      }else{
+        var audioUrl = msg.audio_url;
+      }
+      if(msg.video_url==undefined || msg.video_url==''){
+        var videoUrl = '';
+      }else{
+        var videoUrl = msg.video_url;
+      }
+      if(msg.document_url==undefined || msg.document_url==''){
+        var documentUrl = '';
+      }else{
+        var documentUrl = msg.document_url;
+      }
+      if(msg.image_url==undefined || msg.image_url==''){
+        var imageUrl = '';
+      }else{
+        var imageUrl = msg.image_url;
+      }
+      if(msg.message==undefined || msg.message==''){
+        var message = '';
+      }else{
+        var message = msg.message;
+      }
+     
+
+      if(msg.sender_id != $scope.usernumber){
+    	  $scope.messageList.push(msg);
+       
+        var isDownload = false;
+         var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+             DB.query(MessageQry, [messageID,roomID,senderID, senderName, audioUrl, videoUrl, imageUrl, documentUrl, message, Time, isDownload]).then(function (result) {
+                    console.log("insert", result);
                     $scope.getAllMsg();
                    setTimeout(function() {
                     $ionicScrollDelegate.scrollBottom();
                  }, 10);
                });
-            }
         }
-
-        if(msg.audio_url==undefined || msg.audio_url==''){
-          var audioUrl = '';
-        }else{
-          var audioUrl = msg.audio_url;
-        }
-        if(msg.video_url==undefined || msg.video_url==''){
-          var videoUrl = '';
-        }else{
-          var videoUrl = msg.video_url;
-        }
-        if(msg.document_url==undefined || msg.document_url==''){
-          var documentUrl = '';
-        }else{
-          var documentUrl = msg.document_url;
-        }
-        if(msg.image_url==undefined || msg.image_url==''){
-          var imageUrl = '';
-        }else{
-          var imageUrl = msg.image_url;
-        }
-        if(msg.message==undefined || msg.message==''){
-          var message = '';
-        }else{
-          var message = msg.message;
-        }
-       
-
-        if(msg.sender_id != $scope.usernumber){
-      	  $scope.messageList.push(msg);
-         
-          var isDownload = false;
-           var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-               DB.query(MessageQry, [messageID,roomID,senderID, senderName, audioUrl, videoUrl, imageUrl, documentUrl, message, Time, isDownload]).then(function (result) {
-                      console.log("insert", result);
-                      $scope.getAllMsg();
-                     setTimeout(function() {
-                      $ionicScrollDelegate.scrollBottom();
-                   }, 10);
-                 });
-          }
-          
-           console.log("===group message created====",$scope.messageList);
-      			// $ionicScrollDelegate.scrollBottom();
-    		});
+        
+         console.log("===group message created====",$scope.messageList);
+    			// $ionicScrollDelegate.scrollBottom();
+  		});
 
 
 
@@ -586,7 +605,7 @@ angular.module('GroupChat.controllers', [])
       var chatlist = "SELECT * from GroupChat where room_id=?";
        var results = DB.query(chatlist, [$scope.current_room_id]).then(function (result) {
          console.log(result.rows);
-          if(result.rows.length!=0){
+          if(result.rows){
            var len = result.rows.length;
             for(var j=0;j<len;j++){
                 $scope.messageList.push({"message_id":result.rows.item(j).message_id,"room_id":result.rows.item(j).room_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
@@ -597,28 +616,36 @@ angular.module('GroupChat.controllers', [])
            }
        });
     }
-    $scope.getAllMsg();
+    // $scope.getAllMsg();
 
 
     SocketService.on('group data', function(msg){
+
 			$scope.messageList = msg;
       console.log(msg);
+     
       var CheckAll = localStorageService.get("oneTime");
       if(CheckAll!="1"){
-        for(var Son=0; Son<=msg.length; Son++){
-          var roomID = msg[Son].room_id;
-          var messageID = msg[Son]._id;
-          var senderID = msg[Son].sender_id;
-          var senderName= msg[Son].sender_name;
-          var Time= msg[Son].time;
-          var message = msg[Son].message;
-          var videoUrl = msg[Son].video_url;
-          var audioUrl = msg[Son].audio_url;
-          var imageUrl = msg[Son].audio_url;
-          var documentUrl = msg[Son].document_url;
+        
+        for(var i=0; i<msg.length; i++){
+          // console.log(msg);
+          // console.log(msg[i]._id);
+          var roomID = msg[i].room_id;
+          var messageID = msg[i]._id;
+          var senderID = msg[i].sender_id;
+          var senderName= msg[i].sender_name;
+          var Time= msg[i].time;
+          var message = msg[i].message;
+          var videoUrl = msg[i].video_url;
+          var audioUrl = msg[i].audio_url;
+          var imageUrl = msg[i].image_url;
+          var documentUrl = msg[i].document_url;
+
+         
           if(message==undefined){
             message= '';
           }
+          
           if(videoUrl==undefined){
             videoUrl= '';
           }
@@ -631,9 +658,15 @@ angular.module('GroupChat.controllers', [])
           if(documentUrl==undefined){
             documentUrl= '';
           }
-          var isDownload = false;
-          var MessageQry = "Insert into GroupChat(message_id,room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          var isDownload = "false";
+          
+          var MessageQry = "Insert into GroupChat(message_id, room_id, sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            console.log(MessageQry);
+
+          // var MessageQry = "Insert into GroupChat(message_id, room_id, sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES ('"+messageID+"', '"+roomID+"', '"+senderID+"', '"+senderName+"','"+audioUrl+"','"+videoUrl+"','"+imageUrl+"','"+documentUrl+"','"+message+"','"+Time+"' ,'"+isDownload+"')";
+
              DB.query(MessageQry, [messageID ,roomID, senderID, senderName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+                alert("done");
                   console.log("insert", result);
                   localStorageService.set("oneTime", "1");
                   $scope.getAllMsg();
@@ -643,7 +676,7 @@ angular.module('GroupChat.controllers', [])
            });
         }
       }
-			console.log($scope.messageList);
+			// console.log($scope.messageList);
 			$ionicScrollDelegate.scrollBottom();
 		});
 
