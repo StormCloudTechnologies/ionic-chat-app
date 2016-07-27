@@ -296,6 +296,17 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     
   });
 })
+.directive('errSrc', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('error', function() {
+        if (attrs.src != attrs.errSrc) {
+          attrs.$set('src', attrs.errSrc);
+        }
+      });
+    }
+  }
+})
 .config(function($ionicConfigProvider) {
   $ionicConfigProvider.scrolling.jsScrolling(false);
 })
@@ -427,6 +438,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
    }
  };
  self.query = function (sql, bindings) {
+   console.log("===bindings====",bindings);
    bindings = typeof bindings !== 'undefined' ? bindings : [];
    var deferred = $q.defer();
    self.db.transaction(function (transaction) {
