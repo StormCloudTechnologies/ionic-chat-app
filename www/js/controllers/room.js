@@ -37,7 +37,6 @@ angular.module('Room.controllers', [])
 			}
 			return 'current-user';
 		};
-		// $scope.current_room = localStorageService.get('current_room');
 		
 		$scope.current_user = localStorageService.get('username');
     $scope.usernumber = localStorageService.get('usernumber');
@@ -203,7 +202,6 @@ angular.module('Room.controllers', [])
                           $scope.videoDiv = "false";
 
 			              	  $scope.msg = {
-		                        'room_id': $scope.current_room_id,
 								            'sender_id': $scope.usernumber,
 				                    'sender_name': $scope.current_user,
 								            'receiver_id': $scope.current_friend_number,
@@ -221,8 +219,8 @@ angular.module('Room.controllers', [])
                         var isDownload = "true";
                         console.log(VideoTime);
 
-                        var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-                         DB.query(MessageQry, [messageId ,$scope.current_room_id,  $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, $scope.msg.video_url, imageUrl, documentUrl,  message, VideoTime, isDownload]).then(function (result) {
+                        var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                         DB.query(MessageQry, [messageId,  $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, $scope.msg.video_url, imageUrl, documentUrl,  message, VideoTime, isDownload]).then(function (result) {
                              console.log("insert", result);
                              setTimeout(function() {
                               $ionicScrollDelegate.scrollBottom();
@@ -250,7 +248,6 @@ angular.module('Room.controllers', [])
                         console.log(result.nativeURL);
                         $scope.AudioDiv = "false";
 			              	  $scope.msg = {
-		                        'room_id': $scope.current_room_id,
 								            'sender_id': $scope.usernumber,
 				                    'sender_name': $scope.current_user,
 							              'receiver_id': $scope.current_friend_number,
@@ -268,8 +265,8 @@ angular.module('Room.controllers', [])
                          var isDownload = "true";
                          console.log(AudioTime);
 
-                          var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-                         DB.query(MessageQry, [messageId ,$scope.current_room_id,  $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, $scope.msg.audio_url, videoUrl, imageUrl, documentUrl,  message, AudioTime, isDownload]).then(function (result) {
+                          var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                         DB.query(MessageQry, [messageId,$scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, $scope.msg.audio_url, videoUrl, imageUrl, documentUrl,  message, AudioTime, isDownload]).then(function (result) {
                                console.log("insert", result);
                                setTimeout(function() {
                                 $ionicScrollDelegate.scrollBottom();
@@ -299,7 +296,6 @@ angular.module('Room.controllers', [])
                                 $scope.videoDiv = "false";
                                 // $scope.openModalvideoplay(result.fullPath);
                                 $scope.msg = {
-                                    'room_id': $scope.current_room_id,
                                     'sender_id': $scope.usernumber,
                                     'sender_name': $scope.current_user,
                                     'documnet_url': result.nativeURL,
@@ -316,9 +312,9 @@ angular.module('Room.controllers', [])
                                 var isDownload = "true";
                                 console.log(AudioTime);
                             
-                                var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                var MessageQry = "Insert into GroupChat(message_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                                 DB.query(MessageQry, [messageId,$scope.msg.room_id,$scope.msg.sender_id, $scope.msg.sender_name, audioUrl, videoUrl, imageUrl, documentUrl, message, AudioTime, isDownload]).then(function (result) {
+                                 DB.query(MessageQry, [messageId,$scope.msg.sender_id, $scope.msg.sender_name, audioUrl, videoUrl, imageUrl, documentUrl, message, AudioTime, isDownload]).then(function (result) {
                                      console.log("insert", result);
                                      setTimeout(function() {
                                       $ionicScrollDelegate.scrollBottom();
@@ -346,7 +342,6 @@ angular.module('Room.controllers', [])
                           console.log(result);
                           console.log(result.nativeURL);
                       	$scope.msg = {
-  	                        'room_id': $scope.current_room_id,
   							            'sender_id': $scope.usernumber,
   			                    'sender_name': $scope.current_user,
   							            'receiver_id': $scope.current_friend_number,
@@ -366,8 +361,8 @@ angular.module('Room.controllers', [])
                         var ImageTime = Date.parse(timeImage);
                         console.log(ImageTime);
 
-                        var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-                       DB.query(MessageQry, [messageId ,$scope.current_room_id,  $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, $scope.msg.image_url, documentUrl,  message, ImageTime, isDownload]).then(function (result) {
+                        var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                       DB.query(MessageQry, [messageId ,$scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, $scope.msg.image_url, documentUrl,  message, ImageTime, isDownload]).then(function (result) {
                              console.log("insert", result);
                              setTimeout(function() {
                               $ionicScrollDelegate.scrollBottom();
@@ -663,15 +658,16 @@ angular.module('Room.controllers', [])
 
          $scope.startTyping = function() {
           var data_server={
-              'room_id': $scope.current_room_id,
+              'receiver_id': $scope.current_friend_number,
               'sender_id': $scope.usernumber,
               'message':$scope.current_user+" is typing"
           }
+          console.log("===data_server===",data_server);
           SocketService.emit('start typing',data_server); //sending data to server
       };
       $scope.stopTyping = function() {
           var data={
-              'room_id': $scope.current_room_id,
+              'receiver_id': $scope.current_friend_number,
               'sender_id': $scope.usernumber,
               'message': ''
           }
@@ -709,7 +705,6 @@ angular.module('Room.controllers', [])
       $scope.sendTextMessage = function(){
         if($scope.message!='' && $scope.message!=null){
           $scope.msg = {
-            'room_id': $scope.current_room_id,
             'sender_id': $scope.usernumber,
             'sender_name': $scope.current_user,
             'receiver_id': $scope.current_friend_number,
@@ -731,8 +726,8 @@ angular.module('Room.controllers', [])
           var imageUrl = "";
           var isDownload = "false";
 
-          var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-             DB.query(MessageQry, [messageId ,$scope.current_room_id, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, imageUrl, documentUrl,  $scope.message, MsgTime, isDownload]).then(function (result) {
+          var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+             DB.query(MessageQry, [messageId, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, imageUrl, documentUrl,  $scope.message, MsgTime, isDownload]).then(function (result) {
                   console.log("insert", result);
                   $scope.getAllMsg();
                setTimeout(function() {
@@ -753,8 +748,6 @@ angular.module('Room.controllers', [])
         console.log(msg);
 
         var messageID = msg._id;
-        console.log(messageID);
-        var roomID = msg.room_id;
         var senderID = msg.sender_id;
         var senderName = msg.sender_name;
         var ReceiverID = msg.receiver_id;
@@ -817,8 +810,8 @@ angular.module('Room.controllers', [])
         var isDownload = "false";
         if(msg.sender_id != $scope.usernumber){
         $scope.messageList.push(msg);
-           var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-               DB.query(MessageQry, [messageID ,roomID, senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+           var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+               DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
                     console.log("insert", result);
                     $scope.getAllMsg();
                  setTimeout(function() {
@@ -838,9 +831,6 @@ angular.module('Room.controllers', [])
         var CheckAll = localStorageService.get("oneTime");
         if(CheckAll!="1"){
           for(var i=0; i<msg.length; i++){
-            var roomID = msg[i].room_id;
-            console.log(roomID);
-            console.log(msg[i].room_id);
             var messageID = msg[i]._id;
             var RecevierID = msg[i].receiver_id;
             var ReceiverName= msg[i].receiver_name;
@@ -870,8 +860,8 @@ angular.module('Room.controllers', [])
             var isDownload = "false";
 
 
-            var MessageQry = "Insert into Message(message_id,room_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-               DB.query(MessageQry, [messageID ,roomID, senderID, senderName, RecevierID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+               DB.query(MessageQry, [messageID , senderID, senderName, RecevierID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
                     console.log("insert", result);
                     localStorageService.set("oneTime", "1");
                     $scope.getAllMsg();
@@ -886,14 +876,13 @@ angular.module('Room.controllers', [])
       });
 
       $scope.getAllMsg = function(){
-        console.log($scope.current_room_id);
-        var chatlist = "SELECT * from Message where room_id=?";
-         var results = DB.query(chatlist, [$scope.current_room_id]).then(function (result) {
+        var chatlist = "SELECT * from Message where receiver_id=?";
+         var results = DB.query(chatlist, [$scope.current_friend_number]).then(function (result) {
            console.log(result.rows);
             if(result.rows.length!=0){
              var len = result.rows.length;
               for(var j=0;j<len;j++){
-                  $scope.messageList.push({"message_id":result.rows.item(j).message_id,"room_id":result.rows.item(j).room_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
+                  $scope.messageList.push({"message_id":result.rows.item(j).message_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
                   $ionicScrollDelegate.scrollBottom();
               } 
             }else{
@@ -902,22 +891,6 @@ angular.module('Room.controllers', [])
          });
       }
       $scope.getAllMsg();
-
-      SocketService.on('current room id', function(data){
-        $scope.current_room_id = data.current_room_id;
-        alert($scope.current_room_id);
-        $ionicScrollDelegate.scrollBottom();
-      });
-
-      $scope.leaveRoom = function(){
-          SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
-          SocketService.removeAllListeners('listen start typing');
-          SocketService.removeAllListeners('listen stop typing');
-          SocketService.removeAllListeners('message created');
-          SocketService.removeAllListeners('user data');
-          SocketService.removeAllListeners('current room id');
-          $state.go('home');
-      };
      
 
 				

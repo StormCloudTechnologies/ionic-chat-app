@@ -1,6 +1,6 @@
 angular.module('Signup.controllers', [])
 
-.controller('SignupCtrl', function($scope, $localstorage, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
+.controller('SignupCtrl', function($scope, $localstorage, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService, SocketService) {
   $ionicPlatform.ready(function(){
     try{
       var isslogin = $localstorage.get('isslogin');
@@ -25,22 +25,19 @@ angular.module('Signup.controllers', [])
         $ionicLoading.show({
           template: '<ion-spinner icon="ripple" class="spinner-assertive"></ion-spinner>'
         });
-        APIService.setData({
-            req_url: url_prefix + 'createUser',
-            data: {
+        SocketService.emit('create user', {
               phone: usernumber,
               username: username
-            }
-        }).then(function(resp) {
-             $ionicLoading.hide();
-            if(resp.data) {
+        });
+        SocketService.on('user created', function(msg){
+          console.log("====msg====",msg);
+            $ionicLoading.hide();
+            if(msg) {
                 $localstorage.set('isslogin', "1");
                 localStorageService.set('username', username);
                 localStorageService.set('usernumber', usernumber);
                 $state.go('editprofile');
             }
-           },function(resp) {
-              // This block execute in case of error.
         });
       };
      }catch(err){
