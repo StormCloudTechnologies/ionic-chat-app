@@ -16,17 +16,22 @@
                 </div>
 
                 <div class="message-detail">
-                    <span 
-                        class="bold">{{msg.message}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{msg.image_url}}" style="width:100%;">
-                    <!-- <img ng-if="msg.image_url  && ImageDiv!='true'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;"> -->
-                    <!-- ng-click="downloadVideo(msg.video_url)" ng-if="msg.video_url" -->
-                    <video ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-                      <source ng-src="{{msg.video_url}}" type="video/mp4"/>
-                    </video>
+                  <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
+                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
-                    <video style="width: 100%;" ng-if="msg.isdownload=='true' && msg.video_url" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                    <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
+                    <div on-hold="deleteMsg(msg.document_url, 'document', msg.message_id)" ng-if="msg.document_url && msg.isdownload=='true'">{{msg.document_url}}</div>
+                    <div ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url" style="z-index:99999;">
+                      <video ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                        <source ng-src="{{msg.video_url}}" type="video/mp4"/>
+                        <!-- <ion-spinner icon="android"></ion-spinner> -->
+                      </video>
+                    </div>
+
+                    <video on-hold="deleteMsg(msg.video_url, 'video', msg.message_id)" style="width: 100%;" ng-if="msg.isdownload=='true' && msg.video_url" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
                       <source ng-src="{{msg.video_url}}" type="video/mp4"/>
+                      <!-- <ion-spinner icon="android"></ion-spinner> -->
                     </video>
 
                     <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
@@ -36,7 +41,7 @@
                       </audio>
                     </div>
 
-                    <audio style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
+                    <audio  on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id)" style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                       <source src="{{msg.audio_url}}" type="audio/amr">
                       <source src="{{msg.audio_url}}" type="audio/mp3">
                     </audio>
@@ -46,16 +51,22 @@
             </div>
             <div ng-if="msg.sender_id != usernumber" class="chat-bubble right">
                 <div class="message-detail">
-                    <span class="bold">{{msg.message}}</span>
-                    <img ng-if="msg.image_url" ng-src="{{msg.image_url}}" style="width:100%;">
-                    <!-- <img ng-if="msg.image_url  && ImageDiv!='true'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;"> -->
-                    <!-- ng-click="downloadVideo(msg.video_url)" ng-if="msg.video_url" -->
-                      <video ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-                      <source ng-src="{{msg.video_url}}" type="video/mp4"/>
-                    </video>
+                    <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
+                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
-                    <video style="width: 100%;" ng-if="msg.isdownload=='true' && msg.video_url" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                    <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
+                    <div on-hold="deleteMsg(msg.document_url, 'document', msg.message_id)" ng-if="msg.document_url && msg.isdownload=='true'">{{msg.document_url}}</div>
+                    <div ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url" style="z-index:99999;">
+                      <video ng-click="downloadVideo(msg.video_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.video_url"  style="width: 100%;" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                        <source ng-src="{{msg.video_url}}" type="video/mp4"/>
+                        <!-- <ion-spinner icon="android"></ion-spinner> -->
+                      </video>
+                    </div>
+
+                    <video on-hold="deleteMsg(msg.video_url, 'video', msg.message_id)" style="width: 100%;" ng-if="msg.isdownload=='true' && msg.video_url" controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
                       <source ng-src="{{msg.video_url}}" type="video/mp4"/>
+                      <!-- <ion-spinner icon="android"></ion-spinner> -->
                     </video>
 
                     <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
@@ -65,7 +76,7 @@
                       </audio>
                     </div>
 
-                    <audio style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
+                    <audio  on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id)" style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                       <source src="{{msg.audio_url}}" type="audio/amr">
                       <source src="{{msg.audio_url}}" type="audio/mp3">
                     </audio>
