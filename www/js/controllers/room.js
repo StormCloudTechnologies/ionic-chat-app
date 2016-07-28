@@ -9,7 +9,7 @@ angular.module('Room.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
@@ -621,7 +621,7 @@ angular.module('Room.controllers', [])
                 var updateQry = "UPDATE Message SET message_id =? WHERE time=?";
                  console.log(updateQry);
                   DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
-                    $scope.getAllMsg();
+                    // $scope.getAllMsg();
                });
             }
         }

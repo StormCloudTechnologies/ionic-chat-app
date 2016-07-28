@@ -39,11 +39,13 @@ angular.module('AddGroup.controllers', [])
       //     $scope.group_list.push(phone)
       //     console.log($scope.group_list);
       // };
+      var image = 'img/profile.png';
       $scope.createGroup = function() {
           APIService.setData({
               req_url: url_prefix + 'createGroup',
-              data: {users: $rootScope.addList, name: $scope.group_name}
+              data: {users: $rootScope.addList, group_name: $scope.group_name, admin_name: username , admin_number:$scope.usernumber , image_url:image}
           }).then(function(resp) {
+              console.log(resp);
               if(resp.data) {
                   $state.go('home');
               }

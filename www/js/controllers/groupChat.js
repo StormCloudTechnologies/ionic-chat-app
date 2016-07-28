@@ -8,7 +8,7 @@ angular.module('GroupChat.controllers', [])
         $scope.messages = [];
         $scope.messageList = [];
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -592,7 +592,7 @@ angular.module('GroupChat.controllers', [])
             if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
               var updateQry = "UPDATE GroupChat SET message_id =? WHERE time=?";
               DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
-                $scope.getAllMsg();
+                // $scope.getAllMsg();
               });
             }
           }

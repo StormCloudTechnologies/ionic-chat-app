@@ -191,7 +191,7 @@ angular.module('Home.controllers', [])
 			// };
 
 
-			 $scope.usernumber = localStorageService.get('usernumber');
+			$scope.usernumber = localStorageService.get('usernumber');
 			APIService.setData({
                 req_url: url_prefix + 'getUser',
                 data: {}
@@ -203,10 +203,12 @@ angular.module('Home.controllers', [])
                },function(resp) {
                   // This block execute in case of error.
             });
+
             APIService.setData({
                 req_url: url_prefix + 'getGroups',
-                data: {}
+                data: {user_number:$scope.usernumber}
             }).then(function(resp) {
+            	console.log(resp);
                 if(resp.data) {
                     $rootScope.groupList = resp.data;
                 }
