@@ -663,7 +663,7 @@ angular.module('Room.controllers', [])
               'message':$scope.current_user+" is typing"
           }
           console.log("===data_server===",data_server);
-          SocketService.emit('start typing',data_server); //sending data to server
+          SocketService.emit('start p2p typing',data_server); //sending data to server
       };
       $scope.stopTyping = function() {
           var data={
@@ -671,9 +671,9 @@ angular.module('Room.controllers', [])
               'sender_id': $scope.usernumber,
               'message': ''
           }
-          SocketService.emit('stop typing',data); //sending data to server
+          SocketService.emit('stop p2p typing',data); //sending data to server
       };
-      SocketService.on('listen start typing', function(msg){
+      SocketService.on('listen start p2p typing', function(msg){
 
       if(msg.sender_id != $scope.usernumber) {
           if($scope.current_receiver_id == msg.sender_id)
@@ -684,7 +684,7 @@ angular.module('Room.controllers', [])
             }
       });
       
-       SocketService.on('listen stop typing', function(msg){
+       SocketService.on('listen stop p2p typing', function(msg){
             $timeout(function() {
               if(msg.sender_id != $scope.usernumber) {
                     $scope.type_message = msg.message;

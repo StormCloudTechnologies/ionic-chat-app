@@ -660,7 +660,7 @@ angular.module('GroupChat.controllers', [])
 				'sender_id': $scope.usernumber,
                 'message':$scope.current_user+" is typing"
             }
-            SocketService.emit('start typing',data_server); //sending data to server
+            SocketService.emit('start group typing',data_server); //sending data to server
         };
         $scope.stopTyping = function() {
           console.log("msg.message");
@@ -669,16 +669,16 @@ angular.module('GroupChat.controllers', [])
 				'sender_id': $scope.usernumber,
                 'message': ''
             }
-            SocketService.emit('stop typing',data); //sending data to server
+            SocketService.emit('stop group typing',data); //sending data to server
         };
-        SocketService.on('listen start typing', function(msg){
+        SocketService.on('listen start group typing', function(msg){
             if(msg.sender_id != $scope.usernumber) {
                 if(!(msg.sender_id in $scope.typistList))
                 $scope.typistList.push(msg.sender_id);
                 $scope.type_message = msg.message;
             }
 		});
-        SocketService.on('listen stop typing', function(msg){
+        SocketService.on('listen stop group typing', function(msg){
         	$timeout(function() {
 	            if(msg.sender_id != $scope.usernumber) {
 	                $scope.typistList.push(msg.sender_id);
