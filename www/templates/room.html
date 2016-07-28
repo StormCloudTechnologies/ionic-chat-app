@@ -13,7 +13,7 @@
     <!-- {{type_message}} -->
 	<div class="list" id="messages" ng-if="messageList.length > 0">
       <li class="item item-text-wrap no-border {{ isNotCurrentUser(msg.user) }}" ng-repeat="msg in messageList track by $index"  style="background:transparent;padding:0px;">
-        <div ng-if="msg.sender_id == usernumber" class="chat-bubble left">
+       <div ng-if="msg.sender_id==usernumber" class="chat-bubble left">
             <div class="message" ng-bind-html="msg.text" autolinker>
             </div>
            <div class="message-detail">
@@ -52,7 +52,7 @@
                 <div class="user">{{ msg.sender_name }}, <span>{{ humanize(msg.time) }}</span></div>
             </div>	
         </div>
-        <div ng-if="msg.sender_id != usernumber" class="chat-bubble right">
+        <div ng-if="msg.sender_id!=usernumber" class="chat-bubble right">
             <div class="message-detail">
                      <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
                     <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{msg.image_url}}" err-src="http://google.com/favicon.ico" style="width:100%;">
