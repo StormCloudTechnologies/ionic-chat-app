@@ -12,7 +12,7 @@ angular.module('Room.controllers', [])
     $scope.ImageDiv = "true";
     $scope.messageList = [];
     $scope.url_prefix1 = 'http://192.168.0.105:9992/';
-    // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
+    // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
     $ionicModal.fromTemplateUrl('templates/uploadview.html', {
       scope: $scope,
       animation: 'slide-in-up'
@@ -714,7 +714,7 @@ angular.module('Room.controllers', [])
           };
           console.log($scope.msg);
           
-          $scope.messageList.push($scope.msg);
+          
           var timeMsg = $scope.msg.time;
           console.log(timeMsg);
           var MsgTime = Date.parse(timeMsg);
@@ -725,11 +725,13 @@ angular.module('Room.controllers', [])
           var documentUrl = '';
           var imageUrl = "";
           var isDownload = "false";
-
+          $scope.messageList.push($scope.msg);
+          
           var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
              DB.query(MessageQry, [messageId, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, imageUrl, documentUrl,  $scope.message, MsgTime, isDownload]).then(function (result) {
                   console.log("insert", result);
-                  $scope.getAllMsg();
+                  // $scope.getAllMsg();
+
                setTimeout(function() {
                 $ionicScrollDelegate.scrollBottom();
              }, 10);
@@ -773,7 +775,8 @@ angular.module('Room.controllers', [])
                  console.log(updateQry);
                   DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
                     console.log("update successfully", result);
-                    $scope.getAllMsg();
+                    // $scope.getAllMsg();
+                    // $scope.messageList.push(msg);
                    setTimeout(function() {
                     $ionicScrollDelegate.scrollBottom();
                  }, 10);
@@ -813,7 +816,7 @@ angular.module('Room.controllers', [])
            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
                     console.log("insert", result);
-                    $scope.getAllMsg();
+                    // $scope.messageList.push(msg);
                  setTimeout(function() {
                   $ionicScrollDelegate.scrollBottom();
                }, 10);
@@ -892,6 +895,12 @@ angular.module('Room.controllers', [])
       }
       $scope.getAllMsg();
      
+         $scope.leaveRoom = function(){
+
+            $state.go('home   ');
+            // SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
+
+        };
 
 				
 
