@@ -1,4 +1,5 @@
 angular.module('Home.controllers', [])
+angular.module('Home.controllers', [])
 
 .controller('HomeCtrl', function($scope, DB, $cordovaFile, $rootScope, $state, localStorageService, $ionicPlatform, SocketService, $ionicSlideBoxDelegate, $timeout, $cordovaContacts, $ionicTabsDelegate, $ionicPopover, $localstorage, APIService, $cordovaNetwork) {
 	$ionicPlatform.ready(function(){
@@ -88,6 +89,7 @@ angular.module('Home.controllers', [])
 			// 		$cordovaContacts.find(options).then(function (allContacts) {
 			// 			APIService.setData({
 			//                 req_url: url_prefix + 'createContact',
+			//                 data:{'contacts':allContacts, 'sender_id':usernumber}
 			//                 data:{'contacts':allContacts, 'sender_id':usernumber}
 			          
 			//             }).then(function(resp) {
@@ -243,7 +245,7 @@ angular.module('Home.controllers', [])
             $scope.enterGroupRoom = function(room){
 
 				localStorageService.set('room_id', room.room_id);
-				localStorageService.set("oneTime", "1");
+				localStorage.setItem("userList", JSON.stringify(room.users));
 				SocketService.emit('join group chat:room',{
                     room_id: room.room_id,
                     sender_id: $scope.usernumber

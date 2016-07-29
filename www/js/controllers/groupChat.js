@@ -22,6 +22,12 @@ angular.module('GroupChat.controllers', [])
 
         $scope.current_user = localStorageService.get('username');
         $scope.usernumber = localStorageService.get('usernumber');
+        $scope.userList = JSON.parse(localStorage.getItem('userList'));
+        $scope.new_user_list = [];
+        for(var i=0;i<$scope.userList.length;i++){
+          $scope.new_user_list.push($scope.userList[i]);
+        }
+          console.log("==$scope.userList===",typeof($scope.new_user_list));
         $scope.current_room_id = localStorageService.get('room_id');
         $scope.isNotCurrentUser = function(user){
 
@@ -558,6 +564,7 @@ angular.module('GroupChat.controllers', [])
               'sender_id': $scope.usernumber,
               'sender_name': $scope.current_user,
               'message': $scope.message,
+              'users': $scope.new_user_list,
               'time': moment()
             };
             var timeMsg = $scope.msg.time;
@@ -592,7 +599,6 @@ angular.module('GroupChat.controllers', [])
             if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
               var updateQry = "UPDATE GroupChat SET message_id =? WHERE time=?";
               DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
-                // $scope.getAllMsg();
               });
             }
           }
@@ -627,10 +633,10 @@ angular.module('GroupChat.controllers', [])
             var isDownload = false;
             var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
              DB.query(MessageQry, [messageID,roomID,senderID, senderName, audioUrl, videoUrl, imageUrl, documentUrl, message, Time, isDownload]).then(function (result) {
-              // SocketService.emit('delete group chat message', {message_id: msg._id});
-              // $scope.getAllMsg();
+               console.log("message created");
             });
           }
+          SocketService.emit('delete group chat message', {message_id: messageID, user_number: $scope.usernumber});
 
         });
 
@@ -641,22 +647,19 @@ angular.module('GroupChat.controllers', [])
           var results = DB.query(chatlist, [$scope.current_room_id]).then(function (result) {
           if(result.rows){
             var len = result.rows.length;
+            $scope.messageList = [];
             for(var j=0;j<len;j++){
               $scope.messageList.push({"message_id":result.rows.item(j).message_id,"room_id":result.rows.item(j).room_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
-              $ionicScrollDelegate.scrollBottom();
             } 
           }else{
             console.log("insert All Ready List");
           }
+          $ionicScrollDelegate.scrollBottom();
           });
         }
-        // $scope.getAllMsg();
-
 
         SocketService.on('group data', function(msg){
-          $scope.messageList = msg;
-          var CheckAll = localStorageService.get("oneTime");
-          if(CheckAll!="1"){
+          console.log("===msg====",msg);
             for(var i=0; i<msg.length; i++){
               var roomID = msg[i].room_id;
               var messageID = msg[i]._id;
@@ -688,14 +691,13 @@ angular.module('GroupChat.controllers', [])
               }
               var isDownload = "false";
 
-              var MessageQry = "Insert into GroupChat(message_id, room_id, sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+              var MessageQry = "Insert into GroupChat(message_id, room_id, sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
               DB.query(MessageQry, [messageID ,roomID, senderID, senderName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
                 console.log("insert", result);
-                localStorageService.set("oneTime", "1");
-                $scope.getAllMsg();
+                SocketService.emit('delete group chat message', {message_id: messageID, user_number: $scope.usernumber});
               });
             }
-          }
+            $scope.getAllMsg();
           $ionicScrollDelegate.scrollBottom();
         });
 
