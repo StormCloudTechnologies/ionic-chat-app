@@ -353,10 +353,8 @@ angular.module('Room.controllers', [])
             if(type=='message'){
               var deleteQuery = "DELETE from Message where message_id=?";
               DB.query(deleteQuery, [id]).then(function (result) {
+                
                 $scope.getAllMsg();
-                setTimeout(function() {
-                    $ionicScrollDelegate.scrollBottom();
-                }, 10);
               });
 
             }else if(type=='video'){
@@ -596,6 +594,7 @@ angular.module('Room.controllers', [])
           var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
              DB.query(MessageQry, [messageId, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, imageUrl, documentUrl,  $scope.message, MsgTime, isDownload]).then(function (result) {
                   // $scope.getAllMsg();
+
            });
 
 
@@ -657,7 +656,7 @@ angular.module('Room.controllers', [])
            $scope.messageList.push(msg);
            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
-                    // SocketService.emit('delete p2p chat message', {message_id: msg._id});
+                    SocketService.emit('delete p2p chat message', {message_id: msg._id});
                     // $scope.messageList.push(msg);
              });
         }
@@ -667,8 +666,7 @@ angular.module('Room.controllers', [])
       
      SocketService.on('user data', function(msg){
         $scope.messageList = msg;
-        var CheckAll = localStorageService.get("oneTime");
-        if(CheckAll!="1"){
+       
           for(var i=0; i<msg.length; i++){
             var messageID = msg[i]._id;
             var RecevierID = msg[i].receiver_id;
@@ -701,6 +699,7 @@ angular.module('Room.controllers', [])
 
             var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, RecevierID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+                    SocketService.emit('delete p2p chat message', {message_id: messageID});
                     localStorageService.set("oneTime", "1");
                     $scope.getAllMsg();
                  setTimeout(function() {
@@ -708,7 +707,6 @@ angular.module('Room.controllers', [])
                }, 10);
              });
           }
-        }
         $ionicScrollDelegate.scrollBottom();
       });
 
