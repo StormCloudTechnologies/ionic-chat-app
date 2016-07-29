@@ -1,6 +1,6 @@
 angular.module('Room.controllers', [])
 
-.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $cordovaCamera, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB, $cordovaFileTransfer, $ionicLoading, $cordovaCapture, $cordovaDialogs, $cordovaFile) {
+.controller('RoomCtrl', function($scope, $ionicModal, $state, localStorageService, $cordovaCamera, $ionicPlatform, SocketService, $timeout, moment, $ionicScrollDelegate, DB, $cordovaFileTransfer, $ionicLoading, $cordovaCapture, $cordovaDialogs, $cordovaFile, $filter) {
 
 	$ionicPlatform.ready(function(){
 		try{
@@ -354,7 +354,9 @@ angular.module('Room.controllers', [])
               var deleteQuery = "DELETE from Message where message_id=?";
               DB.query(deleteQuery, [id]).then(function (result) {
                 
-                $scope.getAllMsg();
+                var foundItem = $filter('filter')($scope.messageList, { message_id: id  }, true)[0];
+                var index = $scope.messageList.indexOf(foundItem );
+                $scope.messageList.splice(index,1);
               });
 
             }else if(type=='video'){
@@ -656,6 +658,7 @@ angular.module('Room.controllers', [])
            $scope.messageList.push(msg);
            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+                 console.log("message created==",msg);
                     SocketService.emit('delete p2p chat message', {message_id: msg._id});
                     // $scope.messageList.push(msg);
              });
@@ -665,60 +668,57 @@ angular.module('Room.controllers', [])
 
       
      SocketService.on('user data', function(msg){
-        $scope.messageList = msg;
-       
+          console.log("msg==== ===",msg);
           for(var i=0; i<msg.length; i++){
-            var messageID = msg[i]._id;
-            var RecevierID = msg[i].receiver_id;
-            var ReceiverName= msg[i].receiver_name;
-            var senderID = msg[i].sender_id;
-            var senderName= msg[i].sender_name;
-            var Time= msg[i].time;
-            var message = msg[i].message;
-            var videoUrl = msg[i].video_url;
-            var audioUrl = msg[i].audio_url;
-            var imageUrl = msg[i].audio_url;
-            var documentUrl = msg[i].document_url;
-            if(message==undefined){
-              message= '';
-            }
-            if(videoUrl==undefined){
-              videoUrl= '';
-            }
-            if(audioUrl==undefined){
-              audioUrl= '';
-            }
-            if(imageUrl==undefined){
-              imageUrl= '';
-            }
-            if(documentUrl==undefined){
-              documentUrl= '';
-            }
-            var isDownload = "false";
+            if(msg[i].sender_id != $scope.usernumber) {
+              var messageID = msg[i]._id;
+              var RecevierID = msg[i].receiver_id;
+              var ReceiverName= msg[i].receiver_name;
+              var senderID = msg[i].sender_id;
+              var senderName= msg[i].sender_name;
+              var Time= msg[i].time;
+              var message = msg[i].message;
+              var videoUrl = msg[i].video_url;
+              var audioUrl = msg[i].audio_url;
+              var imageUrl = msg[i].audio_url;
+              var documentUrl = msg[i].document_url;
+              if(message==undefined){
+                message= '';
+              }
+              if(videoUrl==undefined){
+                videoUrl= '';
+              }
+              if(audioUrl==undefined){
+                audioUrl= '';
+              }
+              if(imageUrl==undefined){
+                imageUrl= '';
+              }
+              if(documentUrl==undefined){
+                documentUrl= '';
+              }
+              var isDownload = "false";
 
 
-            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
-               DB.query(MessageQry, [messageID , senderID, senderName, RecevierID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
-                    SocketService.emit('delete p2p chat message', {message_id: messageID});
-                    localStorageService.set("oneTime", "1");
-                    $scope.getAllMsg();
-                 setTimeout(function() {
-                  $ionicScrollDelegate.scrollBottom();
-               }, 10);
-             });
+              var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                 DB.query(MessageQry, [messageID , senderID, senderName, RecevierID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
+                      SocketService.emit('delete p2p chat message', {message_id: messageID});
+               });
+            }
           }
+          $scope.getAllMsg();
         $ionicScrollDelegate.scrollBottom();
       });
 
       $scope.getAllMsg = function(){
-        var chatlist = "SELECT * from Message where receiver_id=? AND sender_id=?";
-         var results = DB.query(chatlist, [$scope.current_friend_number, $scope.usernumber]).then(function (result) {
+        var chatlist = "SELECT * from Message where receiver_id IN(" + [$scope.current_friend_number, $scope.usernumber]+") AND sender_id IN(" + [$scope.current_friend_number, $scope.usernumber]+")";
+         var results = DB.query(chatlist, []).then(function (result) {
            if(result.rows.length!=0){
              var len = result.rows.length;
               for(var j=0;j<len;j++){
-                  $scope.messageList.push({"message_id":result.rows.item(j).message_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
-                  $ionicScrollDelegate.scrollBottom();
+                  $scope.messageList.push({"message_id":result.rows.item(j).message_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url}); 
               } 
+              $ionicScrollDelegate.scrollBottom();
             }else{
                console.log("insert All Ready List");
              }
@@ -729,9 +729,16 @@ angular.module('Room.controllers', [])
          $scope.leaveRoom = function(){
 
             $state.go('home');
-            // SocketService.emit('leave chat:room', {'room_id': $scope.current_room_id});
 
         };
+        $scope.$on('$destroy', function(){ 
+          console.log("====$destroy===");
+	      SocketService.removeAllListeners('user data');
+          SocketService.removeAllListeners('listen start p2p typing');
+          SocketService.removeAllListeners('listen stop p2p typing');
+          SocketService.removeAllListeners('listen share image');
+          SocketService.removeAllListeners('message created');
+	    });
 
 				
 

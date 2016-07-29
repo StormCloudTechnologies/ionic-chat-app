@@ -708,11 +708,16 @@ angular.module('GroupChat.controllers', [])
           SocketService.removeAllListeners('listen stop typing');
           SocketService.removeAllListeners('group message created');
           SocketService.removeAllListeners('group data');
-          localStorageService.set("oneTime", "0");
           $state.go('home');
         };
 
-
+        $scope.$on('$destroy', function(){ 
+	      SocketService.emit('leave group chat:room', {'room_id': $scope.current_room_id});
+          SocketService.removeAllListeners('listen start typing');
+          SocketService.removeAllListeners('listen stop typing');
+          SocketService.removeAllListeners('group message created');
+          SocketService.removeAllListeners('group data');
+	    });
 
 	    }catch(err){
 	      console.log(err.message);
