@@ -8,7 +8,7 @@ angular.module('GroupChat.controllers', [])
         $scope.messages = [];
         $scope.messageList = [];
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -319,33 +319,35 @@ angular.module('GroupChat.controllers', [])
         }
       };
 
-        $scope.deleteMsg = function(data, type, id){
+        $scope.deleteMsg = function(data, type, id, msg){
           $cordovaDialogs.confirm('Delete this message !!', 'Are You Sure ?', ['Cancel','OK'])
           .then(function(buttonIndex) {
           // no button = 0, 'OK' = 1, 'Cancel' = 2
             var btnIndex = buttonIndex;
             if(btnIndex==1){
-             $scope.checkData(data, type, id);
+             $scope.checkData(data, type, id, msg);
             }
           });
         }
-        $scope.checkData = function(data, type, id){
+        $scope.checkData = function(data, type, id, msg){
 
           var resdata = data.split('-');
           var filename = resdata[1];
           if(type=='message'){
-            var deleteQuery = "DELETE from Message where message_id=?";
+            var deleteQuery = "DELETE from GroupChat where message_id=?";
             DB.query(deleteQuery, [id]).then(function (result) {
-              $scope.getAllMsg();
+              var index = $scope.messageList.indexOf(msg);
+              $scope.messageList.splice(index,1);
             });
 
           }else if(type=='video'){
           if($scope.usernumber){
             $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/videos/sent", 'file-'+filename)
             .then(function (success) {
-              var deleteQuery = "DELETE from Message where message_id=?";
+              var deleteQuery = "DELETE from GroupChat where message_id=?";
               DB.query(deleteQuery, [id]).then(function (result) {
-                $scope.getAllMsg();
+                var index = $scope.messageList.indexOf(msg);
+                $scope.messageList.splice(index,1);
               });
             }, function (error) {
               console.log(error);
@@ -353,9 +355,10 @@ angular.module('GroupChat.controllers', [])
           }else{
             $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/videos/", 'file-'+filename)
           .then(function (success) {
-            var deleteQuery = "DELETE from Message where message_id=?";
+            var deleteQuery = "DELETE from GroupChat where message_id=?";
             DB.query(deleteQuery, [id]).then(function (result) {
-              $scope.getAllMsg();
+              var index = $scope.messageList.indexOf(msg);
+              $scope.messageList.splice(index,1);
             });
             }, function (error) {
              console.log(error);
@@ -365,9 +368,10 @@ angular.module('GroupChat.controllers', [])
             if($scope.usernumber){
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/images/sent", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                  var index = $scope.messageList.indexOf(msg);
+                  $scope.messageList.splice(index,1);
                 });
                 }, function (error) {
                   console.log(error);
@@ -375,9 +379,10 @@ angular.module('GroupChat.controllers', [])
             }else{
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/images/", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                 var index = $scope.messageList.indexOf(msg);
+                 $scope.messageList.splice(index,1);
               });
               }, function (error) {
                 console.log(error);
@@ -388,9 +393,10 @@ angular.module('GroupChat.controllers', [])
             if($scope.usernumber){
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/audio/sent", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                  var index = $scope.messageList.indexOf(msg);
+                 $scope.messageList.splice(index,1);
                 });
                 }, function (error) {
                   console.log(error);
@@ -398,9 +404,10 @@ angular.module('GroupChat.controllers', [])
             }else{
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/audio/", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                  var index = $scope.messageList.indexOf(msg);
+                  $scope.messageList.splice(index,1);
                 });
                 }, function (error) {
                   console.log(error);
@@ -411,9 +418,10 @@ angular.module('GroupChat.controllers', [])
             if($scope.usernumber){
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/documents/sent", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                  var index = $scope.messageList.indexOf(msg);
+                  $scope.messageList.splice(index,1);
                 });
                 }, function (error) {
                   console.log(error);
@@ -421,9 +429,10 @@ angular.module('GroupChat.controllers', [])
             }else{
               $cordovaFile.removeFile(cordova.file.externalRootDirectory+"StormChat/documents/", 'file-'+filename)
               .then(function (success) {
-                var deleteQuery = "DELETE from Message where message_id=?";
+                var deleteQuery = "DELETE from GroupChat where message_id=?";
                 DB.query(deleteQuery, [id]).then(function (result) {
-                  $scope.getAllMsg();
+                  var index = $scope.messageList.indexOf(msg);
+                  $scope.messageList.splice(index,1);
                 });
                 }, function (error) {
                   console.log(error);
@@ -444,6 +453,7 @@ angular.module('GroupChat.controllers', [])
             var updateQry = "UPDATE GroupChat SET isdownload = ?, video_url = ? WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
               $scope.getAllMsg();
+              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
           }, function (error) {
             console.log('Error', error);
@@ -461,6 +471,7 @@ angular.module('GroupChat.controllers', [])
             var updateQry = "UPDATE GroupChat SET isdownload =?, audio_url = ?  WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
               $scope.getAllMsg();
+              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
           }, function (error) {
             console.log('Error', error);
@@ -479,6 +490,7 @@ angular.module('GroupChat.controllers', [])
             var updateQry = "UPDATE GroupChat SET isdownload =?, image_url = ?  WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
               $scope.getAllMsg();
+              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
 
           }, function (error) {
@@ -704,12 +716,6 @@ angular.module('GroupChat.controllers', [])
 
 
         $scope.leaveGroupRoom = function(){
-          console.log("call");
-          SocketService.emit('leave group chat:room', {'room_id': $scope.current_room_id});
-          SocketService.removeAllListeners('listen start typing');
-          SocketService.removeAllListeners('listen stop typing');
-          SocketService.removeAllListeners('group message created');
-          SocketService.removeAllListeners('group data');
           $state.go('home');
         };
 

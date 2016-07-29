@@ -9,7 +9,7 @@ angular.module('Room.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
@@ -181,6 +181,7 @@ angular.module('Room.controllers', [])
     								            'video_url': result.nativeURL,
     								            'time': moment()
     		                     };
+                            $scope.messageList.push($scope.msg);
                             var messageId = '';
                             var audioUrl = '';
                             var documentUrl = '';
@@ -196,7 +197,7 @@ angular.module('Room.controllers', [])
                                   $ionicScrollDelegate.scrollBottom();
                                }, 10);
                              });
-                            $scope.messageList.push($scope.msg);
+                            
     		                    $ionicScrollDelegate.scrollBottom();
 
     		                    SocketService.emit('new message', $scope.msg);
@@ -219,6 +220,7 @@ angular.module('Room.controllers', [])
     								            'audio_url': result.nativeURL,
     								            'time': moment()
     		                     };
+                             $scope.messageList.push($scope.msg);
                              var messageId = '';
                              var videoUrl = '';
                              var documentUrl = '';
@@ -234,7 +236,7 @@ angular.module('Room.controllers', [])
                                });
 
 
-    							          $scope.messageList.push($scope.msg);
+    							          
     		                    $ionicScrollDelegate.scrollBottom();
 
     		                    SocketService.emit('new message', $scope.msg);
@@ -255,6 +257,7 @@ angular.module('Room.controllers', [])
                                         'documnet_url': result.nativeURL,
                                         'time': moment()
                                     };
+                                    $scope.messageList.push($scope.msg);
                                     var messageId = '';
                                     var videoUrl = '';
                                     var audioUrl = '';
@@ -270,7 +273,7 @@ angular.module('Room.controllers', [])
                                      
                                      });
 
-                                    $scope.messageList.push($scope.msg);
+                                    
                                     $ionicScrollDelegate.scrollBottom();
                                     SocketService.emit('new group message', $scope.msg);
                                 }, function (error) {
@@ -293,6 +296,7 @@ angular.module('Room.controllers', [])
       							            'image_url': result.nativeURL,
       							            'time': moment()
       	                     };
+                            $scope.messageList.push($scope.msg);
                             var messageId = '';
                             var videoUrl = '';
                             var audioUrl = '';
@@ -308,7 +312,7 @@ angular.module('Room.controllers', [])
                                
                              });
 
-      		                    $scope.messageList.push($scope.msg);
+      		                    
       		                    $ionicScrollDelegate.scrollBottom();
 
       		                    SocketService.emit('new message', $scope.msg);
@@ -374,7 +378,6 @@ angular.module('Room.controllers', [])
                 .then(function (success) {
                      var deleteQuery = "DELETE from Message where message_id=?";
                       DB.query(deleteQuery, [id]).then(function (result) {
-                        SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                          var index = $scope.messageList.indexOf(msg);
                          $scope.messageList.splice(index,1);
                       });
@@ -399,7 +402,6 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                            var index = $scope.messageList.indexOf(msg);
                            $scope.messageList.splice(index,1);
                         });
@@ -426,7 +428,6 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                             var index = $scope.messageList.indexOf(msg);
                             $scope.messageList.splice(index,1);
                         });
@@ -453,7 +454,6 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                             var index = $scope.messageList.indexOf(msg);
                             $scope.messageList.splice(index,1);
                         });
@@ -476,6 +476,7 @@ angular.module('Room.controllers', [])
                 var updateQry = "UPDATE Message SET isdownload =?, video_url = ? WHERE message_id=?";
                    DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
                       $scope.getAllMsg();
+                      SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                   });
                 $ionicScrollDelegate.scrollBottom();
                
@@ -498,6 +499,7 @@ angular.module('Room.controllers', [])
                   var updateQry = "UPDATE Message SET isdownload =?, audio_url= ?  WHERE message_id=?";
                       DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
                        $scope.getAllMsg();
+                       SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                    });
                   $ionicScrollDelegate.scrollBottom();
               }, function (error) {
@@ -520,8 +522,8 @@ angular.module('Room.controllers', [])
                   var updateQry = "UPDATE GroupChat SET isdownload =?, image_url = ?  WHERE message_id=?";
                       DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
                         $scope.getAllMsg();
-                         
-                   });
+                        SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
+                    });
                   $ionicScrollDelegate.scrollBottom();
               }, function (error) {
                   console.log('Error', error);
