@@ -333,17 +333,17 @@ angular.module('Room.controllers', [])
                 }
         };
       
-        $scope.deleteMsg = function(data, type, id){
+        $scope.deleteMsg = function(data, type, id, msg){
            $cordovaDialogs.confirm('Delete this message !!', 'Are You Sure ?', ['Cancel','OK'])
             .then(function(buttonIndex) {
               // no button = 0, 'OK' = 1, 'Cancel' = 2
              var btnIndex = buttonIndex;
               if(btnIndex==1){
-                $scope.checkData(data, type, id);
+                $scope.checkData(data, type, id, msg);
               }
             });
         }
-        $scope.checkData = function(data, type, id){
+        $scope.checkData = function(data, type, id, msg){
             $scope.data = {
               message_id:id
             }
@@ -353,9 +353,7 @@ angular.module('Room.controllers', [])
             if(type=='message'){
               var deleteQuery = "DELETE from Message where message_id=?";
               DB.query(deleteQuery, [id]).then(function (result) {
-                
-                var foundItem = $filter('filter')($scope.messageList, { message_id: id  }, true)[0];
-                var index = $scope.messageList.indexOf(foundItem );
+                var index = $scope.messageList.indexOf(msg);
                 $scope.messageList.splice(index,1);
               });
 
@@ -365,7 +363,8 @@ angular.module('Room.controllers', [])
                 .then(function (success) {
                      var deleteQuery = "DELETE from Message where message_id=?";
                       DB.query(deleteQuery, [id]).then(function (result) {
-                        $scope.getAllMsg();
+                        var index = $scope.messageList.indexOf(msg);
+                        $scope.messageList.splice(index,1);
                       });
                 }, function (error) {
                   console.log(error);
@@ -376,7 +375,8 @@ angular.module('Room.controllers', [])
                      var deleteQuery = "DELETE from Message where message_id=?";
                       DB.query(deleteQuery, [id]).then(function (result) {
                         SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
-                        $scope.getAllMsg();
+                         var index = $scope.messageList.indexOf(msg);
+                         $scope.messageList.splice(index,1);
                       });
                 }, function (error) {
                   console.log(error);
@@ -388,7 +388,8 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          $scope.getAllMsg();
+                          var index = $scope.messageList.indexOf(msg);
+                          $scope.messageList.splice(index,1);
                         });
                   }, function (error) {
                     console.log(error);
@@ -399,7 +400,8 @@ angular.module('Room.controllers', [])
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
                           SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
-                          $scope.getAllMsg();
+                           var index = $scope.messageList.indexOf(msg);
+                           $scope.messageList.splice(index,1);
                         });
                   }, function (error) {
                     console.log(error);
@@ -412,10 +414,9 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          $scope.getAllMsg();
-                          setTimeout(function() {
-                              $ionicScrollDelegate.scrollBottom();
-                          }, 10);
+                          var index = $scope.messageList.indexOf(msg);
+                          $scope.messageList.splice(index,1);
+                          $ionicScrollDelegate.scrollBottom();
                         });
                   }, function (error) {
                     console.log(error);
@@ -426,7 +427,8 @@ angular.module('Room.controllers', [])
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
                           SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
-                          $scope.getAllMsg();
+                            var index = $scope.messageList.indexOf(msg);
+                            $scope.messageList.splice(index,1);
                         });
                   }, function (error) {
                     console.log(error);
@@ -439,10 +441,9 @@ angular.module('Room.controllers', [])
                   .then(function (success) {
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
-                          $scope.getAllMsg();
-                          setTimeout(function() {
-                              $ionicScrollDelegate.scrollBottom();
-                          }, 10);
+                            var index = $scope.messageList.indexOf(msg);
+                            $scope.messageList.splice(index,1);
+                            $ionicScrollDelegate.scrollBottom();
                         });
                   }, function (error) {
                     console.log(error);
@@ -453,7 +454,8 @@ angular.module('Room.controllers', [])
                        var deleteQuery = "DELETE from Message where message_id=?";
                         DB.query(deleteQuery, [id]).then(function (result) {
                           SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
-                          $scope.getAllMsg();
+                            var index = $scope.messageList.indexOf(msg);
+                            $scope.messageList.splice(index,1);
                         });
                   }, function (error) {
                     console.log(error);
