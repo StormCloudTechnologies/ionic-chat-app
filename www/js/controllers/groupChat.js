@@ -7,8 +7,8 @@ angular.module('GroupChat.controllers', [])
         $ionicScrollDelegate.scrollBottom();
         $scope.messages = [];
         $scope.messageList = [];
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.103:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -172,13 +172,15 @@ angular.module('GroupChat.controllers', [])
                           'sender_id': $scope.usernumber,
                           'sender_name': $scope.current_user,
                           'video_url': imagePath,
+                          'users':$scope.userList,
                           'time': moment()
                         };
                         $scope.msg1 = {
                           'room_id': $scope.current_room_id,
                           'sender_id': $scope.usernumber,
                           'sender_name': $scope.current_user,
-                         'video_url': result.nativeURL,
+                          'video_url': result.nativeURL,
+                          'users':$scope.userList,
                           'isdownload':"true",
                           'time': moment()
                         };
@@ -215,6 +217,7 @@ angular.module('GroupChat.controllers', [])
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
                         'audio_url':imagePath,
+                        'users':$scope.userList,
                         'time': moment()
                       };
                      $scope.msg1 = {
@@ -222,6 +225,7 @@ angular.module('GroupChat.controllers', [])
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
                         'audio_url': result.nativeURL,
+                        'users':$scope.userList,
                         'isdownload':"true",
                         'time': moment()
                       };
@@ -260,6 +264,7 @@ angular.module('GroupChat.controllers', [])
                         'room_id': $scope.current_room_id,
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
+                        'users':$scope.userList,
                         'documnet_url': imagePath,
                         'time': moment()
                       };
@@ -268,6 +273,7 @@ angular.module('GroupChat.controllers', [])
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
                         'documnet_url': result.nativeURL,
+                        'users':$scope.userList,
                         'isdownload':"true",
                         'time': moment()
                       };
@@ -306,18 +312,20 @@ angular.module('GroupChat.controllers', [])
                     var targetPath = cordova.file.externalRootDirectory+"StormChat/images/sent/file-"+ filename;
                      $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
                       $scope.msg = {
-                       'room_id': $scope.current_room_id,
+                        'room_id': $scope.current_room_id,
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
-                       'image_url': imagePath,
+                        'users':$scope.userList,
+                        'image_url': imagePath,
                         'time': moment()
                       };
                       $scope.msg1 = {
                         'room_id': $scope.current_room_id,
-                       'sender_id': $scope.usernumber,
+                        'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
                         'image_url': result.nativeURL,
-                       'isdownload':"true",
+                        'users':$scope.userList,
+                        'isdownload':"true",
                         'time': moment()
                       };
                      $scope.messageList.push($scope.msg1);
@@ -355,6 +363,7 @@ angular.module('GroupChat.controllers', [])
                       'room_id': $scope.current_room_id,
                       'sender_id': $scope.usernumber,
                       'sender_name': $scope.current_user,
+                      'users':$scope.userList,
                       'video_url': imagePath,
                       'time': moment()
                     };
@@ -363,6 +372,7 @@ angular.module('GroupChat.controllers', [])
                       'sender_id': $scope.usernumber,
                       'sender_name': $scope.current_user,
                       'video_url': result.nativeURL,
+                      'users':$scope.userList,
                       'isdownload':"true",
                       'time': moment()
                     };
@@ -397,6 +407,7 @@ angular.module('GroupChat.controllers', [])
                        'room_id': $scope.current_room_id,
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
+                        'users':$scope.userList,
                         'audio_url':imagePath,
                         'time': moment()
                       };
@@ -405,6 +416,7 @@ angular.module('GroupChat.controllers', [])
                         'sender_id': $scope.usernumber,
                         'sender_name': $scope.current_user,
                         'audio_url': result.nativeURL,
+                        'users':$scope.userList,
                         'isdownload':"true",
                        'time': moment()
                       };
