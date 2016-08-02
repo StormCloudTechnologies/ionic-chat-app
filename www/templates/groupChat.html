@@ -19,7 +19,9 @@
 
                 <div class="message-detail">
                   <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
-                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <div style="width:100%;z-index:99999;" ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'">
+                      <img ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;-webkit-filter: blur(5px); /* Chrome, Safari, Opera */ filter: blur(5px);">
+                    </div>
                     <img on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
                     <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
@@ -59,7 +61,9 @@
             <div ng-if="msg.sender_id != usernumber" class="chat-bubble right">
                 <div class="message-detail">
                     <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
-                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <div style="width:100%;z-index:99999;" ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'">
+                      <img ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;-webkit-filter: blur(5px); /* Chrome, Safari, Opera */ filter: blur(5px);">
+                    </div>
                     <img on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
                     <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
