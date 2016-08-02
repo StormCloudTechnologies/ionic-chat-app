@@ -1,7 +1,7 @@
 // Ionic Starter App
-var url_prefix = 'http://52.36.75.89:9992/api/';
+// var url_prefix = 'http://52.36.75.89:9992/api/';
  // var url_prefix = 'http://localhost:9992/api/';
-// var url_prefix = 'http://192.168.0.101:9992/api/';
+var url_prefix = 'http://192.168.0.102:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -9,7 +9,7 @@ var url_prefix = 'http://52.36.75.89:9992/api/';
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'GroupChat.controllers', 'ngCordova.plugins', 'APIModule', 'ionic-native-transitions'])
+angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'angularMoment', 'Signup.controllers', 'Home.controllers', 'Room.controllers', 'Group.controllers', 'Status.controllers', 'AddStatus.controllers', 'Setting.controllers', 'AddGroup.controllers', 'AddGroupList.controllers', 'Account.controllers', 'Privacy.controllers', 'Security.controllers', 'ChangeNumber.controllers', 'Delete.controllers', 'Profile.controllers', 'AddName.controllers', 'EditProfile.controllers', 'Chats.controllers', 'Notification.controllers', 'About.controllers', 'Contact.controllers', 'GroupChat.controllers', 'GroupView.controllers', 'RoomView.controllers', 'ngCordova.plugins', 'APIModule', 'ionic-native-transitions'])
 
 
 .run(function($ionicPlatform, localStorageService, $cordovaFile, $rootScope, DB, $cordovaSplashscreen, $ionicPopup, $cordovaDialogs, $location) {
@@ -658,6 +658,16 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
     url: '/contact',
     templateUrl: 'templates/contact.html',
      controller: 'ContactCtrl'
+  })
+  .state('roomview', {
+    url: '/roomview',
+    templateUrl: 'templates/roomview.html',
+     controller: 'RoomViewCtrl'
+  })
+  .state('groupview', {
+    url: '/groupview',
+    templateUrl: 'templates/groupview.html',
+     controller: 'GroupViewCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback

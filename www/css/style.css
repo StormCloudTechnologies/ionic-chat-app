@@ -9,7 +9,12 @@ p {
     margin: 0 0 10px;
     color: #716f6f !important;
 }
-
+.button.button-positive{
+  color: #333 !important;
+}
+.popup-container .popup{
+  background-color: #FFF !important;
+}
 .user {
     font-weight: 500;
 }
@@ -523,6 +528,9 @@ ion-content{
 .fs-20{
   font-size: 20px !important;
 }
+.fs-16{
+  font-size: 16px !important;
+}
 .modal {
     display: block;
     position: absolute;
@@ -552,3 +560,28 @@ ion-content{
   overflow: scroll !important;
   overflow-y: scroll !important;
 }
+.room-view{
+    position: absolute;
+    width: 100%;
+    border: none;
+    top: 244px;
+    background: rgba(11, 11, 11, 0.5);
+    color: #FFF !important;
+}
+.product-scroll {
+ height: 95px;
+ overflow: auto;
+ overflow-x: scroll;
+ overflow-y: hidden;
+ white-space: nowrap;
+ overflow: scroll; } 
+.product-image-wrapper {
+ margin: 10px;
+ width: 90px;
+ height: 120px;
+ display: inline-block; }
+ .product-image-wrapper img {
+   max-width: 120px;
+   max-height: 84px;
+   width: auto;
+   height: auto; }

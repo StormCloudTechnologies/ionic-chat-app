@@ -1,0 +1,44 @@
+<ion-view>
+    <ion-header-bar class="bar bar-header bar-positive">
+        <button onclick="javascript:history.go(-1)" class="button button-clear button-icon ion-android-arrow-back"></button>
+         <h1 class="title">User Name</h1>
+    </ion-header-bar>
+    <ion-content scroll="true">
+    <ion-list>
+      <img src="img/profile.png" style="width: 100%;height:300px;">
+      <a class="item item-icon-right room-view">
+       <h2 class="text-white"> User Name </h2>
+       <p  class="text-white">Last time</p>
+       <i class="icon ion-edit text-white"></i>
+      </a>
+    
+    <div class="item item-divider">
+      Media
+    </div>
+    <ion-scroll  class="product-scroll" direction="x" has-bouncing="true" overflow-scroll="true">
+         <div class="product-image-wrapper">
+             <img ng-src="img/profile.png" />
+         </div>
+         <div class="product-image-wrapper">
+             <img ng-src="img/profile.png" />
+         </div><div class="product-image-wrapper">
+             <img ng-src="img/profile.png" />
+         </div><div class="product-image-wrapper">
+             <img ng-src="img/profile.png" />
+         </div><div class="product-image-wrapper">
+             <img ng-src="img/profile.png" />
+         </div>
+     </ion-scroll>
+
+      <div class="item item-divider">
+         Status and phone
+      </div>
+      <div class="bar bar-header item-input-inset">
+        <h2 class="fs-16">status</h2>
+      </div>
+      <div class="bar bar-header item-input-inset">
+        <h2 class="fs-16">number</h2>
+      </div>
+    </ion-list>
+    </ion-content>
+</ion-view >

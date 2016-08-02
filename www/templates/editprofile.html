@@ -1,13 +1,13 @@
 <ion-view>
     <ion-header-bar class="bar bar-header bar-positive">
         <h1 class="title">Profile</h1>
-        <button ui-sref="home" class="button button-clear button-icon">Done</button>
+        <button ui-sref="home" class="button button-clear button-icon" ng-click="userProfileDone()">Done</button>
     </ion-header-bar>
     <ion-content scroll="true" style="background:#efefef;">
       <div class="card no-background">
         <center>
-          <img ng-click="openModalprofileview()" src="img/profile.png" style="width: 150px;height: 150px;border-radius: 100%;">
-          <a class="icon-circle">
+          <img ng-click="openModalprofileview()" src="{{url_prefix1}}{{imagePath}}"   err-src="img/profile.png" style="width: 150px;height: 150px;border-radius: 100%;">
+          <a class="icon-circle" ng-click="uploadImage()">
             <i class="ion-android-camera"></i>
           </a>
         </center>

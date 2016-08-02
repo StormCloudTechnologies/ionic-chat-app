@@ -7,8 +7,8 @@ angular.module('GroupChat.controllers', [])
         $ionicScrollDelegate.scrollBottom();
         $scope.messages = [];
         $scope.messageList = [];
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.102:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -17,6 +17,11 @@ angular.module('GroupChat.controllers', [])
         $scope.humanize = function(timestamp){
           return moment(timestamp).fromNow();
         };
+
+        $scope.gorupView = function(){
+          
+          $state.go('groupview');
+        }
 
         $scope.current_room = localStorageService.get('current_room');
 

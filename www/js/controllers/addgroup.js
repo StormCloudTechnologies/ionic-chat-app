@@ -34,16 +34,16 @@ angular.module('AddGroup.controllers', [])
     console.log($rootScope.addList);
 
     $scope.group_name = localStorage.getItem("groupName");
+    $scope.groupImage = $localstorage.get("groupImage");
       // $scope.group_list = [];
       // $scope.addMember = function(phone) {
       //     $scope.group_list.push(phone)
       //     console.log($scope.group_list);
       // };
-      var image = 'img/profile.png';
       $scope.createGroup = function() {
           APIService.setData({
               req_url: url_prefix + 'createGroup',
-              data: {users: $rootScope.addList, group_name: $scope.group_name, admin_name: username , admin_number:$scope.usernumber , image_url:image}
+              data: {users: $rootScope.addList, group_name: $scope.group_name, admin_name: username , admin_number:$scope.usernumber , image_url:$scope.groupImage}
           }).then(function(resp) {
               console.log(resp);
               if(resp.data) {

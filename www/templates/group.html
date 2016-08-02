@@ -11,7 +11,8 @@
     <ion-content scroll="true">
     <ion-list>
       <ion-item class="item-avatar item-text-wrap" style="padding-left: 115px;min-height: 130px;border:none;">
-        <img ng-src="img/group.png" style="max-width: 85px;max-height: 85px;">
+        <img ng-if="imagePath==''" ng-src="img/group.png" style="max-width: 85px;max-height: 85px;" ng-click="uploadgroupIcon()">
+        <img ng-if="imagePath!=''" ng-src="{{url_prefix1}}{{imagePath}}" style="max-width: 85px;max-height: 85px;" ng-click="uploadgroupIcon()">
         <h2 style="color: #333;">Please provide group subject and optional group icon</h2>
       </ion-item>
       <div class="card no-background1">

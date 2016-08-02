@@ -2,7 +2,7 @@
  	<header class="bar bar-header bar-positive">
  		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveRoom()"></button>
       <img src="img/profile.png" style="width:35px;height:35px;">
- 		  <h1 class="title" style="left: 65px !important;top: -6px;">{{current_chat_friend}}</h1>
+ 		  <h1 class="title" ui-sref="roomview" style="left: 65px !important;top: -6px;">{{current_chat_friend}}</h1>
       <!-- <h1 class="title" ng-hide="online" style="left: 65px !important;top: 12px;font-size:13px;">online</h1> -->
       <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
       <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
@@ -18,8 +18,9 @@
             </div>
            <div class="message-detail">
                 <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
-                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{msg.image_url}}" style="width:100%;">
-                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" err-src="http://google.com/favicon.ico" style="width:100%;">
+                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+
+                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
                     <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
                     <div on-hold="deleteMsg(msg.document_url, 'document', msg.message_id, msg)" ng-if="msg.document_url && msg.isdownload=='true'">{{msg.document_url}}</div>
@@ -37,15 +38,17 @@
                       </video>
                     </div>
 
-                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
+                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio style="width:100%;"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
                       </audio>
                     </div>
-                    <div on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;">
+                    <div on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio   style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
                       </audio>
                     </div>
@@ -55,8 +58,8 @@
         <div ng-if="msg.sender_id!=usernumber" class="chat-bubble right">
             <div class="message-detail">
                     <span  on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" class="bold" style="word-wrap: break-word;">{{msg.message}}</span>
-                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{msg.image_url}}" style="width:100%;">
-                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" err-src="http://google.com/favicon.ico" style="width:100%;">
+                    <img ng-click="downloadImage(msg.image_url, msg.message_id)" ng-if="msg.image_url  && msg.isdownload=='false'" ng-src="{{url_prefix1}}{{msg.image_url}}" style="width:100%;">
+                    <img  on-hold="deleteMsg(msg.image_url, 'image', msg.message_id, msg)" ng-if="msg.image_url && msg.isdownload=='true'" ng-src="{{msg.image_url}}" style="width:100%;">
 
                     <div ng-click="downloadDocument(msg.document_url, msg.message_id)" ng-if="msg.document_url && msg.isdownload=='false'">{{msg.document_url}}</div>
                     <div on-hold="deleteMsg(msg.document_url, 'document', msg.message_id, msg)" ng-if="msg.document_url && msg.isdownload=='true'">{{msg.document_url}}</div>
@@ -74,15 +77,17 @@
                       </video>
                     </div>
 
-                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
+                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio style="width:100%;"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
                       </audio>
                     </div>
-                    <div on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;">
+                    <div on-hold="deleteMsg(msg.audio_url, 'audio', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio   style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
                       </audio>
                     </div>

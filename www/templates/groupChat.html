@@ -1,8 +1,10 @@
 <ion-view align-title="left" title="{{current_room }}"  style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;">
  	<header class="bar bar-header bar-positive">
- 		<button class="button button-clear button-icon ion-chevron-left" ng-click="leaveGroupRoom()"></button>
+ 		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveGroupRoom()"></button>
     <img src="img/profile.png" style="width:35px;height:35px;">
- 		<h1 class="title"  style="left: 65px !important;top: -6px;">{{current_user}}</h1>
+    <a ng-click="gorupView()" style="width: 80% !important; z-index: 99999;">
+ 		 <h1 class="title"  style="left: 65px !important;top: -6px;">{{current_user}}</h1>
+    </a>
     <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
     <button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
  	</header>
@@ -36,16 +38,18 @@
                       </video>
                     </div>
 
-                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
+                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio style="width:100%;"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                       </audio>
                     </div>
-                    <div on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;">
+                    <div on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio   style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                       </audio>
                     </div>
                     <div class="user">{{ msg.sender_name }}, <span>{{ humanize(msg.time) }} </span></div>
@@ -74,16 +78,18 @@
                       </video>
                     </div>
 
-                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;">
+                    <div ng-click="downloadAudio(msg.audio_url, msg.message_id)" ng-if="msg.isdownload=='false' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio style="width:100%;"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                       </audio>
                     </div>
-                    <div on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;">
+                    <div on-hold="deleteMsg(msg.message, 'message', msg.message_id, msg)" ng-if="msg.isdownload=='true' && msg.audio_url" style="z-index:99999;margin:10px;">
                       <audio   style="width:100%;" ng-if="msg.isdownload=='true' && msg.audio_url"  controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline">
                         <source src="{{msg.audio_url}}" type="audio/amr">
                         <source src="{{msg.audio_url}}" type="audio/mp3">
+                        <source src="{{msg.audio_url}}" type="audio/m4a">
                       </audio>
                     </div>
                     <div class="user">{{ msg.receiver_name }}, <span>{{ humanize(msg.time) }}</span></div>
