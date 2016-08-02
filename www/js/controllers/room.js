@@ -608,16 +608,19 @@ angular.module('Room.controllers', [])
 
         }
 
-      	$scope.downloadVideo=function(videoFile, messageId){
+      	$scope.downloadVideo=function(videoFile, messageId, msgdata){
               var resVideo = videoFile.split('-');
               var filename = resVideo[1];
               var url = $scope.url_prefix1+'public/uploads/file-'+filename;
               var targetPath = cordova.file.externalRootDirectory+"StormChat/videos/file-"+ filename;
               $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
                var isdownload = "true";
+                var nativeUrl = result.nativeURL;
                 var updateQry = "UPDATE Message SET isdownload =?, video_url = ? WHERE message_id=?";
                    DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-                      $scope.getAllMsg();
+                      var index = $scope.messageList.indexOf(msgdata);
+                      $scope.messageList[index].video_url = nativeUrl;
+                      $scope.messageList[index].isdownload="true";
                       SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                   });
                 $ionicScrollDelegate.scrollBottom();
@@ -630,7 +633,7 @@ angular.module('Room.controllers', [])
            // }
         }; 
 
-        $scope.downloadAudio=function(AudioFile, messageId){
+        $scope.downloadAudio=function(AudioFile, messageId, msgdata){
               var resAudio = AudioFile.split('-');
                 var filename = resAudio[1];
                 var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -638,9 +641,12 @@ angular.module('Room.controllers', [])
                 var targetPath = cordova.file.externalRootDirectory+"StormChat/audio/file-"+ filename;
                 $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
                   var isdownload = "true";
+                   var nativeUrl = result.nativeURL;
                   var updateQry = "UPDATE Message SET isdownload =?, audio_url= ?  WHERE message_id=?";
                       DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-                       $scope.getAllMsg();
+                      var index = $scope.messageList.indexOf(msgdata);
+                      $scope.messageList[index].audio_url =nativeUrl;
+                      $scope.messageList[index].isdownload="true";
                        SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                    });
                   $ionicScrollDelegate.scrollBottom();
@@ -652,7 +658,7 @@ angular.module('Room.controllers', [])
           // }
         }; 
 
-        $scope.downloadImage=function(ImageFile, messageId){
+        $scope.downloadImage=function(ImageFile, messageId, msgdata){
             var resAudio = ImageFile.split('-');
             var filename = resAudio[1];
             var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -661,9 +667,12 @@ angular.module('Room.controllers', [])
                 $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
                 
                   var isdownload = "true";
+                  var nativeUrl = result.nativeURL;
                   var updateQry = "UPDATE GroupChat SET isdownload =?, image_url = ?  WHERE message_id=?";
                       DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-                        $scope.getAllMsg();
+                        var index = $scope.messageList.indexOf(msgdata);
+                        $scope.messageList[index].image_url = nativeUrl;
+                        $scope.messageList[index].isdownload="true";
                         SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                     });
                   $ionicScrollDelegate.scrollBottom();
@@ -802,6 +811,7 @@ angular.module('Room.controllers', [])
         var isDownload = "false";
         if(msg.sender_id != $scope.usernumber){
           msg.isdownload = "false";
+          msg.message_id =messageID;
            $scope.messageList.push(msg);
            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {

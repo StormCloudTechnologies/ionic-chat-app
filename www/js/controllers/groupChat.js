@@ -570,17 +570,20 @@ angular.module('GroupChat.controllers', [])
 
         }
 
-        $scope.downloadVideo=function(videoFile, messageId){
+        $scope.downloadVideo=function(videoFile, messageId, msgdata){
           var resVideo = videoFile.split('-');
           var filename = resVideo[1];
           var url = $scope.url_prefix1+'public/uploads/file-'+filename;
           var targetPath = cordova.file.externalRootDirectory+"StormChat/videos/file-"+ filename;
           $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
             var isdownload = true;
+            var nativeUrl = result.nativeURL;
             var updateQry = "UPDATE GroupChat SET isdownload = ?, video_url = ? WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-              $scope.getAllMsg();
-              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
+              var index = $scope.messageList.indexOf(msgdata);
+              $scope.messageList[index].video_url = nativeUrl;
+              $scope.messageList[index].isdownload="true";
+              SocketService.emit('delete group file', {message_id: messageId, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
           }, function (error) {
             console.log('Error', error);
@@ -588,17 +591,20 @@ angular.module('GroupChat.controllers', [])
            // PROGRESS HANDLING GOES HERE
           });
         }; 
-        $scope.downloadAudio=function(AudioFile, messageId){
+        $scope.downloadAudio=function(AudioFile, messageId, msgdata){
           var resAudio = AudioFile.split('-');
           var filename = resAudio[1];
           var url = $scope.url_prefix1+'public/uploads/file-'+filename;
           var targetPath = cordova.file.externalRootDirectory+"StormChat/audio/file-"+ filename;
           $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
             var isdownload = true;
+            var nativeUrl = result.nativeURL;
             var updateQry = "UPDATE GroupChat SET isdownload =?, audio_url = ?  WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-              $scope.getAllMsg();
-              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
+              var index = $scope.messageList.indexOf(msgdata);
+              $scope.messageList[index].audio_url = nativeUrl
+              $scope.messageList[index].isdownload="true";
+              SocketService.emit('delete group file', {message_id: messageId, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
           }, function (error) {
             console.log('Error', error);
@@ -607,17 +613,25 @@ angular.module('GroupChat.controllers', [])
           });
         }; 
 
-        $scope.downloadImage=function(ImageFile, messageId){
+        $scope.downloadImage=function(ImageFile, messageId, msgdata){
+          console.log(messageId);
+          console.log(msgdata);
+          console.log(ImageFile);
           var resAudio = ImageFile.split('-');
           var filename = resAudio[1];
           var url = $scope.url_prefix1+'public/uploads/file-'+filename;
           var targetPath = cordova.file.externalRootDirectory+"StormChat/image/file-"+ filename;
           $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result) {
-            var isdownload = true;
+            var isdownload = "true";
+            var nativeUrl = result.nativeURL;
             var updateQry = "UPDATE GroupChat SET isdownload =?, image_url = ?  WHERE message_id=?";
             DB.query(updateQry, [isdownload, result.nativeURL, messageId]).then(function (result) {
-              $scope.getAllMsg();
-              SocketService.emit('delete group file', {message_id: messageID, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
+              var index = $scope.messageList.indexOf(msgdata);
+              console.log(index);
+              $scope.messageList[index].image_url = nativeUrl;
+              $scope.messageList[index].isdownload = "true";
+              SocketService.emit('delete group file', {message_id: messageId, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
+
             });
 
           }, function (error) {
@@ -769,6 +783,7 @@ angular.module('GroupChat.controllers', [])
           }
           if(msg.sender_id != $scope.usernumber){
             msg.isdownload ="false";
+            msg.message_id =messageID;
             $scope.messageList.push(msg);
             var isDownload = false;
             var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
