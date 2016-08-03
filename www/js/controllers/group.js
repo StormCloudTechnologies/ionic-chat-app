@@ -13,7 +13,7 @@ angular.module('Group.controllers', [])
       // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
 
       $scope.uploadgroupIcon = function(){
-         myPopup = $ionicPopup.show({
+          myPopup = $ionicPopup.show({
             template:'<input type="submit" ng-click="cameraOpen()" class="button button-block button-positive" value="Camera" ><input type="submit" ng-click="galleryOpen()" class="button button-block button_color_dark button-positive" value="Gallery" >',
             title: '<h4>Choose Options</h4>',
             scope: $scope,
@@ -28,6 +28,7 @@ angular.module('Group.controllers', [])
 
          $scope.cameraOpen = function(){
           try{
+            myPopup.close();
             localStorage.setItem("type","camera");
             var options = {
               quality : 100,
@@ -58,6 +59,7 @@ angular.module('Group.controllers', [])
        
         $scope.galleryOpen = function(){
           try{
+            myPopup.close();
             localStorage.setItem("type","gallery");
             var options = {
               quality : 100,

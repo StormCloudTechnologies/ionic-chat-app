@@ -1,7 +1,7 @@
 <ion-view>
     <ion-header-bar class="bar bar-header bar-positive">
         <h1 class="title">Profile</h1>
-        <button ui-sref="home" class="button button-clear button-icon" ng-click="userProfileDone()">Done</button>
+        <button class="button button-clear button-icon" ng-click="userProfileDone()">Done</button>
     </ion-header-bar>
     <ion-content scroll="true" style="background:#efefef;">
       <div class="card no-background">
@@ -15,16 +15,16 @@
       <div class="list">
         <a class="item item-icon-right" ui-sref="addname" style="border:none !important;">
           <i class="icon ion-android-create fs-20 icon-color"></i>
-          Sudarshan Vishwakarma
+          {{userName}}
         </a>
         <div class="item item-text-wrap no-background">
           This is a basic Card which contains an item that has wrapping text.
         </div>
         <div class="item item-divider">
-            Your number
+          Your number
         </div>
         <a class="item">
-          562151212
+         {{usernumber}}
         </a>
       </div>
     </ion-content>

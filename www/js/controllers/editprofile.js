@@ -4,10 +4,13 @@ angular.module('EditProfile.controllers', [])
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	$scope.url_prefix1 = 'http://192.168.0.102:9992/';
-      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+    	// $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+      $scope.userName = localStorageService.get('username');
+      $scope.usernumber = localStorageService.get('usernumber');
+      
     	$scope.uploadImage = function(){
-         myPopup = $ionicPopup.show({
+          myPopup = $ionicPopup.show({
             template:'<input type="submit" ng-click="cameraOpen()" class="button button-block button-positive" value="Camera" ><input type="submit" ng-click="galleryOpen()" class="button button-block button_color_dark button-positive" value="Gallery" >',
             title: '<h4>Choose Options</h4>',
             scope: $scope,
@@ -22,6 +25,7 @@ angular.module('EditProfile.controllers', [])
 
          $scope.cameraOpen = function(){
           try{
+            myPopup.close();
             localStorage.setItem("type","camera");
             var options = {
               quality : 100,
@@ -52,6 +56,7 @@ angular.module('EditProfile.controllers', [])
        
         $scope.galleryOpen = function(){
           try{
+            myPopup.close();
             localStorage.setItem("type","gallery");
             var options = {
               quality : 100,
@@ -116,6 +121,7 @@ angular.module('EditProfile.controllers', [])
                 try{
                      var obj = JSON.parse(result.response);
                      $scope.imagePath = obj.path;
+                     console.log($scope.imagePath);
                      $localstorage.set("UserImage", $scope.imagePath );
                      $ionicLoading.hide();
                       // var res = imagePath.split(".");
@@ -172,9 +178,10 @@ angular.module('EditProfile.controllers', [])
                   // alert(err.message);
                 }
         };
-      
 
-    	$ionicModal.fromTemplateUrl('templates/profileview.html', {
+        
+
+    $ionicModal.fromTemplateUrl('templates/profileview.html', {
 		    scope: $scope,
 		    animation: 'slide-in'
 		}).then(function(profileview) {
@@ -187,12 +194,24 @@ angular.module('EditProfile.controllers', [])
 		    $scope.profileview.hide();
 		};
 
-		$scope.UsereditName = $localstorage.get("EditUserName");
+		$scope.editName = $localstorage.get('editName');
 		$scope.UserImage = $localstorage.get("UserImage");
-      	
-		$scope.userProfileDone = function(){
-
-		}
+  	$scope.userProfileDone = function(){
+       console.log('done');
+       APIService.setData({
+            req_url: url_prefix + 'updateContact',
+            data: {phone:$scope.usernumber, username: $scope.editName , image_url: $scope.UserImage}
+        }).then(function(resp) {
+          console.log(resp);
+            if(resp.data) {
+              $localstorage.set("userStatus", resp.data.status);
+              localStorageService.set('username', resp.data.username);
+              $state.go('home');
+            }
+           },function(resp) {
+            console.log('error',resp);
+        });
+  	}
 
      }catch(err){
       console.log(err.message);

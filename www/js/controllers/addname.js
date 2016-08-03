@@ -5,7 +5,7 @@ angular.module('AddName.controllers', [])
     try{
       	
       	$scope.ProfileDone =function(editName){
-      		$localstorage.set("EditUserName", editName);
+      	  $localstorage.set('editName',editName)
       		$state.go('editprofile');
       	}
 

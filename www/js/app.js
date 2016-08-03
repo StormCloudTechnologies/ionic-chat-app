@@ -636,6 +636,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   })
   .state('editprofile', {
     url: '/editprofile',
+    cache: false,
     templateUrl: 'templates/editprofile.html',
      controller: 'EditProfileCtrl'
   })

@@ -44,7 +44,7 @@
         		 <ion-content overflow-scroll="true" has-bouncing="true">
 					<div class="list">
 						  <a class="item item-avatar item-text-wrap" ng-repeat="contact in userList track by $index" ng-if="contact.phone!=usernumber" ng-click="enterChatRoom(contact)">
-						   	<img ng-src="img/profile.png">
+						   	<img src="{{url_prefix1}}{{room.image_url}}" err-src="img/profile.png">
 						    <h2>{{contact.username}}</h2>
 						    {{contact.phone}}
 						  </a>

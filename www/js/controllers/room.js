@@ -9,8 +9,8 @@ angular.module('Room.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
           animation: 'slide-in-up'
