@@ -223,6 +223,7 @@ angular.module('Home.controllers', [])
             });
           
             $scope.enterChatRoom = function(user){
+            	localStorage.setItem("userchat", JSON.stringify(user));
                 localStorageService.set('current_chat_friend', user.username);
                 localStorageService.set('current_friend_number', user.phone);
 				SocketService.emit('join chat:room',{
@@ -234,7 +235,6 @@ angular.module('Home.controllers', [])
 			};
 
 			$scope.enterRoom = function(room_name){
-
 				$scope.current_room = room_name;
 				localStorageService.set('room', room_name);
 				
@@ -247,6 +247,7 @@ angular.module('Home.controllers', [])
 				$state.go('room');
 			};
             $scope.enterGroupRoom = function(room){
+
             	localStorage.setItem("groupList", JSON.stringify(room));
 				localStorageService.set('room_id', room.room_id);
 				localStorageService.set('room_check_ID', room._id);

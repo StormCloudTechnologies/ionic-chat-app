@@ -325,7 +325,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   });
 })
 .constant('DB_CONFIG', {
-   name: 'StormChat3',
+   name: 'StormChat6',
    tables: {
      Message: 
      {

@@ -1,7 +1,7 @@
 <ion-view align-title="left" title="{{current_room }}" style="background:url('img/bg.jpg') fixed no-repeat;background-size:100%;">
  	<header class="bar bar-header bar-positive">
  		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveRoom()"></button>
-      <img src="img/profile.png" style="width:35px;height:35px;">
+      <img src="{{url_prefix1}}{{userchat.image_url}}" err-src="img/profile.png" style="width:35px;height:35px;border-radius: 50%;">
  		  <a ui-sref="roomview" style="width: 50% !important; z-index: 99999;">
        <h1 class="title"  style="left: 65px !important;top: -6px;">{{current_chat_friend}}</h1>
       </a>

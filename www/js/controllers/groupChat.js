@@ -14,6 +14,9 @@ angular.module('GroupChat.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";        
 
+        $scope.grouplist = JSON.parse(localStorage.getItem("groupList"));
+        console.log($scope.grouplist);
+
         $scope.humanize = function(timestamp){
           return moment(timestamp).fromNow();
         };

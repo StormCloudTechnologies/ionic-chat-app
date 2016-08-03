@@ -4,11 +4,11 @@ angular.module('EditProfile.controllers', [])
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	// $scope.url_prefix1 = 'http://192.168.0.103:9992/';
-      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+    	$scope.url_prefix1 = 'http://192.168.0.103:9992/';
+      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
       $scope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
-      
+
     	$scope.uploadImage = function(){
           myPopup = $ionicPopup.show({
             template:'<input type="submit" ng-click="cameraOpen()" class="button button-block button-positive" value="Camera" ><input type="submit" ng-click="galleryOpen()" class="button button-block button_color_dark button-positive" value="Gallery" >',
@@ -195,12 +195,14 @@ angular.module('EditProfile.controllers', [])
 		};
 
 		$scope.editName = $localstorage.get('editName');
-		$scope.UserImage = $localstorage.get("UserImage");
+    $scope.userName = $scope.editName;
+    $scope.UserImage = $localstorage.get("UserImage");
+     // $scope.UserImage = "img/profile.png";
   	$scope.userProfileDone = function(){
        console.log('done');
        APIService.setData({
             req_url: url_prefix + 'updateContact',
-            data: {phone:$scope.usernumber, username: $scope.editName , image_url: $scope.UserImage}
+            data: {phone:$scope.usernumber, username: $scope.userName , image_url: $scope.UserImage}
         }).then(function(resp) {
           console.log(resp);
             if(resp.data) {

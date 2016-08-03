@@ -1,6 +1,6 @@
 angular.module('AddGroupList.controllers', [])
 
-.controller('AddGroupListCtrl', function($scope, $rootScope, DB, $localstorage, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
+.controller('AddGroupListCtrl', function($scope, $ionicHistory, $rootScope, DB, $localstorage, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
   $ionicPlatform.ready(function(){
     try{
       // $rootScope.addList = [];
@@ -38,6 +38,7 @@ angular.module('AddGroupList.controllers', [])
       
       $scope.addMember = function(phone) {
           $rootScope.addList.push(phone)
+          $localstorage.set("adduser", "1");
           console.log($rootScope.addList);
       };
       // $scope.createGroup = function() {
