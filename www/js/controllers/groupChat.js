@@ -7,8 +7,8 @@ angular.module('GroupChat.controllers', [])
         $ionicScrollDelegate.scrollBottom();
         $scope.messages = [];
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -764,10 +764,12 @@ angular.module('GroupChat.controllers', [])
           var newDate = new Date(Time);
           var timestamptest = Date.parse(newDate);
           if(msg.sender_id==$scope.usernumber){
+            var deliveryStatus = "uploaded";
             if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
-              var updateQry = "UPDATE GroupChat SET message_id =? WHERE time=?";
-              DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
+              var updateQry = "UPDATE GroupChat SET message_id =?, delivery_status=? WHERE time=?";
+              DB.query(updateQry, [msg._id, deliveryStatus, timestamptest]).then(function (result) {
                 console.log("update");
+
                 if(msg.audio_url){
                   SocketService.emit('delete group file', {message_id: msg._id, user_number: $scope.usernumber, file_path:msg.audio_url});
                 }
@@ -811,6 +813,25 @@ angular.module('GroupChat.controllers', [])
             var message = '';
           }else{
             var message = msg.message;
+          }
+          if(msg.sender_id == $scope.usernumber){
+              //var tickIndex = $scope.messageList.map(function(e) { return timestamptest; }).indexOf('time');
+              // var tickIndex = $scope.messageList.indexOf(msg.time);
+              //var tickIndex = $scope.messageList.indexOf(new_msg);
+              //msg.delivery_status ="uploaded";
+              angular.forEach($scope.messageList, function(item) {
+                var timeMsg1 = item.time;
+            var MsgTime1 = Date.parse(timeMsg1);
+                if(MsgTime1 == timestamptest) {
+                  console.log("=====MsgTime1===",item);
+                  var tickIndex = $scope.messageList.indexOf(item); 
+                  console.log("===tickIndex======",tickIndex);
+                  $scope.messageList[tickIndex].delivery_status = "uploaded";
+                  $scope.messageList[tickIndex].message_id = msg._id;
+                }
+              });
+              //console.log("===tickIndex======",tickIndex);
+              console.log("===new_msg======",msg.time);
           }
           if(msg.sender_id != $scope.usernumber){
             msg.isdownload ="false";

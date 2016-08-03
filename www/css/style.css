@@ -585,3 +585,8 @@ ion-content{
    max-height: 84px;
    width: auto;
    height: auto; }
+.tickstyle{
+    margin: -3px 0px 0px 10px;
+    font-size: 26px;
+    position: absolute;
+}
