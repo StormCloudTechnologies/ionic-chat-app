@@ -1,6 +1,6 @@
 // Ionic Starter App
-var url_prefix = 'http://52.36.75.89:9992/api/';
- // var url_prefix = 'http://localhost:9992/api/';
+// var url_prefix = 'http://52.36.75.89:9992/api/';
+ var url_prefix = 'http://localhost:9992/api/';
 // var url_prefix = 'http://192.168.0.101:9992/api/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
@@ -562,11 +562,13 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
 
   .state('room', {
     url: '/room',
+    cache: false,
    templateUrl: 'templates/room.html',
      controller: 'RoomCtrl'
   })
   .state('groupChat', {
     url: '/groupChat',
+    cache: false,
     templateUrl: 'templates/groupChat.html',
      controller: 'GroupChatCtrl'
   })

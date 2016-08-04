@@ -36,6 +36,7 @@ angular.module('Signup.controllers', [])
                 $localstorage.set('isslogin', "1");
                 localStorageService.set('username', username);
                 localStorageService.set('usernumber', usernumber);
+                localStorageService.set('userDocId', msg._id);
                 $state.go('editprofile');
             }
         });

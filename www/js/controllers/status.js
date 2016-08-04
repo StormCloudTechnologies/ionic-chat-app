@@ -1,10 +1,11 @@
 angular.module('Status.controllers', [])
 
-.controller('StatusCtrl', function($scope, $ionicLoading, $localstorage, $ionicPlatform, $state, localStorageService, APIService, $ionicPopover, $localstorage) {
+.controller('StatusCtrl', function($scope, $ionicLoading, $localstorage, $ionicPlatform, $state, localStorageService, APIService, $ionicPopover, $localstorage, $rootScope) {
   $ionicPlatform.ready(function(){
     try{
-    	$scope.userStatus = $localstorage.get("userStatus");
+    	$rootScope.userStatus = $localstorage.get("userStatus");
     	$scope.usernumber = localStorageService.get('usernumber');
+    	$scope.userDocId = localStorageService.get('userDocId');
     	console.log($scope.userStatus);
     	$ionicPopover.fromTemplateUrl('templates/deletestatus.html', {
 		    scope: $scope
@@ -21,11 +22,11 @@ angular.module('Status.controllers', [])
 		$scope.addstatus = function(newStatus){
 			APIService.setData({
 	            req_url: url_prefix + 'updateContact',
-	            data: {phone:$scope.usernumber, status: newStatus}
+	            data: {id: $scope.userDocId,phone:$scope.usernumber, status: newStatus}
 	        }).then(function(resp) {
 	          console.log(resp);
 	            if(resp.data) {
-	              $scope.userStatus = resp.data.status;
+	              $rootScope.userStatus = resp.data.status;
 	              $localstorage.set("userStatus", resp.data.status);
 	              // $state.go('status');
 	            }

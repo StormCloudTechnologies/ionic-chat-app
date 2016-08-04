@@ -1,13 +1,14 @@
 angular.module('EditProfile.controllers', [])
 
-.controller('EditProfileCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService, $ionicModal, $cordovaFileTransfer, $ionicPopup, $cordovaCamera, $localstorage) {
+.controller('EditProfileCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService, $ionicModal, $cordovaFileTransfer, $ionicPopup, $cordovaCamera, $localstorage,$rootScope) {
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	$scope.url_prefix1 = 'http://192.168.0.103:9992/';
+    	$scope.url_prefix1 = 'http://localhost:9992/';
       // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-      $scope.userName = localStorageService.get('username');
+      $rootScope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
+      $scope.userDocId = localStorageService.get('userDocId');
 
     	$scope.uploadImage = function(){
           myPopup = $ionicPopup.show({
@@ -195,14 +196,14 @@ angular.module('EditProfile.controllers', [])
 		};
 
 		$scope.editName = $localstorage.get('editName');
-    $scope.userName = $scope.editName;
+    //$rootScope.userName = $scope.editName;
     $scope.UserImage = $localstorage.get("UserImage");
      // $scope.UserImage = "img/profile.png";
   	$scope.userProfileDone = function(){
        console.log('done');
        APIService.setData({
             req_url: url_prefix + 'updateContact',
-            data: {phone:$scope.usernumber, username: $scope.userName , image_url: $scope.UserImage}
+            data: {id: $scope.userDocId, phone:$scope.usernumber, username: $rootScope.userName , image_url: $scope.UserImage}
         }).then(function(resp) {
           console.log(resp);
             if(resp.data) {
