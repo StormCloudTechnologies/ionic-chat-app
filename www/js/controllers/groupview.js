@@ -1,11 +1,11 @@
 angular.module('GroupView.controllers', [])
 
-.controller('GroupViewCtrl', function($scope, $rootScope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
+.controller('GroupViewCtrl', function($scope, $ionicModal, $rootScope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService) {
   $ionicPlatform.ready(function(){
     try{
       $scope.addUserlist = [];
       $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+      // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
     	$scope.groupList = JSON.parse(localStorage.getItem("groupList"));
     	$scope.usernumber = localStorageService.get('usernumber');
 
@@ -23,16 +23,17 @@ angular.module('GroupView.controllers', [])
 		$scope.deleteuser = function(userList){
 		   var index = $scope.groupList.users.indexOf(userList);
 		   console.log(index);
-           $scope.groupList.users.splice(index,1);
-           console.log($scope.groupList.users);
+       $scope.groupList.users.splice(index,1);
+       console.log($scope.groupList.users);
 		}
-		var gorupID = $scope.groupList._id;
-		var usersLst = $scope.groupList.users;
+		// var gorupID = $scope.groupList._id;
+		// var usersLst = $scope.groupList.users;
+    // console.log(usersLst);
 		$scope.updateUserList = function(){
 			console.log('done');
 			APIService.setData({
           req_url: url_prefix + 'updateGroup',
-          data: {id:gorupID, users: usersLst, user_number:$scope.usernumber}
+          data: {id:$scope.groupList._id, users: $scope.groupList.users, user_number:$scope.usernumber}
       }).then(function(resp) {
       	console.log(resp);
           if(resp.data) {
@@ -44,23 +45,58 @@ angular.module('GroupView.controllers', [])
           console.log('error',resp);
       });
 		}
-    // $scope.adduser = function(){
-    //   if( $scope.Addusercheck=="1"){
-    //     APIService.setData({
-    //         req_url: url_prefix + 'updateGroup',
-    //         data: {id:gorupID, users: $scope.addUserlist, user_number:$scope.usernumber}
-    //     }).then(function(resp) {
-    //       console.log(resp);
-    //         if(resp.data) {
-    //           $localstorage.set("adduser", "0")
-    //           console.log(resp.data);
-    //           $scope.groupList = resp.data[0].users;
-    //         }
-    //        },function(resp) {
-    //         console.log('error',resp);
-    //     });
-    //   }
-    // }
+
+    $scope.addMember = function(phone, isCheck){
+      if(isCheck==true){
+        $rootScope.addList.push(phone);
+      }
+      if(isCheck==false){
+        $rootScope.addList.pop(phone);
+      }
+      
+      console.log($rootScope.addList);
+    };
+
+
+    $ionicModal.fromTemplateUrl('templates/addgroupuser.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(addgroupuser) {
+      $scope.addgroupuser = addgroupuser;
+    });
+    $scope.openModaladdgroupuser = function() {
+      $scope.addgroupuser.show();
+      
+    };
+    $scope.closeModaladdgroupuser = function(value) {
+      console.log(value);
+      if(value=="2"){
+        $scope.adduser($rootScope.addList);
+      }
+      $scope.addgroupuser.hide();
+      
+    };
+   $rootScope.addList = [];
+   $scope.usernumber = localStorageService.get('usernumber');
+   
+   $rootScope.addList.push($scope.usernumber);
+
+   
+    $scope.adduser = function(Adduser){
+      console.log("add", Adduser);
+        APIService.setData({
+            req_url: url_prefix + 'updateGroup',
+            data: {id:$scope.groupList._id, users: Adduser, user_number:$scope.usernumber}
+        }).then(function(resp) {
+          console.log(resp);
+            if(resp.data) {
+              localStorage.setItem("userList", JSON.stringify(resp.data));
+              $scope.groupList = resp.data;
+            }
+           },function(resp) {
+            console.log('error',resp);
+        });
+    }
 
       
      }catch(err){

@@ -4,8 +4,8 @@ angular.module('EditProfile.controllers', [])
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	$scope.url_prefix1 = 'http://localhost:9992/';
-      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+    	// $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
       $rootScope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
       $scope.userDocId = localStorageService.get('userDocId');

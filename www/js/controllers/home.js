@@ -14,7 +14,7 @@ angular.module('Home.controllers', [])
 	     //  });
    			// $scope.isOnline = $cordovaNetwork.isOnline();
 
-   		// $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+   		// $scope.url_prefix1 = 'http://192.168.0.100:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
 
    			$scope.hideCall = true;

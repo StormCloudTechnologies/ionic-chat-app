@@ -25,7 +25,7 @@
              </a>
           </div>
           <div class="col col-33 no-padding">
-             <ion-checkbox ng-click="addMember(user.phone)" class="no-background" style="height:65px;"></ion-checkbox><!-- ng-click="addMember(user.phone)" -->
+             <ion-checkbox ng-click="addMember(user.phone, user.ischeck)" ng-model="user.ischeck" class="no-background" style="height:65px;"></ion-checkbox><!-- ng-click="addMember(user.phone)" -->
           </div>
         </div>
       </div>
