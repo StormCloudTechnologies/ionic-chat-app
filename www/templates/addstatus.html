@@ -6,7 +6,7 @@
     <ion-list>
         <div class="card no-background1">
             <label class="item item-input" style="width: 90%;margin: 0;">
-                <input autofocus type="text" placeholder="status" style="border-bottom: 2px solid #333;">
+                <input autofocus type="text" ng-model="user.status" placeholder="status" style="border-bottom: 2px solid #333;">
             </label>
         </div>
     </ion-list>
@@ -14,7 +14,7 @@
     <ion-footer-bar class="no-margin no-padding">   
         <div class="button-bar no-margin no-padding">
           <a class="button no-margin no-padding" onclick="javascript:history.go(-1)">Cancel</a>
-          <a class="button no-margin no-padding">OK</a>
+          <a class="button no-margin no-padding" ng-click="addstatus(user.status)">OK</a>
         </div>
     </ion-footer-bar>
 </ion-view >
