@@ -12,7 +12,7 @@ angular.module('Room.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
@@ -753,8 +753,7 @@ angular.module('Room.controllers', [])
           
           var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
              DB.query(MessageQry, [messageId, $scope.usernumber, $scope.current_user, $scope.current_friend_number, $scope.current_chat_friend, audioUrl, videoUrl, imageUrl, documentUrl,  $scope.message, MsgTime, isDownload]).then(function (result) {
-                  // $scope.getAllMsg();
-
+               
            });
 
 
@@ -765,8 +764,9 @@ angular.module('Room.controllers', [])
         }
         
       };
+
       SocketService.on('message created', function(msg){
-       
+       console.log(msg);
         var messageID = msg._id;
         var senderID = msg.sender_id;
         var senderName = msg.sender_name;
@@ -775,11 +775,28 @@ angular.module('Room.controllers', [])
         var Time = msg.time;
         var newDate = new Date(Time);
         var timestamptest = Date.parse(newDate);
+        console.log("emit humanize");
         if(msg.sender_id==$scope.usernumber){
-          if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
-                var updateQry = "UPDATE Message SET message_id =? WHERE time=?";
+          console.log("sender id nhi aaya");
+            var deliveryStatus = "uploaded";
+            angular.forEach($scope.messageList, function(item) {
+              console.log(item);
+              var timeMsg1 = item.time;
+              var MsgTime1 = Date.parse(timeMsg1);
+              if(MsgTime1 == timestamptest) {
+                console.log("=====MsgTime1===",item);
+                var tickIndex = $scope.messageList.indexOf(item); 
+                console.log("===tickIndex======",tickIndex);
+                $scope.messageList[tickIndex].delivery_status = "uploaded";
+                $scope.messageList[tickIndex].message_id = msg._id;
+              }
+            });
+            //console.log("===tickIndex======",tickIndex);
+            console.log("===new_msg======",msg.time);
+            if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
+                var updateQry = "UPDATE Message SET message_id =?, delivery_status=? WHERE time=?";
                  console.log(updateQry);
-                  DB.query(updateQry, [msg._id, timestamptest]).then(function (result) {
+                  DB.query(updateQry, [msg._id, deliveryStatus, timestamptest]).then(function (result) {
                     // $scope.getAllMsg();
                });
             }
@@ -819,7 +836,7 @@ angular.module('Room.controllers', [])
            var MessageQry = "Insert into Message(message_id,sender_id, sender_name, receiver_id, receiver_name, audio_url, video_url, image_url, document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
                DB.query(MessageQry, [messageID , senderID, senderName, ReceiverID, ReceiverName, audioUrl, videoUrl, imageUrl, documentUrl,  message, Time, isDownload]).then(function (result) {
                  console.log("message created==",msg);
-                    SocketService.emit('delete p2p chat message', {message_id: msg._id});
+                  SocketService.emit('delete p2p chat message', msg);
                     // $scope.messageList.push(msg);
              });
         }
@@ -870,13 +887,32 @@ angular.module('Room.controllers', [])
         $ionicScrollDelegate.scrollBottom();
       });
 
+      SocketService.on('message delivered', function(data){
+        console.log(data);
+         angular.forEach($scope.messageList, function(item) {
+            if(data.message_id == item.message_id) {
+              console.log("=====MsgTime1===",item);
+              var tickIndex = $scope.messageList.indexOf(item); 
+              console.log("===tickIndex======",tickIndex);
+              $scope.messageList[tickIndex].delivery_status = "delivered";
+            }
+          });
+        var deliveryStatus = "delivered";
+        var updateQry = "UPDATE Message SET delivery_status=? WHERE message_id=?";
+           console.log(updateQry);
+            DB.query(updateQry, [deliveryStatus, data.message_id]).then(function (result) {
+              // $scope.getAllMsg();
+         });
+      });
+
       $scope.getAllMsg = function(){
         var chatlist = "SELECT * from Message where receiver_id IN(" + [$scope.current_friend_number, $scope.usernumber]+") AND sender_id IN(" + [$scope.current_friend_number, $scope.usernumber]+")";
          var results = DB.query(chatlist, []).then(function (result) {
            if(result.rows.length!=0){
+            console.log(result.rows);
              var len = result.rows.length;
               for(var j=0;j<len;j++){
-                  $scope.messageList.push({"message_id":result.rows.item(j).message_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url}); 
+                  $scope.messageList.push({"message_id":result.rows.item(j).message_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "receiver_id":result.rows.item(j).receiver_id, "receiver_name":result.rows.item(j).receiver_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url, "delivery_status":result.rows.item(j).delivery_status}); 
               } 
               $ionicScrollDelegate.scrollBottom();
             }else{

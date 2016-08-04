@@ -590,3 +590,6 @@ ion-content{
     font-size: 26px;
     position: absolute;
 }
+.icon-top{
+  top: 27px;
+}
