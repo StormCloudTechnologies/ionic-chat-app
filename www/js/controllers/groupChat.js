@@ -8,7 +8,7 @@ angular.module('GroupChat.controllers', [])
         $scope.messages = [];
         $scope.messageList = [];
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.101:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
 
         $scope.videoDiv = "true";
         $scope.AudioDiv = "true";
@@ -193,8 +193,8 @@ angular.module('GroupChat.controllers', [])
                         var documentUrl = '';
                         var imageUrl = '';
                         var message = '';
-                       var timeVideo = $scope.msg.time;
-                       var VideoTime = Date.parse(timeVideo);
+                        var timeVideo = $scope.msg.time;
+                        var VideoTime = Date.parse(timeVideo);
                         var isDownload = true;
                         var MessageQry = "Insert into GroupChat(message_id, room_id,sender_id, sender_name, audio_url, video_url, image_url,  document_url, message, time, isdownload) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         DB.query(MessageQry, [messageId,$scope.msg.room_id,$scope.msg.sender_id, $scope.msg.sender_name, audioUrl, $scope.msg1.video_url, imageUrl, documentUrl, message, VideoTime, isDownload]).then(function (result) {
@@ -765,6 +765,19 @@ angular.module('GroupChat.controllers', [])
           var timestamptest = Date.parse(newDate);
           if(msg.sender_id==$scope.usernumber){
             var deliveryStatus = "uploaded";
+             angular.forEach($scope.messageList, function(item) {
+                var timeMsg1 = item.time;
+                var MsgTime1 = Date.parse(timeMsg1);
+                if(MsgTime1 == timestamptest) {
+                  console.log("=====MsgTime1===",item);
+                  var tickIndex = $scope.messageList.indexOf(item); 
+                  console.log("===tickIndex======",tickIndex);
+                  $scope.messageList[tickIndex].delivery_status = "uploaded";
+                  $scope.messageList[tickIndex].message_id = msg._id;
+                }
+              });
+              //console.log("===tickIndex======",tickIndex);
+              console.log("===new_msg======",msg.time);
             if(msg.audio_url!=undefined || msg.video_url!=undefined || msg.document_url!=undefined || msg.image_url!=undefined || msg.message!=undefined){
               var updateQry = "UPDATE GroupChat SET message_id =?, delivery_status=? WHERE time=?";
               DB.query(updateQry, [msg._id, deliveryStatus, timestamptest]).then(function (result) {
@@ -814,25 +827,13 @@ angular.module('GroupChat.controllers', [])
           }else{
             var message = msg.message;
           }
-          if(msg.sender_id == $scope.usernumber){
-              //var tickIndex = $scope.messageList.map(function(e) { return timestamptest; }).indexOf('time');
-              // var tickIndex = $scope.messageList.indexOf(msg.time);
-              //var tickIndex = $scope.messageList.indexOf(new_msg);
-              //msg.delivery_status ="uploaded";
-              angular.forEach($scope.messageList, function(item) {
-                var timeMsg1 = item.time;
-            var MsgTime1 = Date.parse(timeMsg1);
-                if(MsgTime1 == timestamptest) {
-                  console.log("=====MsgTime1===",item);
-                  var tickIndex = $scope.messageList.indexOf(item); 
-                  console.log("===tickIndex======",tickIndex);
-                  $scope.messageList[tickIndex].delivery_status = "uploaded";
-                  $scope.messageList[tickIndex].message_id = msg._id;
-                }
-              });
-              //console.log("===tickIndex======",tickIndex);
-              console.log("===new_msg======",msg.time);
-          }
+          // if(msg.sender_id == $scope.usernumber){
+          //     //var tickIndex = $scope.messageList.map(function(e) { return timestamptest; }).indexOf('time');
+          //     // var tickIndex = $scope.messageList.indexOf(msg.time);
+          //     //var tickIndex = $scope.messageList.indexOf(new_msg);
+          //     //msg.delivery_status ="uploaded";
+             
+          // }
           if(msg.sender_id != $scope.usernumber){
             msg.isdownload ="false";
             msg.message_id =messageID;
@@ -855,13 +856,15 @@ angular.module('GroupChat.controllers', [])
 
 
         $scope.getAllMsg = function(){
+
           var chatlist = "SELECT * from GroupChat where room_id=?";
           var results = DB.query(chatlist, [$scope.current_room_id]).then(function (result) {
           if(result.rows){
+            console.log(result.rows);
             var len = result.rows.length;
             $scope.messageList = [];
             for(var j=0;j<len;j++){
-              $scope.messageList.push({"message_id":result.rows.item(j).message_id,"room_id":result.rows.item(j).room_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url});  
+              $scope.messageList.push({"message_id":result.rows.item(j).message_id,"room_id":result.rows.item(j).room_id, "sender_id":result.rows.item(j).sender_id, "sender_name":result.rows.item(j).sender_name, "message":result.rows.item(j).message, "time":result.rows.item(j).time, "isdownload":result.rows.item(j).isdownload, "audio_url":result.rows.item(j).audio_url, "document_url":result.rows.item(j).document_url, "image_url":result.rows.item(j).image_url, "video_url":result.rows.item(j).video_url, "delivery_status":result.rows.item(j).delivery_status});  
             } 
           }else{
             console.log("insert All Ready List");
