@@ -5,7 +5,7 @@ angular.module('RoomView.controllers', [])
     try{
     	$scope.userchat=JSON.parse(localStorage.getItem("userchat"));
         console.log($scope.userchat);
-        // $scope.url_prefix1 = 'http://192.168.0.103:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
       
      }catch(err){
