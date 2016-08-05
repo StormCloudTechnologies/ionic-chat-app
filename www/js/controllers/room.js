@@ -12,7 +12,7 @@ angular.module('Room.controllers', [])
         $scope.AudioDiv = "true";
         $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
@@ -706,7 +706,7 @@ angular.module('Room.controllers', [])
         SocketService.on('listen start p2p typing', function(msg){
 
         if(msg.sender_id != $scope.usernumber) {
-            if($scope.current_receiver_id == msg.sender_id)
+            if(msg.sender_id == msg.sender_id)
                   $scope.type_message = $scope.current_user+" is typing";
                   $scope.current_receiver_id = msg.sender_id;
      

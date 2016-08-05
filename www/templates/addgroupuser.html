@@ -1,0 +1,29 @@
+<ion-modal-view>
+<ion-header-bar class="bar bar-header bar-positive">
+    <button ng-click="closeModaladdgroupuser('1')" class="button button-clear button-icon ion-android-arrow-back"></button>
+         <h1 class="title">Add user</h1>
+    <button ng-click="closeModaladdgroupuser('2')" class="button button-clear button-icon ion-android-done">&nbsp; DONE</button>
+</ion-header-bar>
+<ion-content  ng-click="uploadview.hide()" style="background: #FFF;">
+  <div class="list list-inset no-background1" style="margin: 0px 0px 5px 0px;border:none;">
+      <label class="item item-input no-background1" style="border-bottom: 2px solid #2de7c7;width: 94%;margin: 0 3%;">
+        <i class="icon ion-search placeholder-icon" style="color:#2de7c7;font-size: 20px;"></i>
+        <input type="text" placeholder="Search...">
+      </label>
+    </div>  
+    <div class="list" style="width: 94%;margin: 0 3%;">
+        <div class="row no-padding" style="border-bottom: 1px solid #ddd;" ng-repeat="user in userList" ng-if="user.phone!=usernumber">
+          <div class="col col-67 no-padding">
+            <a class="item no-background item-avatar">
+                <img src="img/ionic.png">
+                <h2>{{user.username }}</h2>
+                <p>demo</p>
+             </a>
+          </div>
+          <div class="col col-33 no-padding">
+             <ion-checkbox ng-click="addMember(user, user.ischeck)" ng-model="user.ischeck" class="no-background" style="height:65px;"></ion-checkbox><!-- ng-click="addMember(user.phone)" -->
+          </div>
+        </div>
+      </div>
+</ion-content>
+</ion-modal-view>

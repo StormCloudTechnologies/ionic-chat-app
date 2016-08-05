@@ -35,12 +35,12 @@
       Add user
     </ion-item>
     <ion-list show-delete="shouldShowDelete">
-      <ion-item ng-repeat="userList in groupList.users track by $index"  ng-if="userList!=usernumber" class="item-avatar">
+      <ion-item ng-repeat="userList in groupList.users track by $index"  ng-if="userList.phone!=usernumber" class="item-avatar">
         <ion-delete-button class="ion-minus-circled" ng-click="deleteuser(userList)">
         </ion-delete-button>
         <img ng-src="img/profile.png">
-        <h2>{{userList}}</h2>
-        <!-- <p>status</p> -->
+        <h2>{{userList.username}}</h2>
+        <p>{{userList.phone}}</p>
       </ion-item>
     </ion-list>
     <button class="button button-block button-assertive">Delete Group</button>

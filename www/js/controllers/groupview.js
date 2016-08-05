@@ -4,8 +4,9 @@ angular.module('GroupView.controllers', [])
   $ionicPlatform.ready(function(){
     try{
       $scope.addUserlist = [];
+      $scope.updateList = [];
       $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-      // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
+      // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
     	$scope.groupList = JSON.parse(localStorage.getItem("groupList"));
     	$scope.usernumber = localStorageService.get('usernumber');
 
@@ -46,47 +47,45 @@ angular.module('GroupView.controllers', [])
       });
 		}
 
-    $scope.addMember = function(phone, isCheck){
-      if(isCheck==true){
-        $rootScope.addList.push(phone);
-      }
-      if(isCheck==false){
-        $rootScope.addList.pop(phone);
-      }
-      
-      console.log($rootScope.addList);
-    };
-
-
-    $ionicModal.fromTemplateUrl('templates/addgroupuser.html', {
+     $ionicModal.fromTemplateUrl('templates/addgroupuser.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(addgroupuser) {
       $scope.addgroupuser = addgroupuser;
     });
     $scope.openModaladdgroupuser = function() {
+      $scope.updateList = angular.copy($scope.groupList.users);
       $scope.addgroupuser.show();
       
     };
     $scope.closeModaladdgroupuser = function(value) {
       console.log(value);
       if(value=="2"){
-        $scope.adduser($rootScope.addList);
+        $scope.adduser();
       }
       $scope.addgroupuser.hide();
-      
     };
-   $rootScope.addList = [];
+   
+   $scope.addMember = function(adduser, isCheck){
+      if(isCheck==true){
+        $scope.updateList.push(adduser);
+      }
+      if(isCheck==false){
+        $scope.updateList.pop(adduser);
+      }
+      
+      console.log($scope.updateList);
+    };
    $scope.usernumber = localStorageService.get('usernumber');
    
-   $rootScope.addList.push($scope.usernumber);
+   // $rootScope.addList.push($scope.usernumber);
 
    
-    $scope.adduser = function(Adduser){
-      console.log("add", Adduser);
+    $scope.adduser = function(){
+       console.log("add", $scope.updateList);
         APIService.setData({
             req_url: url_prefix + 'updateGroup',
-            data: {id:$scope.groupList._id, users: Adduser, user_number:$scope.usernumber}
+            data: {id:$scope.groupList._id, users: $scope.updateList, user_number:$scope.usernumber}
         }).then(function(resp) {
           console.log(resp);
             if(resp.data) {

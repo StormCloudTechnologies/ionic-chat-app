@@ -31,10 +31,10 @@
             <ion-slide slide-tabs-scrollable="true" ion-slide-tab-label="Chats">
         		 <ion-content class="has-header" style="top: 0;" overflow-scroll="true" has-bouncing="true">
         		 		<div class="list">
-						  <a class="item item-avatar" ng-repeat="room in groupList" ng-click="enterGroupRoom(room)">
+						  <a class="item item-avatar" ng-repeat="room in groupList track by $index" ng-click="enterGroupRoom(room)">
 						      <img src="{{url_prefix1}}{{room.image_url}}" err-src="img/profile.png">
 						      <h2>{{room.group_name}}</h2>
-	                            {{room.users}}
+	                          <span ng-repeat="roomUsers in room.users track by $index">{{roomUsers.username}}  </span><!-- <span>, </span> -->
 					  	   </a>
 						</div>
 						<br /><br />

@@ -3,7 +3,7 @@
  		<button class="button button-clear button-icon ion-android-arrow-back" ng-click="leaveGroupRoom()"></button>
     <img src="{{url_prefix1}}{{grouplist.image_url}}" err-src="img/profile.png" style="width:35px;height:35px;border-radius: 50%;">
     <a ng-click="gorupView()" style="width: 50% !important; z-index: 99999;">
- 		 <h1 class="title" style="left: 65px !important;top: -6px;width: 60% !important;">{{current_user}}</h1>
+ 		 <h1 class="title" style="left: 65px !important;top: -6px;width: 60% !important;">{{current_room}}</h1>
     </a>
     <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
     <button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
@@ -103,8 +103,8 @@
             </div>
        </li>
 	</div>	
-
-	<div class="card" ng-if="!messageList.length" style="top:10%;">
+  <br />
+	<div class="card" ng-if="!messageList.length">
 	  <div class="item item-text-wrap">
 	    No messages yet.
 	  </div>

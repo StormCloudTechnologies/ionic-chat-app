@@ -33,10 +33,12 @@ angular.module('Signup.controllers', [])
           console.log("====msg====",msg);
             $ionicLoading.hide();
             if(msg) {
+                console.log(msg);
                 $localstorage.set('isslogin', "1");
                 localStorageService.set('username', username);
                 localStorageService.set('usernumber', usernumber);
                 localStorageService.set('userDocId', msg._id);
+                localStorageService.set('userdata', msg);
                 $state.go('editprofile');
             }
         });
