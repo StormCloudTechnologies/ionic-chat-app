@@ -34,7 +34,7 @@
 						  <a class="item item-avatar" ng-repeat="room in groupList track by $index" ng-click="enterGroupRoom(room)">
 						      <img src="{{url_prefix1}}{{room.image_url}}" err-src="img/profile.png">
 						      <h2>{{room.group_name}}</h2>
-	                          <span ng-repeat="roomUsers in room.users track by $index">{{roomUsers.username}}  </span><!-- <span>, </span> -->
+	                          <span ng-repeat="roomUsers in room.users track by $index" ng-if="roomUsers.phone!=usernumber">{{roomUsers.username}}  </span><!-- <span>, </span> -->
 					  	   </a>
 						</div>
 						<br /><br />

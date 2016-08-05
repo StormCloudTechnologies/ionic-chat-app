@@ -14,11 +14,12 @@ angular.module('Signup.controllers', [])
       $scope.gotologin = function(){
         var username =  $scope.loginform.username;
         var usernumber =  $scope.loginform.usernumber;
+        console.log(usernumber);
         if(username==""){
           alert("Please Enter the User Name");
           return false;
         }
-        if(usernumber==""){
+        if(usernumber=="" || usernumber==undefined){
           alert("Please Enter the number");
           return false;
         }

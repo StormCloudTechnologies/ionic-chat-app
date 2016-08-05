@@ -4,9 +4,15 @@ angular.module('Group.controllers', [])
   $ionicPlatform.ready(function(){
     try{
       $scope.group_details = {};
+      $scope.group_details.group_name = "";
       $scope.next = function(name) {
-          localStorage.setItem("groupName",name);
-          $state.go('addgroup');
+        var grouName = $scope.group_details.group_name;
+        if(grouName==''){
+          alert("Group name requried");
+          return false;
+        }
+        localStorage.setItem("groupName",name);
+        $state.go('addgroup');
       };
       $scope.imagePath = '';
      $scope.url_prefix1 = 'http://52.36.75.89:9992/';

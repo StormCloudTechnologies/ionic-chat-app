@@ -41,17 +41,22 @@ angular.module('AddGroup.controllers', [])
       //     console.log($scope.group_list);
       // };
       $scope.createGroup = function() {
-          APIService.setData({
-              req_url: url_prefix + 'createGroup',
-              data: {users: $rootScope.addList, group_name: $scope.group_name, admin_name: username , admin_number:$scope.usernumber , image_url:$scope.groupImage}
-          }).then(function(resp) {
-              console.log(resp);
-              if(resp.data) {
-                  $state.go('home');
-              }
-             },function(resp) {
-                // This block execute in case of error.
-          });
+          console.log($rootScope.addList);
+          if($rootScope.addList!=undefined){
+            APIService.setData({
+                req_url: url_prefix + 'createGroup',
+                data: {users: $rootScope.addList, group_name: $scope.group_name, admin_name: username , admin_number:$scope.usernumber , image_url:$scope.groupImage}
+            }).then(function(resp) {
+                console.log(resp);
+                if(resp.data) {
+                    $state.go('home');
+                }
+               },function(resp) {
+                  // This block execute in case of error.
+            });
+          }else{
+            alert("No user add");
+          }
       }
 
       // $scope.createGroup = function(){
