@@ -44,6 +44,16 @@ angular.module('Room.controllers', [])
         $scope.current_chat_friend = localStorageService.get('current_chat_friend');
         $scope.current_friend_number = localStorageService.get('current_friend_number');
 
+        setInterval(function(){
+          SocketService.emit('receiver status',{
+           receiver_id: $scope.current_friend_number
+          }); 
+        }, 1000);
+        SocketService.on('listen receiver status', function(msg){
+          $scope.online = msg.online;
+          console.log("====msg.online==",msg.online);
+        });
+
        
      	  $scope.typistList = [];
         $scope.cameraOpen = function(){
