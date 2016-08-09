@@ -15,8 +15,8 @@ angular.module('Group.controllers', [])
         $state.go('addgroup');
       };
       $scope.imagePath = '';
-     $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-      // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+     // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
 
       $scope.uploadgroupIcon = function(){
           myPopup = $ionicPopup.show({

@@ -346,7 +346,7 @@ a.autolinker {
   padding-right:5px;
 }
 .text-white{
-  color: #FFF;
+  color: #FFF !important;
 }
 .platform-android .popover{
   background: #FFF !important;
@@ -594,5 +594,74 @@ ion-content{
     position: absolute;
 }
 .icon-top{
-  top: 27px;
+  bottom: 10px;
+  position: absolute;
 }
+.container {
+    position: relative;
+    background: rgba(11, 11, 11, 0.5);
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    background: rgba(11, 11, 11, 0.5);
+    padding: 10%;
+    width: 90%;
+}
+.text-download{
+  position: absolute;
+}
+.icon-download{
+    margin: 6px 13px 0px 5px;
+    font-size: 24px;
+}
+
+.img-download{
+    width: 100%;
+    height: auto;
+    opacity: 0.3;
+   -webkit-filter: blur(5px);
+
+}
+/*.spinner svg {
+  width: 19% !important;
+  height: 85px !important;
+}*/
+.spinner-android {
+    stroke: #4b8bf4;
+    margin: 10px;
+}
+
+audio::-webkit-media-controls-panel
+
+audio::-webkit-media-controls-mute-button
+
+audio::-webkit-media-controls-play-button
+
+audio::-webkit-media-controls-timeline-container
+
+audio::-webkit-media-controls-current-time-display
+
+audio::-webkit-media-controls-time-remaining-display
+
+audio::-webkit-media-controls-timeline
+
+audio::-webkit-media-controls-volume-slider-container
+
+audio::-webkit-media-controls-volume-slider
+
+audio::-webkit-media-controls-seek-back-button
+
+audio::-webkit-media-controls-seek-forward-button
+
+audio::-webkit-media-controls-fullscreen-button
+
+audio::-webkit-media-controls-rewind-button
+
+audio::-webkit-media-controls-return-to-realtime-button
+
+audio::-webkit-media-controls-toggle-closed-captions-button

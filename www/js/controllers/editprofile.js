@@ -4,8 +4,8 @@ angular.module('EditProfile.controllers', [])
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	// $scope.url_prefix1 = 'http://192.168.0.100:9992/';
-      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+    	$scope.url_prefix1 = 'http://52.36.75.89:9992/';
+      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
       $rootScope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
       $scope.userDocId = localStorageService.get('userDocId');
@@ -197,13 +197,13 @@ angular.module('EditProfile.controllers', [])
 
 		$scope.editName = $localstorage.get('editName');
     //$rootScope.userName = $scope.editName;
-    $scope.UserImage = $localstorage.get("UserImage");
+    // $scope.UserImage = $localstorage.get("UserImage");
      // $scope.UserImage = "img/profile.png";
   	$scope.userProfileDone = function(){
        console.log('done');
        APIService.setData({
             req_url: url_prefix + 'updateContact',
-            data: {id: $scope.userDocId, phone:$scope.usernumber, username: $rootScope.userName , image_url: $scope.UserImage}
+            data: {id: $scope.userDocId, phone:$scope.usernumber, username: $rootScope.userName , image_url: $scope.imagePath}
         }).then(function(resp) {
           console.log(resp);
             if(resp.data) {

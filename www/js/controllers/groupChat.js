@@ -7,12 +7,11 @@ angular.module('GroupChat.controllers', [])
         $ionicScrollDelegate.scrollBottom();
         $scope.messages = [];
         $scope.messageList = [];
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://192.168.0.100:9992/';
 
-        $scope.videoDiv = "true";
-        $scope.AudioDiv = "true";
-        $scope.ImageDiv = "true";        
+        $scope.downloadimage = false;
+        $scope.downloadvideo = false;      
 
         $scope.grouplist = JSON.parse(localStorage.getItem("groupList"));
         console.log($scope.grouplist);
@@ -27,6 +26,7 @@ angular.module('GroupChat.controllers', [])
         }
 
         $scope.current_room = localStorageService.get('current_room');
+        console.log($scope.current_room);
 
         $scope.current_user = localStorageService.get('username');
         $scope.usernumber = localStorageService.get('usernumber');
@@ -586,6 +586,7 @@ angular.module('GroupChat.controllers', [])
         }
 
         $scope.downloadVideo=function(videoFile, messageId, msgdata){
+          $scope.downloadvideo = true;
           var resVideo = videoFile.split('-');
           var filename = resVideo[1];
           var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -598,6 +599,7 @@ angular.module('GroupChat.controllers', [])
               var index = $scope.messageList.indexOf(msgdata);
               $scope.messageList[index].video_url = nativeUrl;
               $scope.messageList[index].isdownload="true";
+              $scope.downloadvideo = false;
               SocketService.emit('delete group file', {message_id: messageId, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
             });
           }, function (error) {
@@ -629,9 +631,7 @@ angular.module('GroupChat.controllers', [])
         }; 
 
         $scope.downloadImage=function(ImageFile, messageId, msgdata){
-          console.log(messageId);
-          console.log(msgdata);
-          console.log(ImageFile);
+          $scope.downloadimage = true;
           var resAudio = ImageFile.split('-');
           var filename = resAudio[1];
           var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -645,6 +645,7 @@ angular.module('GroupChat.controllers', [])
               console.log(index);
               $scope.messageList[index].image_url = nativeUrl;
               $scope.messageList[index].isdownload = "true";
+              $scope.downloadimage = false;
               SocketService.emit('delete group file', {message_id: messageId, user_number: $scope.usernumber, file_path:'public/uploads/file-'+filename});
 
             });

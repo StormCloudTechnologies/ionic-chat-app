@@ -7,13 +7,12 @@ angular.module('Room.controllers', [])
 	     	$scope.messages = [];
         $scope.userchat=JSON.parse(localStorage.getItem("userchat"));
         console.log($scope.userchat);
+        $scope.downloadimage = false;
+        $scope.downloadvideo = false;
 
-		    $scope.videoDiv = "true";
-        $scope.AudioDiv = "true";
-        $scope.ImageDiv = "true";
         $scope.messageList = [];
-        // $scope.url_prefix1 = 'http://192.168.0.102:9992/';
         $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
           animation: 'slide-in-up'
@@ -647,6 +646,7 @@ angular.module('Room.controllers', [])
         }; 
 
         $scope.downloadAudio=function(AudioFile, messageId, msgdata){
+              $scope.downloadvideo = true;
               var resAudio = AudioFile.split('-');
                 var filename = resAudio[1];
                 var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -660,6 +660,7 @@ angular.module('Room.controllers', [])
                       var index = $scope.messageList.indexOf(msgdata);
                       $scope.messageList[index].audio_url =nativeUrl;
                       $scope.messageList[index].isdownload="true";
+                      $scope.downloadvideo = false;
                        SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                    });
                   $ionicScrollDelegate.scrollBottom();
@@ -672,6 +673,7 @@ angular.module('Room.controllers', [])
         }; 
 
         $scope.downloadImage=function(ImageFile, messageId, msgdata){
+            $scope.downloadimage = true;
             var resAudio = ImageFile.split('-');
             var filename = resAudio[1];
             var url = $scope.url_prefix1+'public/uploads/file-'+filename;
@@ -686,6 +688,7 @@ angular.module('Room.controllers', [])
                         var index = $scope.messageList.indexOf(msgdata);
                         $scope.messageList[index].image_url = nativeUrl;
                         $scope.messageList[index].isdownload="true";
+                        $scope.downloadimage = false;
                         SocketService.emit('delete p2p file', {file_path: 'public/uploads/file-'+filename});
                     });
                   $ionicScrollDelegate.scrollBottom();

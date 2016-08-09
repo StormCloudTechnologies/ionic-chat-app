@@ -14,8 +14,8 @@ angular.module('Home.controllers', [])
 	     //  });
    			// $scope.isOnline = $cordovaNetwork.isOnline();
 
-   		// $scope.url_prefix1 = 'http://192.168.0.102:9992/';
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+   		$scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
 
    			$scope.hideCall = true;
    			$scope.hideChat = false;
@@ -236,6 +236,7 @@ angular.module('Home.controllers', [])
 
 			$scope.enterRoom = function(room_name){
 				$scope.current_room = room_name;
+				console.log(room_name);
 				localStorageService.set('room', room_name);
 				
 				var room = {
