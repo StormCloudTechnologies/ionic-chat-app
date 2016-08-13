@@ -14,8 +14,8 @@ angular.module('Home.controllers', [])
 	     //  });
    			// $scope.isOnline = $cordovaNetwork.isOnline();
 
-   		$scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+   		// $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+        $scope.url_prefix1 = 'http://192.168.0.102:9992/';
 
    			$scope.hideCall = true;
    			$scope.hideChat = false;
@@ -29,95 +29,135 @@ angular.module('Home.controllers', [])
 			
 			var usernumber = localStorageService.get('usernumber');
 
-			// $scope.ContactList = [];
-			// $scope.selectContact = function(){
-			// 	if($scope.isOnline==true || $scope.isOnline=="true"){
-			// 		var issInsert = $localstorage.get('issInsert');
-			// 		if(issInsert!='0' && issInsert!=0){
-			// 			APIService.setData({
-			//                 req_url: url_prefix + 'getContacts',
-			//                 data:{'sender_id':usernumber}
+			$scope.selectContact = function(){
+				$scope.isAppUser = "Y";
+				var conatctsel = "SELECT * from Contact where isAppUser=? ORDER BY username ASC";
+					var results = DB.query(conatctsel, [$scope.isAppUser]).then(function (result) {
+					    if(result.rows.length!=0){
+					    	// alert(JSON.stringify(result.rows));
+					    	var len = result.rows.length;
+	                        for(var j=0;j<len;j++){
+	                            $rootScope.userList.push({"username":result.rows.item(j).username, "image_url":result.rows.item(j).image_url, "phone":result.rows.item(j).phone,"status":result.rows.item(j).status,"isAppUser":result.rows.item(j).isAppUser,"id":result.rows.item(j).contactnumber});    
+	                        } 
+	                      console.log($rootScope.userList);
+						}
+					});
+			}
+			$scope.selectContact();
+			
+			$scope.refreshUser = [];
+
+
+
+			$scope.RefreshContact = function(){
+				$scope.isAppUser = "N";
+				var conatctsel = "SELECT * from Contact where isAppUser=?";
+					var results = DB.query(conatctsel, [$scope.isAppUser]).then(function (result) {
+					    if(result.rows.length!=0){
+					    	console.log(JSON.stringify(result.rows));
+					    	var len = result.rows.length;
+	                        for(var j=0;j<len;j++){
+	                        	if(result.rows.item(j).phone){
+		                        	var NumberValue = result.rows.item(j).phone;
+		                        	NumberValue = Number(NumberValue);
+		                        	if(NumberValue){
+		                        		$scope.refreshUser.push(NumberValue);  
+		                        	} 
+		                        }
+	                            var lastContactIndex = len - 1;
+                				if(j == lastContactIndex) {
+				                  $scope.checkValidUser();
+				                } 
+	                        } 
+	                        console.log($scope.refreshUser);
+						}
+					});
+			}
+
+
+			$scope.checkValidUser = function(){
+
+	          APIService.setData({
+	                req_url: url_prefix + 'getAppUsers',
+	                data: {user_list: $scope.refreshUser}
+	            }).then(function(resp) {
+	              console.log(resp);
+	                if(resp.data.length > 0) {
+	                  for(var i=0;i<resp.data.length; i++){
+	                    var ContactNumber = resp.data[i].phone;
+	                    console.log("=====ContactNumber=====",ContactNumber);
+	                    if(ContactNumber){
+	                      var isAppUser = "Y";
+	                      var updateQry = "UPDATE Contact SET isAppUser =? WHERE phone=?";
+	                       DB.query(updateQry, [isAppUser, ContactNumber]).then(function (result) {
+	                          console.log('update');
+	                          
+	                      });
+	                    }
+	                  }
+	                  
+	                  
+	                }
+	               },function(resp) {
+	                console.log('error',resp);
+	            });
+	        };
+
+				// if($scope.isOnline==true || $scope.isOnline=="true"){
+				// 	var issInsert = $localstorage.get('issInsert');
+				// 	if(issInsert!='0' && issInsert!=0){
+				// 		APIService.setData({
+			 //                req_url: url_prefix + 'getContacts',
+			 //                data:{'sender_id':usernumber}
 			          
-			//             }).then(function(resp) {
-			//                 if(resp.data) {
-			//                 	console.log(resp.data);
-			//                 		$scope.ContactList = resp.data[0].contacts;
-			// 	               		for(var i=0; i<=resp.data[0].contacts.length; i++){ // allContacts.length
-			// 							var Name = resp.data[0].contacts[i].displayName;
-			// 						  	var ID = resp.data[0].contacts[i].id;
-			// 						  	var Photos = resp.data[0].contacts[i].photos;
-			// 						  	var NumberValue = resp.data[0].contacts[i].phoneNumbers[0].value;
-			// 						  	// console.log(allContacts);
-			// 						   	var ContactQry = "Insert into Contact(id, displayName, contactnumber, photos) VALUES (?, ?, ?, ?)";
-			// 						  	DB.query(ContactQry, [ID, Name, NumberValue, Photos]).then(function (result) {
-			// 						  		console.log('insert');
-			// 						  		$localstorage.set('issInsert', "0");
-			// 								// $scope.selectContact();
-			// 							});
-			//                 		}	
-			//                		}
+			 //            }).then(function(resp) {
+			 //                if(resp.data) {
+			 //                	console.log(resp.data);
+			 //                		$scope.ContactList = resp.data[0].contacts;
+				//                		for(var i=0; i<=resp.data[0].contacts.length; i++){ // allContacts.length
+				// 						var Name = resp.data[0].contacts[i].displayName;
+				// 					  	var ID = resp.data[0].contacts[i].id;
+				// 					  	var Photos = resp.data[0].contacts[i].photos;
+				// 					  	var NumberValue = resp.data[0].contacts[i].phoneNumbers[0].value;
+				// 					  	// console.log(allContacts);
+				// 					   	var ContactQry = "Insert into Contact(id, username, phone, image_url, status, created_date, last_seen, socketId) VALUES (?, ?, ?, ?, ?, ?, ? ,?)";
+				// 					  	DB.query(ContactQry, [ID, Name, NumberValue, Photos]).then(function (result) {
+				// 					  		console.log('insert');
+				// 					  		var conatctsel = "SELECT * from Contact";
+				// 							var results = DB.query(conatctsel, []).then(function (result) {
+				// 							    if(result.rows.length!=0){
+				// 							    	var len = result.rows.length;
+				// 			                        for(var j=0;j<len;j++){
+				// 			                            $rootScope.userList.push({"displayName":result.rows.item(j).displayName, "photos":result.rows.item(j).photos, "number":result.rows.item(j).contactnumber});    
+				// 			                        } 
+				// 								}
+				// 							});
+				// 						});
+			 //                		}	
+			 //               		}
 			               	
-			//                },function(resp) {
-			//                   // This block execute in case of error.
-			//             });
-			//         }else{
-			//         	var conatctsel = "SELECT * from Contact";
-			// 			var results = DB.query(conatctsel, []).then(function (result) {
-			// 			    if(result.rows.length!=0){
-			// 			    	var len = result.rows.length;
-		 //                        for(var j=0;j<len;j++){
-		 //                            $scope.ContactList.push({"displayName":result.rows.item(j).displayName, "photos":result.rows.item(j).photos, "number":result.rows.item(j).contactnumber});    
-		 //                        } 
-			// 				}
-			// 			});
-			//         }
-			//     }else{
-		 //        	var conatctsel = "SELECT * from Contact";
-			// 		var results = DB.query(conatctsel, []).then(function (result) {
-			// 		    if(result.rows.length!=0){
-			// 		    	var len = result.rows.length;
-	  //                       for(var j=0;j<len;j++){
-	  //                           $scope.ContactList.push({"displayName":result.rows.item(j).displayName, "photos":result.rows.item(j).photos, "number":result.rows.item(j).contactnumber});    
-	  //                       } 
-			// 			}
-			// 		});
-			// 	}
-			// }
+			 //               },function(resp) {
+			 //                  // This block execute in case of error.
+			 //            });
+			 //        }else{
+			 //   //      	var conatctsel = "SELECT * from Contact";
+				// 		// var results = DB.query(conatctsel, []).then(function (result) {
+				// 		//     if(result.rows.length!=0){
+				// 		//     	var len = result.rows.length;
+		  //   //                     for(var j=0;j<len;j++){
+		  //   //                         $rootScope.userList.push({"displayName":result.rows.item(j).displayName, "photos":result.rows.item(j).photos, "number":result.rows.item(j).contactnumber});    
+		  //   //                     } 
+				// 		// 	}
+				// 		// });
+			 //        }
+			 //    }else{
+			 	// }
 
 
-			// $scope.getAllContacts = function() {
-			// 	 try{
-			// 	    var options = {                                       // 'Bob'
-			// 	      multiple: true 
-			// 	    };
-			// 		$cordovaContacts.find(options).then(function (allContacts) {
-			// 			APIService.setData({
-			//                 req_url: url_prefix + 'createContact',
-			//                 data:{'contacts':allContacts, 'sender_id':usernumber}
-			//                 data:{'contacts':allContacts, 'sender_id':usernumber}
-			          
-			//             }).then(function(resp) {
-			//                 if(resp.data) {
-			//                 	console.log(resp.data);
-			//                 	$localstorage.set('issload', "0");
-			//                  	$scope.selectContact();
-			//                 }
-			//                },function(resp) {
-			//                   // This block execute in case of error.
-			//             });					
-			// 		});
-			// 	 }catch(err){
-			// 		 alert(err.message);
-			// 	 }
-			// };
-			//  var isslogin = $localstorage.get('issload');
-		 //      if(isslogin!="0" && isslogin!=0){
-		 //        $scope.getAllContacts();
-		 //      }else{
-		 //      	$scope.selectContact();
-		 //      }
 
-			// //
+
+
+			//
 
 			// $scope.current_room = localStorageService.get('room');
 			// $scope.chatlist = function(){
@@ -198,17 +238,17 @@ angular.module('Home.controllers', [])
 
 
 			$scope.usernumber = localStorageService.get('usernumber');
-			APIService.setData({
-                req_url: url_prefix + 'getUser',
-                data: {}
-            }).then(function(resp) {
-                if(resp.data) {
-                    $rootScope.userList = resp.data;
-                    console.log($rootScope.userList);
-                }
-               },function(resp) {
-                  // This block execute in case of error.
-            });
+			// APIService.setData({
+   //              req_url: url_prefix + 'getUser',
+   //              data: {}
+   //          }).then(function(resp) {
+   //              if(resp.data) {
+   //                  $rootScope.userList = resp.data;
+   //                  console.log($rootScope.userList);
+   //              }
+   //             },function(resp) {
+   //                // This block execute in case of error.
+   //          });
 
             APIService.setData({
                 req_url: url_prefix + 'getGroups',
@@ -221,7 +261,8 @@ angular.module('Home.controllers', [])
                },function(resp) {
                   // This block execute in case of error.
             });
-          
+
+
             $scope.enterChatRoom = function(user){
             	localStorage.setItem("userchat", JSON.stringify(user));
                 localStorageService.set('current_chat_friend', user.username);

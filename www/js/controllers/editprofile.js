@@ -1,11 +1,11 @@
 angular.module('EditProfile.controllers', [])
 
-.controller('EditProfileCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService, $ionicModal, $cordovaFileTransfer, $ionicPopup, $cordovaCamera, $localstorage,$rootScope) {
+.controller('EditProfileCtrl', function($scope, $ionicLoading, $ionicPlatform, $state, localStorageService, APIService, $ionicModal, $cordovaFileTransfer, $ionicPopup, $cordovaCamera, $localstorage,$rootScope, $cordovaContacts, DB) {
   $ionicPlatform.ready(function(){
     try{
     	$scope.imagePath = '';
-    	$scope.url_prefix1 = 'http://52.36.75.89:9992/';
-      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+    	// $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+      $scope.url_prefix1 = 'http://192.168.0.102:9992/';
       $rootScope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
       $scope.userDocId = localStorageService.get('userDocId');
@@ -180,7 +180,82 @@ angular.module('EditProfile.controllers', [])
                 }
         };
 
-        
+        $scope.UserContactNumber  = [];
+
+        $scope.checkValidUser = function(){
+
+          APIService.setData({
+                req_url: url_prefix + 'getAppUsers',
+                data: {user_list: $scope.UserContactNumber}
+            }).then(function(resp) {
+              console.log(resp);
+                if(resp.data.length > 0) {
+                  for(var i=0;i<resp.data.length; i++){
+                    var ContactNumber = resp.data[i].phone;
+                    console.log("=====ContactNumber=====",ContactNumber);
+                    if(ContactNumber){
+                      var isAppUser = "Y";
+                      var updateQry = "UPDATE Contact SET isAppUser =? WHERE phone=?";
+                       DB.query(updateQry, [isAppUser, ContactNumber]).then(function (result) {
+                          console.log('update');
+                          
+                      });
+                    }
+                  }
+                  
+                  
+                }
+               },function(resp) {
+                console.log('error',resp);
+            });
+        };
+
+        $scope.getAllContacts = function() {
+           try{
+              var options = {                                       // 'Bob'
+                multiple: true 
+              };
+            $cordovaContacts.find(options).then(function (allContacts) {
+              console.log(allContacts);
+              $scope.isAppUser = "N";
+              $scope.status = "Hey there! I am using Storm Chat";
+              for(var i=0; i<=allContacts.length; i++){ // allContacts.length
+                    var Name = allContacts[i].displayName;
+                    var ID = allContacts[i].id;
+                    var Photos = allContacts[i].photos;
+                    if(allContacts[i].phoneNumbers){
+                      var NumberValue = allContacts[i].phoneNumbers[0].value.slice(-10);
+                      $scope.UserContactNumber.push(Number(NumberValue));
+                      var ContactQry = "Insert into Contact(id, username, phone, image_url, status, isAppUser) VALUES (?, ?, ?, ?, ?, ?)";
+                      DB.query(ContactQry, [ID, Name, NumberValue, Photos,  $scope.status,  $scope.isAppUser]).then(function (result) {
+                        console.log('insert');
+                        
+                      });
+                    }
+                   console.log(NumberValue);
+
+                    // if(NumberValue.toString().length>10){
+                    //    NumberValue = NumberValue.slice(-10);
+                    // }
+                    // console.log(NumberValue);
+                    
+                    
+                
+                var lastContactIndex = allContacts.length - 1;
+                
+                if(i == lastContactIndex) {
+                  console.log("==========allContacts.length===========",allContacts.length);
+                  console.log("==========lastContactIndex===========",lastContactIndex);
+                  $scope.checkValidUser();
+                }
+              }
+            });
+           }catch(err){
+             alert(err.message);
+           }
+        };
+        $scope.getAllContacts();
+      
 
     $ionicModal.fromTemplateUrl('templates/profileview.html', {
 		    scope: $scope,
@@ -209,7 +284,8 @@ angular.module('EditProfile.controllers', [])
             if(resp.data) {
               $localstorage.set("userStatus", resp.data.status);
               localStorageService.set('username', resp.data.username);
-              $state.go('home');
+              
+             $state.go('home');
             }
            },function(resp) {
             console.log('error',resp);
