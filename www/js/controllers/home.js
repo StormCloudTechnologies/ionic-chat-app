@@ -14,8 +14,7 @@ angular.module('Home.controllers', [])
 	     //  });
    			// $scope.isOnline = $cordovaNetwork.isOnline();
 
-   		// $scope.url_prefix1 = 'http://192.168.0.102:9992/';
-        $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+        $scope.url_prefix1 = url_prefix_for_image;
 
    			$scope.hideCall = true;
    			$scope.hideChat = false;
@@ -94,6 +93,10 @@ angular.module('Home.controllers', [])
 	                          
 	                      });
 	                    }
+                        var lastcontactIndex = resp.data.length - 1;
+                        if(i == lastcontactIndex){
+                          $scope.selectContact();
+                        }
 	                  }
 	                  
 	                  

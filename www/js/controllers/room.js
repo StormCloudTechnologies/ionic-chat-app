@@ -11,8 +11,7 @@ angular.module('Room.controllers', [])
         $scope.downloadvideo = false;
 
         $scope.messageList = [];
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        $scope.url_prefix1 = url_prefix_for_image;
         $ionicModal.fromTemplateUrl('templates/uploadview.html', {
           scope: $scope,
           animation: 'slide-in-up'
@@ -51,6 +50,10 @@ angular.module('Room.controllers', [])
         SocketService.on('listen receiver status', function(msg){
           $scope.online = msg.online;
           console.log("====msg.online==",msg.online);
+          if(msg.online == 'N' && msg.last_seen) {
+            console.log("====msg.last_seen==",msg.last_seen);
+            $scope.last_seen = msg.last_seen;
+          }
         });
 
        

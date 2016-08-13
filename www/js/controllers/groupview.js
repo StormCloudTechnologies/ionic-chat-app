@@ -5,8 +5,7 @@ angular.module('GroupView.controllers', [])
     try{
       $scope.addUserlist = [];
       $scope.updateList = [];
-      // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-      $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+      $scope.url_prefix1 = url_prefix_for_image;
     	$scope.groupList = JSON.parse(localStorage.getItem("groupList"));
     	$scope.usernumber = localStorageService.get('usernumber');
 

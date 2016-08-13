@@ -7,8 +7,7 @@ angular.module('RoomView.controllers', [])
       console.log($scope.userchat);
       $scope.userName = $scope.userchat.phone;
       $scope.userStatus = $scope.userchat.status;
-        $scope.url_prefix1 = 'http://52.36.75.89:9992/';
-        // $scope.url_prefix1 = 'http://52.36.75.89:9992/';
+        $scope.url_prefix1 = url_prefix_for_image;
       
      }catch(err){
       console.log(err.message);

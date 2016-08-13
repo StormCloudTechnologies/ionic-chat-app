@@ -1,7 +1,9 @@
 // Ionic Starter App
 // var url_prefix = 'http://52.36.75.89:9992/api/';
- // var url_prefix = 'http://localhost:9992/api/';
-var url_prefix = 'http://52.36.75.89:9992/api/';
+// var url_prefix = 'http://localhost:9992/api/';
+var url_prefix = 'http://192.168.0.105:9992/api/';
+var url_prefix_for_image = 'http://192.168.0.105:9992/';
+//var url_prefix_for_image = 'http://52.36.75.89:9992/';
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -325,7 +327,7 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
   });
 })
 .constant('DB_CONFIG', {
-   name: 'Storm',
+   name: 'Stormzf',
    tables: {
      Message: 
      {
@@ -360,10 +362,12 @@ angular.module('ChatApp', ['ionic', 'LocalStorageModule', 'btford.socket-io', 'a
       },
       Contact: 
      {
-        id : 'INTEGER',
-        displayName: 'TEXT',
-        contactnumber: 'VARCHAR',
-        photos: 'TEXT'
+       id : 'INTEGER',
+       username: 'TEXT',
+       phone: 'INTEGER',
+       image_url: 'TEXT',
+       status: 'TEXT',
+       isAppUser: 'TEXT'
       },
       ChatList: 
      {

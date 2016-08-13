@@ -5,7 +5,7 @@ angular.module('EditProfile.controllers', [])
     try{
     	$scope.imagePath = '';
     	// $scope.url_prefix1 = 'http://192.168.0.102:9992/';
-      $scope.url_prefix1 = 'http://192.168.0.102:9992/';
+      $scope.url_prefix1 = url_prefix_for_image;
       $rootScope.userName = localStorageService.get('username');
       $scope.usernumber = localStorageService.get('usernumber');
       $scope.userDocId = localStorageService.get('userDocId');
@@ -216,21 +216,24 @@ angular.module('EditProfile.controllers', [])
                 multiple: true 
               };
             $cordovaContacts.find(options).then(function (allContacts) {
-              console.log(allContacts);
+              console.log("====allContacts====",allContacts);
               $scope.isAppUser = "N";
               $scope.status = "Hey there! I am using Storm Chat";
-              for(var i=0; i<=allContacts.length; i++){ // allContacts.length
+              for(var i=0; i<allContacts.length; i++){ // allContacts.length
                     var Name = allContacts[i].displayName;
                     var ID = allContacts[i].id;
                     var Photos = allContacts[i].photos;
                     if(allContacts[i].phoneNumbers){
                       var NumberValue = allContacts[i].phoneNumbers[0].value.slice(-10);
-                      $scope.UserContactNumber.push(Number(NumberValue));
-                      var ContactQry = "Insert into Contact(id, username, phone, image_url, status, isAppUser) VALUES (?, ?, ?, ?, ?, ?)";
-                      DB.query(ContactQry, [ID, Name, NumberValue, Photos,  $scope.status,  $scope.isAppUser]).then(function (result) {
-                        console.log('insert');
-                        
-                      });
+                      var checkNumberExist = Number(NumberValue);
+                      if($scope.UserContactNumber.indexOf(checkNumberExist) == -1){
+                        $scope.UserContactNumber.push(Number(NumberValue));
+                        var ContactQry = "Insert into Contact(id, username, phone, image_url, status, isAppUser) VALUES (?, ?, ?, ?, ?, ?)";
+                        DB.query(ContactQry, [ID, Name, NumberValue, Photos,  $scope.status,  $scope.isAppUser]).then(function (result) {
+                          console.log('insert');
+
+                        });
+                      }
                     }
                    console.log(NumberValue);
 

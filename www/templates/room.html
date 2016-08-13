@@ -6,6 +6,7 @@
        <h1 class="title"  style="left: 65px !important;top: -6px;width: 50%;">{{current_chat_friend}}</h1>
       </a>
        <h1 class="title" ng-show="online == 'Y'" style="left: 65px !important;top: 12px;font-size:13px;">online</h1> 
+       <h1 class="title" ng-show="online == 'N'" style="left: 65px !important;top: 12px;font-size:13px;">{{ last_seen | date}}</h1> 
       <h1 class="title text_white" style="left: 65px !important;top: 12px;font-size:13px;">{{type_message}}</h1>
       <!-- <h1 class="title" style="left: 65px !important;top: 12px;font-size:13px;">min ago</h1> -->
  		<button ng-click="openModaluploadview()" class="button button-clear button-icon ion-paperclip"></button>
