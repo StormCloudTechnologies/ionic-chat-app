@@ -212,10 +212,10 @@ angular.module('EditProfile.controllers', [])
 
         $scope.getAllContacts = function() {
            try{
-              var options = {                                       // 'Bob'
-                multiple: true 
-              };
-            $cordovaContacts.find(options).then(function (allContacts) {
+              // var options = {                                       // 'Bob'
+              //   multiple: true 
+              // };
+            $cordovaContacts.find({filter: ''}).then(function (allContacts) {
               console.log("====allContacts====",allContacts);
               $scope.isAppUser = "N";
               $scope.status = "Hey there! I am using Storm Chat";
